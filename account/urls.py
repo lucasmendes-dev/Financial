@@ -1,6 +1,13 @@
 from django.urls import path, include
 from . import views
 
+app_name = 'accounts'
+
 urlpatterns = [    
-    path('', views.index, name='index'),
+    path('', views.account_index, name='index'),
+    path('create/', views.account_create, name='create'),
+    path('store/', views.account_store, name='store'),
+    path('edit/<int:pk>', views.account_edit, name='edit'),
+    path('update/', views.account_update, name='update'),
+    path('delete/', views.account_delete, name='delete'),
 ]

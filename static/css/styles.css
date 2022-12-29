@@ -1,0 +1,28 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+/* Logo */ /* Logo */ /* Logo */ /* Logo */ 
+
+.image {
+    width: 70px;
+    margin-left: 50px;
+}
+
+
+/* Login and Logout */ /* Login and Logout */ /* Login and Logout */ /* Login and Logout */ 
+
+.login_logout {
+    margin-right: 50px;
+}
+
+.search {
+    margin-right: 300px;
+}
