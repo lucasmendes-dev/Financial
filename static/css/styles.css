@@ -26,3 +26,16 @@ body {
 .search {
     margin-right: 300px;
 }
+
+/* Accounts */ /* Accounts */ /* Accounts */ /* Accounts */ 
+
+.title {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+.column_name {
+    color: white;
+    text-align: center;
+}

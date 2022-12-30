@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+
+{% block 'title'%}
+    Contas
+{% endblock %}
+
+{% block 'content'%}
+    <div class="container">
+        <div class="row">
+            <div class="table-responsive col-md-4">
+                
+                <h1 class="title">Contas</h1>
+                <table class="table table-bordered table-hover">
+                    <thead class="bg-dark">
+                        <tr>
+                            <th scope="col" class="column_name">Nome Da Conta</th>
+                            <th scope="col" class="column_name">Saldo da Conta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for account in accounts %}
+                            <tr class="table-success">                            
+                                <td>{{ account.account_name | intcomma }}</td> 
+                                <td>R${{ account.account_balance | intcomma }}</td>                                             
+                            </tr>
+                        {% endfor %} 
+                        <tr class="table-dark">
+                            <td>Total</td>
+                            <td id="total">R${{ total_balance | intcomma }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+{% endblock %}
