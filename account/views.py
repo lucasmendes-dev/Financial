@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Account, AccountStatement, Category
+from .models import Account, AccountStatement, Category, AccountType
 from django.db.models import Sum
 
 
@@ -13,11 +13,33 @@ def account_index(request):
 
 
 def account_create(request):
-    pass
+    
+    if request.method == "POST":
+        
+        #account_type = AccountType()
+        
+        account_type =2
+        account_name = request.POST['account_name']
+        account_balance = request.POST['account_balance']
+        user = request.user
+        
+        
+        account = Account(
+            account_type = account_type,
+            account_name = account_name,
+            account_balance = account_balance,
+            user = user
+        )
+        
+        account.save()
+        return redirect('accounts:index')
+        
+    else:        
+        return render(request, 'create.html')
 
 
 def account_update(request):
-    pass
+    return render(request, 'update.html')
 
 
 def account_delete(request):

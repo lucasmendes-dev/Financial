@@ -39,3 +39,26 @@ body {
     color: white;
     text-align: center;
 }
+
+.delete_icon {
+    color: red;
+}
+
+.create_icon {
+    color: black;
+}
+
+.delete_icon, 
+.update_icon,
+.create_icon {
+    list-style: none;
+}
+
+.form-container {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 200px;
+}

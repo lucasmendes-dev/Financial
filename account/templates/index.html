@@ -11,24 +11,31 @@
         <div class="row">
             <div class="table-responsive col-md-4">
                 
-                <h1 class="title">Contas</h1>
+                <h1 class="title">Contas <a class="create_icon" href="{% url 'accounts:create' %}"><ion-icon name="add-circle-outline"></ion-icon></a></h1>
                 <table class="table table-bordered table-hover">
                     <thead class="bg-dark">
                         <tr>
                             <th scope="col" class="column_name">Nome Da Conta</th>
                             <th scope="col" class="column_name">Saldo da Conta</th>
+                            <th scope="col" class="column_name">-</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for account in accounts %}
                             <tr class="table-success">                            
                                 <td>{{ account.account_name | intcomma }}</td> 
-                                <td>R${{ account.account_balance | intcomma }}</td>                                             
+                                <td>R${{ account.account_balance | intcomma }}</td>     
+                                <td>
+                                    <a class="update_icon" href="{% url 'accounts:update' %}"><ion-icon name="create-outline"></ion-icon></a>
+                                    <a class="delete_icon" href="{% url 'accounts:delete' %}"><ion-icon name="trash-outline"></ion-icon></a>
+                                </td>                               
                             </tr>
                         {% endfor %} 
                         <tr class="table-dark">
                             <td>Total</td>
                             <td id="total">R${{ total_balance | intcomma }}</td>
+                            <td class="column_name">-</td>
+                            
                         </tr>
                     </tbody>
                 </table>

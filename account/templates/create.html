@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+
+{% block 'title'%}
+    Adicionar Conta
+{% endblock %}
+
+{% block 'content'%}
+
+<div class="col-md-12">
+    
+    <form action="" method="POST" class="">
+        {% csrf_token %}
+
+        <div class="form-container">
+            <h1 class="titulo text-center">Adicionar Conta</h1>
+
+            <div class="form-group col-md-12">
+                <label class="bold" for="account_name">Nome da Conta:</label>
+                <input class ="form-control" type="text" name="account_name" id="account_name" placeholder="Ex: Banco do Brasil" required>
+            </div>           
+            
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="bold" for="account_type">Tipo de conta:</label>
+                    <select class="form-control" name="account_type" id="account_type">
+                        <option value="1">Corrente</option>
+                        <option value="2">Poupança</option>
+                        <option value="3">Digital</option>
+                        <option value="4">Corretora</option>
+                        <option value="5">Carteira</option>
+                        <option value="6">Ticket</option>
+                        
+                    </select>
+                </div>
+                <div class="cod form-group col-md-6">
+                    <label class="bold" for="account_balance">Saldo da Conta:</label>
+                    <input class ="form-control" type="number" name="account_balance" id="account_balance" placeholder="R$ 3450,00" required>
+                </div>
+            </div>
+            <input class="btn btn-success col-md-12 mt-5 mb-3" type="submit" value="Cadastrar">
+        </div>        
+    </form>
+</div>
+{% endblock %}
