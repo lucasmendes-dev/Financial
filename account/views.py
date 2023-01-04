@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Account, AccountStatement, Category, AccountType
 from django.db.models import Sum
@@ -16,19 +16,13 @@ def account_create(request):
     
     if request.method == "POST":
         
-        #account_type = AccountType()
-        
-        account_type =2
-        account_name = request.POST['account_name']
-        account_balance = request.POST['account_balance']
-        user = request.user
-        
+        account_type_id = AccountType.objects.get(id=request.POST['account_type'])
         
         account = Account(
-            account_type = account_type,
-            account_name = account_name,
-            account_balance = account_balance,
-            user = user
+            account_type = account_type_id,
+            account_name = request.POST['account_name'],
+            account_balance = request.POST['account_balance'],
+            user = request.user
         )
         
         account.save()
@@ -42,8 +36,11 @@ def account_update(request):
     return render(request, 'update.html')
 
 
-def account_delete(request):
-    pass
+def account_delete(request, id):
+    account = get_object_or_404(Account, id=id)
+    account.delete()
+    
+    return redirect('accounts:index')
 
 
 #Auxiliar functions ↓

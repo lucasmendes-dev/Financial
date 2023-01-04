@@ -10,7 +10,7 @@
 
 <div class="col-md-12">
     
-    <form action="" method="POST" class="">
+    <form action="{% url 'accounts:create' %}" method="POST" class="">
         {% csrf_token %}
 
         <div class="form-container">

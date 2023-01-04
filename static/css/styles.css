@@ -44,10 +44,6 @@ body {
     color: red;
 }
 
-.create_icon {
-    color: black;
-}
-
 .delete_icon, 
 .update_icon,
 .create_icon {
@@ -62,3 +58,4 @@ body {
     width: 500px;
     height: 200px;
 }
+

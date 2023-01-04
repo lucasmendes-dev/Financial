@@ -11,7 +11,7 @@
         <div class="row">
             <div class="table-responsive col-md-4">
                 
-                <h1 class="title">Contas <a class="create_icon" href="{% url 'accounts:create' %}"><ion-icon name="add-circle-outline"></ion-icon></a></h1>
+                <h1 class="title">Contas</h1>
                 <table class="table table-bordered table-hover">
                     <thead class="bg-dark">
                         <tr>
@@ -26,21 +26,22 @@
                                 <td>{{ account.account_name | intcomma }}</td> 
                                 <td>R${{ account.account_balance | intcomma }}</td>     
                                 <td>
-                                    <a class="update_icon" href="{% url 'accounts:update' %}"><ion-icon name="create-outline"></ion-icon></a>
-                                    <a class="delete_icon" href="{% url 'accounts:delete' %}"><ion-icon name="trash-outline"></ion-icon></a>
+                                    <a class="update_icon" href="{% url 'accounts:update' account.id %}"><ion-icon name="create-outline"></ion-icon></a>
+                                    <a class="delete_icon" href="{% url 'accounts:delete' account.id %}"><ion-icon name="trash-outline"></ion-icon></a>
                                 </td>                               
                             </tr>
                         {% endfor %} 
                         <tr class="table-dark">
                             <td>Total</td>
                             <td id="total">R${{ total_balance | intcomma }}</td>
-                            <td class="column_name">-</td>
-                            
+                            <td class="column_name">-</td>                            
                         </tr>
                     </tbody>
-                </table>
-            </div>
-            
+                </table>                
+            </div>                
+        </div>                                    
+        <div class="row">
+            <a class="btn btn-success col-md-4" href="{% url 'accounts:create' %}">Adicionar Conta</a>                
         </div>
     </div>
 {% endblock %}
