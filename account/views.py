@@ -2,14 +2,21 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Account, AccountStatement, Category, AccountType
 from django.db.models import Sum
+import json
 
 
 def account_index(request):
     
     accounts = Account.objects.all()
     total_balance = Account.objects.all().aggregate(Sum('account_balance'))['account_balance__sum']
+    
+    accounts_data = []
+    for account in accounts:
+        accounts_data.append({'name': account.account_name, 'balance': account.account_balance})
+        
+    accounts_data_json = json.dumps(accounts_data)
 
-    return render(request, 'index.html', {'accounts': accounts, 'total_balance': total_balance})
+    return render(request, 'index.html', {'accounts': accounts, 'total_balance': total_balance, 'accounts_data_json': accounts_data_json})
 
 
 def account_create(request):
@@ -32,7 +39,9 @@ def account_create(request):
         return render(request, 'create.html')
 
 
-def account_update(request):
+def account_update(request, id):
+    
+    account = get_object_or_404(Account, id=id)
     return render(request, 'update.html')
 
 

@@ -37,11 +37,57 @@
                             <td class="column_name">-</td>                            
                         </tr>
                     </tbody>
-                </table>                
-            </div>                
-        </div>                                    
-        <div class="row">
-            <a class="btn btn-success col-md-4" href="{% url 'accounts:create' %}">Adicionar Conta</a>                
-        </div>
+                </table>         
+                <a class="btn btn-success col-md-12" href="{% url 'accounts:create' %}">Adicionar Conta</a>                       
+            </div>
+            <div class="col-md-2"></div>
+            <canvas id="myChart" width="400" height="400" class="col-md-6"></canvas>                        
+        </div>    
+                            
     </div>
+
+
+    <script>
+        const accountsData = JSON.parse('{{ accounts_data_json | safe }}');
+        console.log(accountsData);
+    </script>
+      
+    <script>
+        // Obter os dados da tabela
+        const labels = accountsData.map(account => account.name);
+        const data = accountsData.map(account => account.balance);
+      
+        // Criar o gráfico
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const chart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Saldo das Contas',
+              data: data,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {}
+        });
+      </script>
+      
+      
 {% endblock %}
