@@ -38,19 +38,23 @@
                         </tr>
                     </tbody>
                 </table>         
-                <a class="btn btn-success col-md-12" href="{% url 'accounts:create' %}">Adicionar Conta</a>                       
+                <a class="btn btn-success col-md-12" href="#" data-toggle="modal" data-target="#modal-create">Adicionar Conta</a>              
             </div>
             <div class="col-md-2"></div>
-            <canvas id="myChart" width="400" height="400" class="col-md-6"></canvas>                               
+            <div class="col-md-6 chart">
+                <canvas id="myChart" width="300px"></canvas>                               
+            </div>
         </div>            
     </div>
 
 {% endblock %}
 
-{% block 'scripts'%}
 
+{% block 'scripts'%}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript">
 
+    
     //Sweet Alert
     var deleteButton = document.querySelectorAll('.delete_icon');
 
@@ -81,7 +85,7 @@
         });
     });
 
-    
+
     //Chart
     const accountsData = JSON.parse('{{ accounts_data_json | safe }}');
 
@@ -96,29 +100,23 @@
       data: {
         labels: labels,
         datasets: [{
-          label: 'Saldo das Contas',
+          //label: 'Saldo das Contas',
           data: data,
           backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
+            'rgba(87, 35, 100, 1)',
+            'rgba(153, 221, 255, 1)',
+            'rgba(0, 128, 0, 1)',
+            'rgba(0, 153, 204, 1)',
+            'rgba(25, 25, 25)',
+            'rgba(153, 153, 153, 1)',
+          ],        
           borderWidth: 1
         }]
       },
       options: {}
     });
+
+    $("#modal-create").modal("show");
 
 </script>
   

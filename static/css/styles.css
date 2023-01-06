@@ -60,3 +60,10 @@ body {
     height: 200px;
 }
 
+
+/* Account CHART  */  /* Account CHART  */  /* Account CHART  */ 
+
+#myChart {
+    max-width: 70%;
+    align-items: center;
+}
