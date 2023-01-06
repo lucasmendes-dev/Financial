@@ -42,6 +42,7 @@ body {
 
 .delete_icon {
     color: red;
+    cursor: pointer;
 }
 
 .delete_icon, 
