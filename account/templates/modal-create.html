@@ -1,26 +1,21 @@
-{% extends 'base.html' %}
-{% load humanize %}
+<!-- Modal -->
+<div class="modal fade" id="create_modal" tabindex="-1" role="dialog" aria-labelledby="create_modalTitle" aria-hidden="true">
 
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
 
-{% block 'title'%}
-    Adicionar Conta
-{% endblock %}
-
-{% block 'content'%}
-
-<div class="col-md-12">
-    
-    <form action="{% url 'accounts:create' %}" method="POST" class="">
-        {% csrf_token %}
-
-        <div class="form-container">
-            <h1 class="title mb-4">Adicionar Conta</h1>
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Adicionar Ativo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></button>
+        </div>
+      
+        <div class="modal-body">
 
             <div class="form-group col-md-12">
                 <label class="bold" for="account_name">Nome da Conta:</label>
                 <input class ="form-control" type="text" name="account_name" id="account_name" placeholder="Ex: Banco do Brasil" required>
-            </div>           
-            
+            </div>   
+
             <div class="row">
                 <div class="form-group col-md-6">
                     <label class="bold" for="account_type">Tipo de conta:</label>
@@ -34,13 +29,21 @@
                         
                     </select>
                 </div>
+
                 <div class="cod form-group col-md-6">
                     <label class="bold" for="account_balance">Saldo da Conta:</label>
                     <input class ="form-control" type="number" name="account_balance" id="account_balance" placeholder="R$ 3450,00" required>
                 </div>
             </div>
-            <input class="btn btn-success col-md-12 mt-5 mb-3" type="submit" value="Cadastrar">
-        </div>        
-    </form>
-</div>
-{% endblock %}
+
+        </div>
+
+        <div class="modal-footer">
+            <input class="btn btn-primary" type="submit" value="Cadastrar Ativo">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>        
+        </div>
+    
+    </div>
+  </div>
+
+</div> 

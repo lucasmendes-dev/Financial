@@ -36,7 +36,7 @@ def account_create(request):
         return redirect('accounts:index')
         
     else:        
-        return render(request, 'create.html')
+        return render(request, 'index.html')
 
 
 def account_update(request, id):

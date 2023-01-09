@@ -1,0 +1,49 @@
+<!-- Modal -->
+<div class="modal fade" id="update_modal" tabindex="-1" role="dialog" aria-labelledby="update_modalTitle" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+  
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Editar Ativo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></button>
+          </div>
+        
+          <div class="modal-body">
+  
+              <div class="form-group col-md-12">
+                  <label class="bold" for="account_name">Nome da Conta:</label>
+                  <input class ="form-control" type="text" name="account_name" id="account_name" placeholder="Ex: Banco do Brasil" required>
+              </div>   
+  
+              <div class="row">
+                  <div class="form-group col-md-6">
+                      <label class="bold" for="account_type">Tipo de conta:</label>
+                      <select class="form-control" name="account_type" id="account_type">
+                          <option value="1">Corrente</option>
+                          <option value="2">Poupança</option>
+                          <option value="3">Digital</option>
+                          <option value="4">Corretora</option>
+                          <option value="5">Carteira</option>
+                          <option value="6">Ticket</option>
+                          
+                      </select>
+                  </div>
+  
+                  <div class="cod form-group col-md-6">
+                      <label class="bold" for="account_balance">Saldo da Conta:</label>
+                      <input class ="form-control" type="number" name="account_balance" id="account_balance" placeholder="R$ 3450,00" required>
+                  </div>
+              </div>
+  
+          </div>
+  
+          <div class="modal-footer">
+              <input class="btn btn-primary" type="submit" value="Alterar Ativo">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>        
+          </div>
+      
+      </div>
+    </div>
+  
+  </div> 
