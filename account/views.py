@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Account, AccountStatement, Category, AccountType
+from .forms import AccountForm
 from django.db.models import Sum
 import json
 
@@ -42,7 +43,19 @@ def account_create(request):
 def account_update(request, id):
     
     account = get_object_or_404(Account, id=id)
-    return render(request, 'update.html')
+    form = AccountForm(instance=account)
+    print(request)
+    return HttpResponse("Depura")
+    if(request.method == "POST"):
+        form = AccountForm(request.POST, instance=account)
+        if(form.is_valid()):
+            account.save()
+                        
+            return redirect('accounts:index')
+        else:            
+            return render(request, 'index.html', {'form': form, 'account': account})
+    else:        
+        return render(request, 'update.html', {'form': form, 'account': account})
 
 
 def account_delete(request, id):

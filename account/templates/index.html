@@ -26,10 +26,11 @@
                             <tr class="table-success">                            
                                 <td>{{ account.account_name | intcomma }}</td> 
                                 <td>R${{ account.account_balance | intcomma }}</td>     
-                                <form action="{% url 'accounts:create' %}" method="PUT" class="">
+                                <form action="{% url 'accounts:update' account.id %}" method="POST" class="">
+                                    {% csrf_token %}
                                     {% include 'modal-update.html' %} 
                                     <td> 
-                                        <a class="update_icon" href="#" data-bs-toggle="modal" data-bs-target="#update_modal"><ion-icon name="create-outline"></ion-icon></a>                                    
+                                        <a class="update_icon" type="submit" href="#" data-bs-toggle="modal" data-bs-target="#update_modal"><ion-icon name="create-outline"></ion-icon></a>                                    
                                         <a class="delete_icon" data-id="{{ account.id }}"><ion-icon name="trash-outline"></ion-icon></a>
                                     </td>     
                                 </form>                          
