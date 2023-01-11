@@ -44,8 +44,7 @@ def account_update(request, id):
     
     account = get_object_or_404(Account, id=id)
     form = AccountForm(instance=account)
-    print(request)
-    return HttpResponse("Depura")
+
     if(request.method == "POST"):
         form = AccountForm(request.POST, instance=account)
         if(form.is_valid()):
