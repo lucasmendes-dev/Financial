@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'homepage',
     'asset',
     'account',
@@ -71,7 +73,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'financial',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'Easy976020-1',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -120,6 +122,6 @@ STATICFILES_DIRS = [ BASE_DIR / "static"]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'accounts/'
 
-LOGOUT_REDIRECT_URL = '/accounts/login'
+LOGOUT_REDIRECT_URL = 'login/'

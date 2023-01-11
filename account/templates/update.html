@@ -10,7 +10,7 @@
 
 <div class="form-container">
     <a href="{% url 'accounts:index' %}" class="btn btn-danger">Voltar</a>
-    <h1 class="title">Editar {{ account }}</h1>
+    <h1 class="title">Editar {{ account }}</h1>    
     
         <form action="{% url 'accounts:update' account.id %}" method="POST">
             {% csrf_token %}

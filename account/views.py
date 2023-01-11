@@ -4,8 +4,10 @@ from .models import Account, AccountStatement, Category, AccountType
 from .forms import AccountForm
 from django.db.models import Sum
 import json
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def account_index(request):
     
     accounts = Account.objects.all()
@@ -20,6 +22,7 @@ def account_index(request):
     return render(request, 'index.html', {'accounts': accounts, 'total_balance': total_balance, 'accounts_data_json': accounts_data_json})
 
 
+@login_required
 def account_create(request):
     
     if request.method == "POST":
@@ -40,6 +43,7 @@ def account_create(request):
         return render(request, 'index.html')
 
 
+@login_required
 def account_update(request, id):
     
     account = get_object_or_404(Account, id=id)
@@ -57,6 +61,7 @@ def account_update(request, id):
         return render(request, 'update.html', {'form': form, 'account': account})
 
 
+@login_required
 def account_delete(request, id):
     account = get_object_or_404(Account, id=id)
     account.delete()
