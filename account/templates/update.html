@@ -9,13 +9,29 @@
 {% block 'content'%}
 
 <div class="form-container">
+    <a href="{% url 'accounts:index' %}" class="btn btn-danger">Voltar</a>
     <h1 class="title">Editar {{ account }}</h1>
-    <div class="form-group">
-        <form action="{% url 'accounts:update' 1%}" method="POST">
+    
+        <form action="{% url 'accounts:update' account.id %}" method="POST">
             {% csrf_token %}
-            {{ form.as_p}}
-    </div>
-    <input class="btn btn-success col-md-12 mt-2 mb-3" type="submit" value="Editar">
+
+            <div class="form-group">
+                <label class="bold" for="account_name">Nome da Conta:</label>
+                {{ form.account_name }}
+            </div>
+            
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="bold" for="account_type">Tipo da Conta:</label>
+                    {{ form.account_type }}
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="bold" for="account_balance">Valor:</label>
+                    {{ form.account_balance }}
+                </div>
+            </div>    
+            <input class="btn btn-success col-md-12 mt-4 mb-3" type="submit" value="Editar">
+        </form>    
 </div>
 
 {% endblock %}

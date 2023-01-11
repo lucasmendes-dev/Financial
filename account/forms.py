@@ -9,7 +9,7 @@ class AccountForm(forms.ModelForm):
         fields = ('account_type', 'account_name', 'account_balance')
         
         widgets = {
-            'account_type': forms.Select(attrs={'class': 'form-control', 'label': 'Tipo de Conta'}),     
+            'account_type': forms.Select(attrs={'class': 'form-control col-md-6'}),     
             'account_name': forms.TextInput(attrs={'class': 'form-control col-md-6'}),             
-            'account_balance': forms.NumberInput(attrs={'class': 'form-control'}),                     
+            'account_balance': forms.NumberInput(attrs={'class': 'form-control col-md-6'}),                     
         }
