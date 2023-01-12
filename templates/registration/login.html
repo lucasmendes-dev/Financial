@@ -14,12 +14,11 @@
                 <h4 class="card-title text-center">Login</h4>
 
                 <form method="POST">                       
-                    {% csrf_token %}       
-                    <input type="hidden" name="next" value="{{ next }}">
+                    {% csrf_token %}                           
 
                     {{ form | crispy }}
                     <button type="submit" class="btn btn-success mt-3 col-md-12">Fazer login</button> 
-                  </form>
+                </form>
 
                 <p class="change-form-p mt-2 text-center">Quer criar uma conta?<a href="#"> Clique aqui!</a></p>
             </div>

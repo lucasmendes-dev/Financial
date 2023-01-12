@@ -122,6 +122,10 @@ STATICFILES_DIRS = [ BASE_DIR / "static"]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'accounts/'
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 
-LOGOUT_REDIRECT_URL = 'login/'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+LOGIN_REDIRECT_URL = "/"
+
+LOGOUT_REDIRECT_URL = "/login/"

@@ -9,6 +9,7 @@
 {% block 'content'%}
 
     <div class="container">
+    {% if accounts %}    
         <div class="row">
             <div class="table-responsive col-md-4">
                 
@@ -50,9 +51,24 @@
             <div class="col-md-6 chart">
                 <canvas id="myChart" width="300px"></canvas>                               
             </div>
-        </div>            
+        </div>   
+    {% else %}
+        <div class="col-md-5 form-container">            
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h4 class="text-center card-title">Você ainda não possui nenhuma conta!</h4>
+                    <h6 class="text-center">Clique no botão abaixo para cadastrar</h6>
+                    <form action="{% url 'accounts:create' %}" method="POST" class="">
+                        {% csrf_token %}
+                        <a class="btn btn-success col-md-10 mt-2" href="#" data-bs-toggle="modal" data-bs-target="#create_modal">Adicionar Conta</a>                                                          
+                </div>
+            </div>
+        </div>      
     </div>
+    {% include 'modal-create.html' %}                         
     
+    {% endif %}
+
 {% endblock %}
 
 

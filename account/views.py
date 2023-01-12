@@ -10,9 +10,11 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def account_index(request):
     
-    accounts = Account.objects.all()
-    total_balance = Account.objects.all().aggregate(Sum('account_balance'))['account_balance__sum']
+    accounts = Account.objects.all().filter(user=request.user)
+    total_balance = Account.objects.all().filter(user=request.user).aggregate(Sum('account_balance'))['account_balance__sum']
+    total_balance = f"{total_balance:.2f}"
     
+    #for Chart.Js data
     accounts_data = []
     for account in accounts:
         accounts_data.append({'name': account.account_name, 'balance': account.account_balance})
