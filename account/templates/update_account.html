@@ -9,29 +9,33 @@
 {% block 'content'%}
 
 <div class="form-container">
-    <a href="{% url 'accounts:index' %}" class="btn btn-danger">Voltar</a>
-    <h1 class="title">Editar {{ account }}</h1>    
-    
-        <form action="{% url 'accounts:update' account.id %}" method="POST">
-            {% csrf_token %}
-
-            <div class="form-group">
-                <label class="bold" for="account_name">Nome da Conta:</label>
-                {{ form.account_name }}
-            </div>
+    <a href="{% url 'accounts:index' %}" class="btn btn-danger mb-3">Voltar</a>
+    <div class="card">        
+        <div class="card-body">            
+            <h1 class="title">Editar {{ account }}</h1>    
             
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label class="bold" for="account_type">Tipo da Conta:</label>
-                    {{ form.account_type }}
+            <form action="{% url 'accounts:update' account.id %}" method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label class="bold" for="account_name">Nome da Conta:</label>
+                    {{ form.account_name }}
                 </div>
-                <div class="form-group col-md-6">
-                    <label class="bold" for="account_balance">Valor:</label>
-                    {{ form.account_balance }}
-                </div>
-            </div>    
-            <input class="btn btn-success col-md-12 mt-4 mb-3" type="submit" value="Editar">
-        </form>    
+                
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="bold" for="account_type">Tipo da Conta:</label>
+                        {{ form.account_type }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="bold" for="account_balance">Valor:</label>
+                        {{ form.account_balance }}
+                    </div>
+                </div>    
+                <input class="btn btn-success col-md-12 mt-4 mb-3" type="submit" value="Editar">
+            </form>  
+        </div>
+    </div>  
 </div>
 
 {% endblock %}

@@ -28,8 +28,8 @@
                                 <td>{{ account.account_name | intcomma }}</td> 
                                 <td>R${{ account.account_balance | intcomma }}</td>     
                                     <td> 
-                                        <a class="update_icon" href="{% url 'accounts:update' account.id %}"><ion-icon name="create-outline"></ion-icon></a>                                    
-                                        <a class="delete_icon" data-id="{{ account.id }}"><ion-icon name="trash-outline"></ion-icon></a>
+                                        <a class="update-icon" href="{% url 'accounts:update' account.id %}"><ion-icon name="create-outline"></ion-icon></a>                                    
+                                        <a class="delete-icon" data-id="{{ account.id }}"><ion-icon name="trash-outline"></ion-icon></a>
                                     </td>                      
                             </tr>
                         {% endfor %} 
@@ -78,7 +78,7 @@
 
     
     //Sweet Alert
-    var deleteButton = document.querySelectorAll('.delete_icon');
+    var deleteButton = document.querySelectorAll('.delete-icon');
 
     deleteButton.forEach(function(button) {
         button.addEventListener('click', function () {

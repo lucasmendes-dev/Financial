@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django import forms
 from .models import Asset, AssetTransaction
 from .forms import AssetForm
 from account.models import Account
@@ -9,8 +10,7 @@ import requests
 
 def asset_index(request):
     
-    accounts = Account.objects.all().filter(user=request.user)
-    assets = Asset.objects.all().filter(user=request.user)    
+    assets = Asset.objects.all().filter(user=request.user)        
     
     if assets:
         
@@ -54,16 +54,14 @@ def asset_index(request):
             variacao.append(float(f'{result_percent:.2f}'))
             variacao_total.append(float(f'{result_variacao:.2f}'))
             valor_dia.append(float(f'{result_valor_dia:.2f}'))
-            
-            
+                    
+        
         #zip de todas as informações para enviar pro template    
         table_list = zip(assets, preco_atual, variacao_diaria, valor_dia, variacao, variacao_total)
         
         context = {
             'table_list': table_list
-        }
-                    
-        form = AccountForm    
+        }                              
                 
         return render(request, 'asset.html', context)
     
@@ -73,6 +71,9 @@ def asset_index(request):
 
 def asset_create(request):
     
+    form = AssetForm
+    accounts = Account.objects.all().filter(user=request.user)
+
     if request.method == "POST":
         
         asset = Asset(
@@ -82,15 +83,15 @@ def asset_create(request):
             asset_qty = request.POST['asset_qty'],
             average_price = request.POST['average_price'],
             status = request.POST['status'],
-            account_id = 12,
+            account_id = request.POST['account_id'],
             user = request.user
         )
         
         asset.save()
         return redirect('assets:index')
         
-    else:        
-        return render(request, 'asset.html')
+    else:             
+        return render(request, 'create_asset.html', {'form': form, 'accounts': accounts})
 
 
 def asset_update(request):

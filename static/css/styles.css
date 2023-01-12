@@ -31,7 +31,7 @@ body {
 
 .title {
     text-align: center;
-    padding-top: 30px;
+    padding-top: 25px;
     padding-bottom: 10px;
 }
 
@@ -40,14 +40,17 @@ body {
     text-align: center;
 }
 
-.delete_icon {
+.delete-icon {
     color: red;
     cursor: pointer;
 }
 
-.delete_icon, 
-.update_icon,
-.create_icon {
+.eye-icon {
+    color: blueviolet;
+}
+
+.delete-icon, 
+.update-icon {
     list-style: none;
 }
 
