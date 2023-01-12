@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Asset, AssetTransaction
+from .forms import AssetForm
+from account.models import Account
+from account.forms import AccountForm
 import requests
 
 
 def asset_index(request):
     
+    accounts = Account.objects.all().filter(user=request.user)
     assets = Asset.objects.all().filter(user=request.user)    
     
     if assets:
@@ -59,12 +63,12 @@ def asset_index(request):
             'table_list': table_list
         }
                     
+            
                 
-                
-        return render(request, 'index.html', context)
+        return render(request, 'asset.html', context)
     
     else:
-        return render(request, 'index.html')
+        return render(request, 'asset.html')
 
 
 def asset_create(request):
@@ -78,7 +82,7 @@ def asset_create(request):
             asset_qty = request.POST['asset_qty'],
             average_price = request.POST['average_price'],
             status = request.POST['status'],
-            account_id = 4,
+            account_id = 12,
             user = request.user
         )
         
@@ -86,7 +90,7 @@ def asset_create(request):
         return redirect('assets:index')
         
     else:        
-        return render(request, 'index.html')
+        return render(request, 'asset.html')
 
 
 def asset_update(request):

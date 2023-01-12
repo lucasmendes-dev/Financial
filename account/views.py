@@ -12,8 +12,8 @@ def account_index(request):
     
     accounts = Account.objects.all().filter(user=request.user)
     total_balance = Account.objects.all().filter(user=request.user).aggregate(Sum('account_balance'))['account_balance__sum']
-    total_balance = f"{total_balance:.2f}"
-    
+    total_balance = float(f"{total_balance:.2f}")
+
     #for Chart.Js data
     accounts_data = []
     for account in accounts:
@@ -21,7 +21,7 @@ def account_index(request):
         
     accounts_data_json = json.dumps(accounts_data)
 
-    return render(request, 'index.html', {'accounts': accounts, 'total_balance': total_balance, 'accounts_data_json': accounts_data_json})
+    return render(request, 'account.html', {'accounts': accounts, 'total_balance': total_balance, 'accounts_data_json': accounts_data_json})
 
 
 @login_required
@@ -42,7 +42,7 @@ def account_create(request):
         return redirect('accounts:index')
         
     else:        
-        return render(request, 'index.html')
+        return render(request, 'account.html')
 
 
 @login_required
@@ -58,9 +58,9 @@ def account_update(request, id):
                         
             return redirect('accounts:index')
         else:            
-            return render(request, 'index.html', {'form': form, 'account': account})
+            return render(request, 'account.html', {'form': form, 'account': account})
     else:        
-        return render(request, 'update.html', {'form': form, 'account': account})
+        return render(request, 'update_account.html', {'form': form, 'account': account})
 
 
 @login_required

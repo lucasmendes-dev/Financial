@@ -43,7 +43,7 @@
                 <!-- Button trigger modal -->  
                 <form action="{% url 'accounts:create' %}" method="POST" class="">
                     {% csrf_token %}
-                    {% include 'modal-create.html' %}       
+                    {% include 'create_account_modal.html' %}       
                     <a class="btn btn-success col-md-12" href="#" data-bs-toggle="modal" data-bs-target="#create_modal">Adicionar Conta</a>              
                 </form>
             </div>
@@ -60,12 +60,12 @@
                     <h6 class="text-center">Clique no botão abaixo para cadastrar</h6>
                     <form action="{% url 'accounts:create' %}" method="POST" class="">
                         {% csrf_token %}
-                        <a class="btn btn-success col-md-10 mt-2" href="#" data-bs-toggle="modal" data-bs-target="#create_modal">Adicionar Conta</a>                                                          
+                        <a class="btn btn-success col-md-10 offset-1 mt-2" href="#" data-bs-toggle="modal" data-bs-target="#create_modal">Adicionar Conta</a>                                                          
                 </div>
             </div>
         </div>      
     </div>
-    {% include 'modal-create.html' %}                         
+    {% include 'create_account_modal.html' %}                         
     
     {% endif %}
 
@@ -138,7 +138,7 @@
       options: {}
     });
 
-    $("#modal-create").modal("show");
+    $("#create_account_modal").modal("show");
 
 </script>
   
