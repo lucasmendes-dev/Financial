@@ -1,0 +1,66 @@
+<!-- Modal -->
+<div class="modal fade" id="asset_create_modal" tabindex="-1" role="dialog" aria-labelledby="asset_create_modalTitle" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+  
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Adicionar Ativo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></button>
+          </div>
+        
+          <div class="modal-body">
+  
+              <div class="form-group col-md-12">
+                  <label class="bold" for="asset_name">Nome do Ativo:</label>
+                  <input class ="form-control" type="text" name="asset_name" id="asset_name" placeholder="Ex: Petrobras" required>
+              </div>   
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="bold" for="asset_code">Código do Ativo:</label>
+                    <input class ="form-control" type="text" name="asset_code" id="asset_code" placeholder="Ex: PETR4" required>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="bold" for="asset_type">Tipo:</label>
+                      <select class="form-control" name="asset_type" id="asset_type" required>
+                        <option value="">Selecione</option>
+                        <option value="stocks">Ação</option>
+                        <option value="fiis">Fundo Imobiliário</option>
+                        <option value="crypto">Crypto</option>                          
+                      </select>
+                </div>
+              </div>
+  
+              <div class="row">
+                  <div class="form-group col-md-4">
+                    <label class="bold" for="asset_qty">Quantidade:</label>
+                    <input class ="form-control" type="number" step="0.01" name="asset_qty" id="asset_qty" placeholder="100" required>
+                  </div>
+  
+                  <div class="cod form-group col-md-4">
+                      <label class="bold" for="average_price">Preço Médio:</label>
+                      <input class ="form-control" type="number" step="0.01" name="average_price" id="average_price" placeholder="R$ 25,68" required>
+                  </div>
+
+                  <div class="cod form-group col-md-4">
+                    <label class="bold" for="status">Ativo ativo:</label>
+                    <select class="form-control" name="status" id="status" required>
+                        <option value="1">Sim</option>
+                        <option value="0">Não</option>                                              
+                    </select>
+                </div>
+              </div>
+  
+          </div>
+  
+          <div class="modal-footer">
+              <input class="btn btn-primary" type="submit" value="Cadastrar Ativo">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>        
+          </div>
+      
+      </div>
+    </div>
+  
+  </div> 

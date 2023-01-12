@@ -35,7 +35,7 @@ body {
     padding-bottom: 10px;
 }
 
-.column_name {
+.column-name {
     color: white;
     text-align: center;
 }
@@ -69,4 +69,14 @@ body {
 #myChart {
     max-width: 70%;
     align-items: center;
+}
+
+/* Accounts */ /* Accounts */ /* Accounts */ /* Accounts */ 
+
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
 }

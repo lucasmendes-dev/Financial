@@ -17,9 +17,9 @@
                 <table class="table table-bordered table-hover">
                     <thead class="bg-dark">
                         <tr>
-                            <th scope="col" class="column_name">Nome Da Conta</th>
-                            <th scope="col" class="column_name">Saldo da Conta</th>
-                            <th scope="col" class="column_name">-</th>
+                            <th scope="col" class="column-name">Nome Da Conta</th>
+                            <th scope="col" class="column-name">Saldo da Conta</th>
+                            <th scope="col" class="column-name">-</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,7 +36,7 @@
                         <tr class="table-dark">
                             <td>Total</td>
                             <td id="total">R${{ total_balance | intcomma }}</td>
-                            <td class="column_name">-</td>                            
+                            <td class="column-name">-</td>                            
                         </tr>
                     </tbody>
                 </table>
@@ -122,7 +122,7 @@
       data: {
         labels: labels,
         datasets: [{
-          //label: 'Saldo das Contas',
+          label: 'Saldo',
           data: data,
           backgroundColor: [
             'rgba(87, 35, 100, 1)',
