@@ -63,7 +63,7 @@ def asset_index(request):
             'table_list': table_list
         }
                     
-            
+        form = AccountForm    
                 
         return render(request, 'asset.html', context)
     
