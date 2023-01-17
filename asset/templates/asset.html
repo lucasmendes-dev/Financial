@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block 'title'%}
     Ativos
@@ -12,17 +13,17 @@
             <canvas id="assetsChart"></canvas>
         </div> -->
     </div>
-    <div class="row">
+    <div class="row">        
         {% if table_list %}     
             <div class="table-responsive col-md-12">
+                <form action="{% url 'assets:create' %}" method="POST" class="">
+                    {% csrf_token %}
+                    {% include 'create_asset_modal.html' %}       
+                    <a class="btn btn-success mb-2 col-md-2" href="{% url 'assets:create' %}" >Adicionar Ativo</a>              
+                </form>
 
-                    <h1 class="title col-md-12 me-auto">Ações</h1>                    
-                   
-                    <form action="{% url 'assets:create' %}" method="POST" class="">
-                        {% csrf_token %}
-                        {% include 'create_asset_modal.html' %}       
-                        <a class="btn btn-success mb-2 col-md-2" href="{% url 'assets:create' %}" >Adicionar Ativo</a>              
-                    </form>
+                <!-- STOCKS SESSION -->
+                <h1 class="title col-md-12 me-auto">Ações</h1>                    
                                                                                                     
                 <table class="table table-bordered table-hover">
                     <thead class="bg-dark">
@@ -31,14 +32,16 @@
                             <th scope="col" class="column-name">Preço Médio</th>
                             <th scope="col" class="column-name">Preço Atual</th>
                             <th scope="col" class="column-name">Dia</th>       
-                            <th scope="col" class="column-name"> Variação/dia</th>    
+                            <th scope="col" class="column-name">Variação/dia</th>    
                             <th scope="col" class="column-name">Variação</th>       
-                            <th scope="col" class="column-name"> Variação Total</th>  
+                            <th scope="col" class="column-name">Variação Total</th> 
+                            <th scope="col" class="column-name">Patrimônio</th> 
                             <th scope="col" class="column-name">Actions</th>                                           
                         </tr>
                     </thead>
-                    <tbody>                                      
-                        {% for asset, preco_atual, variacao_diaria,valor_dia, variacao, variacao_total in table_list %}                    
+                    <tbody>                                                       
+                        {% for asset, preco_atual, variacao_diaria,valor_dia, variacao, variacao_total, patrimonio in table_list %}                    
+                        {% if asset.asset_type == "stocks" %}                                  
                             <tr class="table-success">
                                 <td class="text-center">{{ asset.asset_code }}</td>
                                 <td class="text-center">{{ asset.asset_qty }}</td>
@@ -60,35 +63,92 @@
                                     <td class="negative text-center">{{ variacao }}%</td>
                                 {% endif %}                                
                                 {% if variacao_total >= 0 %}
-                                    <td class="positive text-center">R${{ variacao_total }}</td>
+                                    <td class="positive text-center">R${{ variacao_total | intcomma }}</td>
                                 {% else %}
-                                    <td class="negative text-center">R${{ variacao_total }}</td>
-                                {% endif %}       
+                                    <td class="negative text-center">R${{ variacao_total | intcomma }}</td>
+                                {% endif %}
+                                <td class="text-center">R${{ patrimonio | intcomma }}</td>       
                                 <td class="text-center">
                                     <a href="#" class="eye-icon"><ion-icon name="eye-outline"></ion-icon></a>
                                     <a href="#"><ion-icon name="create-outline"></ion-icon></a>
                                     <a href="#" class="delete-icon"><ion-icon name="trash-outline"></ion-icon></a>
                                 </td>                                                 
-                            </tr>                                    
+                            </tr>      
+                        {% endif %}                              
                         {% endfor %}                                             
                     </tbody>
                 </table>
             </div>
 
+            <!--FIIS SESSION -->
+            <h1 class="title col-md-12 me-auto">Fundos Imobiliários</h1>                    
+                                                                                                    
+                <table class="table table-bordered table-hover">
+                    <thead class="bg-dark">
+                            <th scope="col" class="column-name">Ativo</th>
+                            <th scope="col" class="column-name">Qte.</th>
+                            <th scope="col" class="column-name">Preço Médio</th>
+                            <th scope="col" class="column-name">Preço Atual</th>
+                            <th scope="col" class="column-name">Dia</th>       
+                            <th scope="col" class="column-name">Variação/dia</th>    
+                            <th scope="col" class="column-name">Variação</th>       
+                            <th scope="col" class="column-name">Variação Total</th> 
+                            <th scope="col" class="column-name">Patrimônio</th> 
+                            <th scope="col" class="column-name">Actions</th>                                           
+                        </tr>
+                    </thead>
+                    <tbody>                                                       
+                        {% for asset, preco_atual, variacao_diaria,valor_dia, variacao, variacao_total, patrimonio in table_list %}                    
+                        {% if asset.asset_type == "fiis" %}                                  
+                            <tr class="table-success">
+                                <td class="text-center">{{ asset.asset_code }}</td>
+                                <td class="text-center">{{ asset.asset_qty }}</td>
+                                <td class="text-center">R${{ asset.average_price }}</td>                            
+                                <td class="text-center"> R${{ preco_atual }} </td>
+                                {% if variacao_diaria > 0 %}
+                                    <td class="positive text-center">{{ variacao_diaria }}%</td>
+                                {% else %}
+                                    <td class="negative text-center">{{ variacao_diaria }}%</td>
+                                {% endif %}  
+                                {% if valor_dia > 0 %}
+                                    <td class="positive text-center">R${{ valor_dia }}</td>
+                                {% else %}
+                                    <td class="negative text-center">R${{ valor_dia }}</td>
+                                {% endif %} 
+                                {% if variacao > 0 %}
+                                    <td class="positive text-center">{{ variacao }}%</td>
+                                {% else %}
+                                    <td class="negative text-center">{{ variacao }}%</td>
+                                {% endif %}                                
+                                {% if variacao_total >= 0 %}
+                                    <td class="positive text-center">R${{ variacao_total | intcomma }}</td>
+                                {% else %}
+                                    <td class="negative text-center">R${{ variacao_total | intcomma }}</td>
+                                {% endif %}
+                                <td class="text-center">R${{ patrimonio | intcomma }}</td>       
+                                <td class="text-center">
+                                    <a href="#" class="eye-icon"><ion-icon name="eye-outline"></ion-icon></a>
+                                    <a href="#"><ion-icon name="create-outline"></ion-icon></a>
+                                    <a href="#" class="delete-icon"><ion-icon name="trash-outline"></ion-icon></a>
+                                </td>                                                 
+                            </tr>      
+                        {% endif %}                              
+                        {% endfor %}                                             
+                    </tbody>
+                </table>
     </div>
-    {% else %}
-    <div class="col-md-5 form-container">            
-        <div class="card mt-5">
-            <div class="card-body">
-                <h4 class="text-center card-title">Você ainda não possui nenhum ativo!</h4>
-                <h6 class="text-center">Clique no botão abaixo para cadastrar</h6>
-                <form action="{% url 'assets:create' %}" method="POST" class="">
-                    {% csrf_token %}
-                    <a class="btn btn-success col-md-10 offset-1 mt-2" href="#" data-bs-toggle="modal" data-bs-target="#create_asset_modal">Adicionar Conta</a>                                                          
+        {% else %}
+        <div class="col-md-5 form-container">            
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h4 class="text-center card-title">Você ainda não possui nenhum ativo!</h4>
+                    <h6 class="text-center">Clique no botão abaixo para cadastrar</h6>
+                    <form action="{% url 'assets:create' %}" method="POST" class="">
+                        {% csrf_token %}
+                        <a class="btn btn-success col-md-10 offset-1 mt-2" href="{% url 'assets:create' %}">Adicionar Conta</a>                                                          
+                </div>
             </div>
-        </div>
-    </div>      
-    {% include 'create_asset_modal.html' %}   
+        </div>          
     {% endif %}
 </div>
 {% endblock %}
