@@ -13,11 +13,8 @@ def asset_index(request):
     assets = Asset.objects.all().filter(user=request.user)        
     
     if assets:
-        
-        #iniciando vetores para armazenar dados
+                
         valor_dia = []        
-        variacao = [] 
-        variacao_total = []
         patrimonio = []
         
         tickers = getAssetTicker(assets) 
@@ -27,30 +24,30 @@ def asset_index(request):
 
         current_price = getCurrentPrice(data)
         daily_percent_variation = getDailyPercentVariation(data)
-        daily_value_variation = getDailyValueVariation(data)
-                    
+        daily_value_variation = getDailyValueVariation(data, assets)
+         
         total_percent_variation = getTotalPercentVariation(assets, current_price)
         total_value_variation = getTotalValueVariation(assets, current_price)
+        
+        asset_amount = getFullAssetAmount(assets, current_price)
+        
         
         
         #realizando operações para tratar os dados antes de ir pro template
         my_list = zip(assets, current_price, daily_value_variation)  
                            
         for asset, cotacao, daily_value_variation in my_list:
-            
-            result_percent = (cotacao - asset.average_price) * 100 / asset.average_price  #cálculo da variação em % (Variação)
-            result_variacao = (cotacao - asset.average_price) * asset.asset_qty #calculo da variação total em R$ (Variação Total)
+                    
             result_valor_dia = daily_value_variation * asset.asset_qty #calculo da variação diária em R$ (Variação/dia)
             valor_patrimonio = cotacao * asset.asset_qty
                         
-            variacao.append(float(f'{result_percent:.2f}'))
-            variacao_total.append(float(f'{result_variacao:.2f}'))
             valor_dia.append(float(f'{result_valor_dia:.2f}'))
             patrimonio.append(float(f'{valor_patrimonio:.2f}'))
                     
-                    
+        #print(valor_dia)
+        #return HttpResponse("olha o print")   
         #zip de todas as informações para enviar pro template    
-        table_list = zip(assets, current_price, daily_percent_variation, valor_dia, total_percent_variation, variacao_total, patrimonio)
+        table_list = zip(assets, current_price, daily_percent_variation, daily_value_variation, total_percent_variation, total_value_variation, asset_amount)
  
         context = {
             'table_list': table_list,            
@@ -142,10 +139,16 @@ def getDailyPercentVariation(data):
     return daily_percent_variation
           
             
-def getDailyValueVariation(data):
+def getDailyValueVariation(data, assets):
+    asset_value_variation = []    
     daily_value_variation = []
-    for value in data['results']:
-        daily_value_variation.append(float(f"{value['regularMarketChange']:.2f}"))
+    for day_value in data['results']:
+        asset_value_variation.append(float(f"{day_value['regularMarketChange']:.2f}"))
+    
+    array = zip(assets, asset_value_variation)
+    for asset, asset_value_variation in array:
+        variation = asset_value_variation * asset.asset_qty
+        daily_value_variation.append(float(f"{variation}"))
     
     return daily_value_variation
 
@@ -160,12 +163,22 @@ def getTotalPercentVariation(assets, current_price):
     return total_percente_variation
 
 
-def getTotalValueVariation(assets, current_price):
+def getTotalValueVariation(assets, daily_value_variation):
     total_value_variation = []
-    array = zip(assets, current_price)    
-    for asset, price in array:
-        value = (price - asset.average_price) * asset.qty
-        total_value_variation.append(float(f'{value:.2f}'))
+    array = zip(assets, daily_value_variation)    
+    for asset, variation in array:
+        value = (variation - asset.average_price) * asset.asset_qty
+        total_value_variation.append(value)
         
     return total_value_variation
-    
+
+
+
+def getFullAssetAmount(assets, current_price):
+    full_asset_amount = []
+    array = zip(assets, current_price)    
+    for asset, price in array:
+        value = price * asset.asset_qty
+        full_asset_amount.append(float(f'{value}'))
+        
+    return full_asset_amount
