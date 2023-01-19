@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django import forms
 from .models import Asset, AssetTransaction
@@ -89,10 +89,31 @@ def asset_create(request):
         return render(request, 'create_asset.html', {'form': form, 'accounts': accounts})
 
 
-def asset_update(request):
-    pass
+def asset_update(request, id):
+    
+    asset = get_object_or_404(Asset, id=id)
+    accounts = Account.objects.all().filter(user=request.user)
+    form = AssetForm(instance=asset)
+    
+    if request.method == "POST":
+                
+        form = AssetForm(request.POST, instance=asset)
+        if(form.is_valid()):
+            asset.save()
+                        
+            return redirect('assets:index')
+        else:            
+            return render(request, 'asset.html', {'form': form, 'asset': asset})
+    else:
+        return render(request, 'update_asset.html', {'form': form, 'asset': asset, 'accounts': accounts})
 
 
+def asset_delete(request, id):
+    
+    asset = get_object_or_404(Asset, id=id)
+    asset.delete()
+    
+    return redirect('assets:index')
 
 
 #Auxiliar functions ↓

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+
+{% block 'title'%}
+    Atualizar Carteira
+{% endblock %}
+
+{% block 'content'%}
+
+<div class="form-container">
+    <a href="{% url 'assets:index' %}" class="btn btn-danger mb-3">Voltar</a>
+    <div class="card">        
+        <div class="card-body">            
+            <h1 class="title">Editar {{ asset }}</h1>    
+            
+            <form action="{% url 'assets:update' asset.id %}" method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label class="bold" for="asset_name">Nome do Ativo:</label>
+                    {{ form.asset_name }}
+                </div>
+                
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="bold" for="asset_code">Código do Ativo:</label>
+                        {{ form.asset_code }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="bold" for="asset_type">Tipo:</label>
+                        <select class="form-control" name="asset_type" id="asset_type" required>  
+                            <option value="">Selecione</option>                            
+                            <option value="stocks">Ação</option>                            
+                            <option value="fiis">Fundo Imobiliários</option>
+                            <option value="crypto">Crypto</option>
+                        </select>
+                    </div>
+                </div>    
+
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label class="bold" for="asset_qty">Quantidade:</label>
+                        {{ form.asset_qty }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="bold" for="average_price">Preço Médio:</label>
+                        {{ form.average_price }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="bold" for="status">Ativo na Carteira:</label>
+                        {{ form.status }}
+                        <!-- <select class="form-control" name="status" id="status" required>  
+                            <option value="">Selecione</option>                            
+                            <option value="1">Sim</option>                            
+                            <option value="0">Não</option>                            
+                        </select> -->
+                    </div>
+                </div> 
+                
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="bold" for="account_id" >Pertence à Conta:</label>
+                        <select class="form-control" name="account_id" id="account_id" required>  
+                            <option value="">Selecione</option>
+                            {% for account in accounts %}
+                                <option value="{{ account.id }}">{{ account.account_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+
+                <input class="btn btn-success col-md-12 mt-4 mb-3" type="submit" value="Editar">
+            </form>  
+        </div>
+    </div>  
+</div>
+
+{% endblock %}
