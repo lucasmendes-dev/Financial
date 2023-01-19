@@ -15,34 +15,32 @@ def asset_index(request):
     if assets:
         
         #iniciando vetores para armazenar dados
-        preco_atual = []    
-        variacao_diaria = []
-        valor_diario = []
         valor_dia = []        
         variacao = [] 
         variacao_total = []
         patrimonio = []
         
-        tickers = getAssetTicker(assets)        
-        url =  f'https://brapi.dev/api/quote/{tickers}?range=1d&interval=1d&fundamental=false'
+        tickers = getAssetTicker(assets) 
+               
+        api_url =  f'https://brapi.dev/api/quote/{tickers}?range=1d&interval=1d&fundamental=false'
+        data = requests.get(api_url).json()        
 
-        data = requests.get(url).json()        
-
-        #populando os vetores com dados 
-        for valor in data['results']:
-            preco_atual.append(valor['regularMarketPrice'])              
-            variacao_diaria.append(float(f"{valor['regularMarketChangePercent']:.2f}"))      
-            valor_diario.append(float(f"{valor['regularMarketChange']:.2f}"))      
-            
-     
+        current_price = getCurrentPrice(data)
+        daily_percent_variation = getDailyPercentVariation(data)
+        daily_value_variation = getDailyValueVariation(data)
+                    
+        total_percent_variation = getTotalPercentVariation(assets, current_price)
+        total_value_variation = getTotalValueVariation(assets, current_price)
+        
+        
         #realizando operações para tratar os dados antes de ir pro template
-        my_list = zip(assets, preco_atual, valor_diario)  
+        my_list = zip(assets, current_price, daily_value_variation)  
                            
-        for asset, cotacao, valor_diario in my_list:
+        for asset, cotacao, daily_value_variation in my_list:
             
             result_percent = (cotacao - asset.average_price) * 100 / asset.average_price  #cálculo da variação em % (Variação)
             result_variacao = (cotacao - asset.average_price) * asset.asset_qty #calculo da variação total em R$ (Variação Total)
-            result_valor_dia = valor_diario * asset.asset_qty #calculo da variação diária em R$ (Variação/dia)
+            result_valor_dia = daily_value_variation * asset.asset_qty #calculo da variação diária em R$ (Variação/dia)
             valor_patrimonio = cotacao * asset.asset_qty
                         
             variacao.append(float(f'{result_percent:.2f}'))
@@ -50,9 +48,9 @@ def asset_index(request):
             valor_dia.append(float(f'{result_valor_dia:.2f}'))
             patrimonio.append(float(f'{valor_patrimonio:.2f}'))
                     
-        
+                    
         #zip de todas as informações para enviar pro template    
-        table_list = zip(assets, preco_atual, variacao_diaria, valor_dia, variacao, variacao_total, patrimonio)
+        table_list = zip(assets, current_price, daily_percent_variation, valor_dia, total_percent_variation, variacao_total, patrimonio)
  
         context = {
             'table_list': table_list,            
@@ -127,3 +125,47 @@ def getAssetTicker(assets: Asset):
             tickers+= code.asset_code
 
     return tickers
+
+def getCurrentPrice(data):
+    current_price = []
+    for value in data['results']:
+        current_price.append(value['regularMarketPrice'])   
+    
+    return current_price
+
+
+def getDailyPercentVariation(data):
+    daily_percent_variation = []
+    for value in data['results']:
+        daily_percent_variation.append(float(f"{value['regularMarketChangePercent']:.2f}"))      
+    
+    return daily_percent_variation
+          
+            
+def getDailyValueVariation(data):
+    daily_value_variation = []
+    for value in data['results']:
+        daily_value_variation.append(float(f"{value['regularMarketChange']:.2f}"))
+    
+    return daily_value_variation
+
+
+def getTotalPercentVariation(assets, current_price):
+    total_percente_variation = []
+    array = zip(assets, current_price)    
+    for asset, price in array:
+        value = (price - asset.average_price) * 100 / asset.average_price  
+        total_percente_variation.append(float(f'{value:.2f}'))
+        
+    return total_percente_variation
+
+
+def getTotalValueVariation(assets, current_price):
+    total_value_variation = []
+    array = zip(assets, current_price)    
+    for asset, price in array:
+        value = (price - asset.average_price) * asset.qty
+        total_value_variation.append(float(f'{value:.2f}'))
+        
+    return total_value_variation
+    
