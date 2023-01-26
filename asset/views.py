@@ -44,10 +44,9 @@ def asset_index(request):
             valor_dia.append(float(f'{result_valor_dia:.2f}'))
             patrimonio.append(float(f'{valor_patrimonio:.2f}'))
                     
-        #print(valor_dia)
-        #return HttpResponse("olha o print")   
+        #PRECISO DEPURAR OS VALORES PARA CORRIGIR 
         #zip de todas as informações para enviar pro template    
-        table_list = zip(assets, current_price, daily_percent_variation, daily_value_variation, total_percent_variation, total_value_variation, asset_amount)
+        table_list = zip(assets, current_price, daily_percent_variation, valor_dia, total_percent_variation, total_value_variation, asset_amount)
  
         context = {
             'table_list': table_list,            
@@ -168,7 +167,7 @@ def getTotalValueVariation(assets, daily_value_variation):
     array = zip(assets, daily_value_variation)    
     for asset, variation in array:
         value = (variation - asset.average_price) * asset.asset_qty
-        total_value_variation.append(value)
+        total_value_variation.append(float(f'{value:.2f}'))
         
     return total_value_variation
 
