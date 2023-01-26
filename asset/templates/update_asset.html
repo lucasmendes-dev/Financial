@@ -29,12 +29,13 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label class="bold" for="asset_type">Tipo:</label>
-                        <select class="form-control" name="asset_type" id="asset_type" required>  
+                        {{ form.asset_type }}
+                        <!-- <select class="form-control" name="asset_type" id="asset_type" required>  
                             <option value="">Selecione</option>                            
                             <option value="stocks">Ação</option>                            
-                            <option value="fiis">Fundo Imobiliários</option>
+                            <option value="reit">Fundo Imobiliários</option>
                             <option value="crypto">Crypto</option>
-                        </select>
+                        </select> -->
                     </div>
                 </div>    
 
@@ -52,7 +53,7 @@
                         {{ form.status }}
                         <!-- <select class="form-control" name="status" id="status" required>  
                             <option value="">Selecione</option>                            
-                            <option value="1">Sim</option>                            
+                            <option value="True">Sim</option>                            
                             <option value="0">Não</option>                            
                         </select> -->
                     </div>

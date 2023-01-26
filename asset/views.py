@@ -10,43 +10,25 @@ import requests
 
 def asset_index(request):
     
-    assets = Asset.objects.all().filter(user=request.user)        
+    stocks = Asset.objects.all().filter(user=request.user, asset_type="stocks")        
     
-    if assets:
-                
-        valor_dia = []        
-        patrimonio = []
+    if stocks:
         
-        tickers = getAssetTicker(assets) 
+        tickers = getAssetTicker(stocks) 
                
         api_url =  f'https://brapi.dev/api/quote/{tickers}?range=1d&interval=1d&fundamental=false'
         data = requests.get(api_url).json()        
 
         current_price = getCurrentPrice(data)
         daily_percent_variation = getDailyPercentVariation(data)
-        daily_value_variation = getDailyValueVariation(data, assets)
+        daily_value_variation = getDailyValueVariation(data, stocks)
          
-        total_percent_variation = getTotalPercentVariation(assets, current_price)
-        total_value_variation = getTotalValueVariation(assets, current_price)
-        
-        asset_amount = getFullAssetAmount(assets, current_price)
-        
-        
-        
-        #realizando operações para tratar os dados antes de ir pro template
-        my_list = zip(assets, current_price, daily_value_variation)  
-                           
-        for asset, cotacao, daily_value_variation in my_list:
+        total_percent_variation = getTotalPercentVariation(stocks, current_price)
+        total_value_variation = getTotalValueVariation(stocks, current_price)        
+        asset_amount = getFullAssetAmount(stocks, current_price)                     
                     
-            result_valor_dia = daily_value_variation * asset.asset_qty #calculo da variação diária em R$ (Variação/dia)
-            valor_patrimonio = cotacao * asset.asset_qty
-                        
-            valor_dia.append(float(f'{result_valor_dia:.2f}'))
-            patrimonio.append(float(f'{valor_patrimonio:.2f}'))
-                    
-        #PRECISO DEPURAR OS VALORES PARA CORRIGIR 
         #zip de todas as informações para enviar pro template    
-        table_list = zip(assets, current_price, daily_percent_variation, valor_dia, total_percent_variation, total_value_variation, asset_amount)
+        table_list = zip(stocks, current_price, daily_percent_variation, daily_value_variation, total_percent_variation, total_value_variation, asset_amount)
  
         context = {
             'table_list': table_list,            
@@ -125,7 +107,7 @@ def getAssetTicker(assets: Asset):
 def getCurrentPrice(data):
     current_price = []
     for value in data['results']:
-        current_price.append(value['regularMarketPrice'])   
+        current_price.append(float(f"{value['regularMarketPrice']:.2f}"))     
     
     return current_price
 
@@ -143,12 +125,13 @@ def getDailyValueVariation(data, assets):
     daily_value_variation = []
     for day_value in data['results']:
         asset_value_variation.append(float(f"{day_value['regularMarketChange']:.2f}"))
-    
+
     array = zip(assets, asset_value_variation)
     for asset, asset_value_variation in array:
+
         variation = asset_value_variation * asset.asset_qty
-        daily_value_variation.append(float(f"{variation}"))
-    
+        daily_value_variation.append(float(f"{variation:.2f}"))
+
     return daily_value_variation
 
 
@@ -178,6 +161,6 @@ def getFullAssetAmount(assets, current_price):
     array = zip(assets, current_price)    
     for asset, price in array:
         value = price * asset.asset_qty
-        full_asset_amount.append(float(f'{value}'))
+        full_asset_amount.append(float(f'{value:.2f}'))
         
     return full_asset_amount

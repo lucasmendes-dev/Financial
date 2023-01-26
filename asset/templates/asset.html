@@ -95,7 +95,7 @@
                 </thead>
                 <tbody>                                                       
                     {% for asset, preco_atual, variacao_diaria,valor_dia, variacao, variacao_total, patrimonio in table_list %}                    
-                    {% if asset.asset_type == "fiis" %}                                  
+                    {% if asset.asset_type == "reit" %}                                  
                         <tr class="table-success">
                             <td class="text-center">{{ asset.asset_code }}</td>
                             <td class="text-center">{{ asset.asset_qty }}</td>
