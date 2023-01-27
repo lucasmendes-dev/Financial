@@ -14,7 +14,7 @@
         </div> -->
     </div>
     <div class="row">        
-        {% if table_list %}     
+        {% if stocks_list or reit_list%}     
     
             <a class="btn btn-success mb-2 col-md-2" href="{% url 'assets:create' %}" >Adicionar Ativo</a>              
 
@@ -36,12 +36,11 @@
                     </tr>
                 </thead>
                 <tbody>                                                       
-                    {% for asset, preco_atual, variacao_diaria,valor_dia, variacao, variacao_total, patrimonio in table_list %}                    
-                    {% if asset.asset_type == "stocks" %}                                  
+                    {% for stock, preco_atual, variacao_diaria,valor_dia, variacao, variacao_total, amount in stocks_list %}                                                   
                         <tr class="table-success">
-                            <td class="text-center">{{ asset.asset_code }}</td>
-                            <td class="text-center">{{ asset.asset_qty }}</td>
-                            <td class="text-center">R${{ asset.average_price }}</td>                            
+                            <td class="text-center">{{ stock.asset_code }}</td>
+                            <td class="text-center">{{ stock.asset_qty }}</td>
+                            <td class="text-center">R${{ stock.average_price }}</td>                            
                             <td class="text-center"> R${{ preco_atual }} </td>
                             {% if variacao_diaria > 0 %}
                                 <td class="positive text-center">{{ variacao_diaria }}%</td>
@@ -63,19 +62,18 @@
                             {% else %}
                                 <td class="negative text-center">R${{ variacao_total | intcomma }}</td>
                             {% endif %}
-                            <td class="text-center">R${{ patrimonio | intcomma }}</td>       
+                            <td class="text-center">R${{ amount | intcomma }}</td>       
                             <td class="text-center">
                                 <a href="" class="eye-icon"><ion-icon name="eye-outline"></ion-icon></a>
-                                <a href="{% url 'assets:update' asset.id %}"><ion-icon name="create-outline"></ion-icon></a>
-                                <a class="delete-icon" data-id="{{ asset.id }}"><ion-icon name="trash-outline"></ion-icon></a>
+                                <a href="{% url 'assets:update' stock.id %}"><ion-icon name="create-outline"></ion-icon></a>
+                                <a class="delete-icon" data-id="{{ stock.id }}"><ion-icon name="trash-outline"></ion-icon></a>
                             </td>                                                 
-                        </tr>      
-                    {% endif %}                              
+                        </tr>                                  
                     {% endfor %}                                             
                 </tbody>
             </table>
         </div>
-
+ 
         <!--FIIS SESSION -->
         <h1 class="title col-md-12 me-auto">Fundos Imobiliários</h1>                    
                                                                                                 
@@ -94,8 +92,7 @@
                     </tr>
                 </thead>
                 <tbody>                                                       
-                    {% for asset, preco_atual, variacao_diaria,valor_dia, variacao, variacao_total, patrimonio in table_list %}                    
-                    {% if asset.asset_type == "reit" %}                                  
+                    {% for asset, preco_atual, variacao_diaria,valor_dia, variacao, variacao_total, amount in reit_list %}                                                    
                         <tr class="table-success">
                             <td class="text-center">{{ asset.asset_code }}</td>
                             <td class="text-center">{{ asset.asset_qty }}</td>
@@ -121,18 +118,17 @@
                             {% else %}
                                 <td class="negative text-center">R${{ variacao_total | intcomma }}</td>
                             {% endif %}
-                            <td class="text-center">R${{ patrimonio | intcomma }}</td>       
+                            <td class="text-center">R${{ amount | intcomma }}</td>       
                             <td class="text-center">
                                 <a href="#" class="eye-icon"><ion-icon name="eye-outline"></ion-icon></a>
                                 <a href="{% url 'assets:update' asset.id %}"><ion-icon name="create-outline"></ion-icon></a>
-                                <a class="" data-id="{{ asset.id }}"><ion-icon name="trash-outline"></ion-icon></a>
+                                <a class="delete-icon" data-id="{{ asset.id }}"><ion-icon name="trash-outline"></ion-icon></a>
                             </td>                                                 
-                        </tr>      
-                    {% endif %}                              
+                        </tr>                                
                     {% endfor %}                                             
                 </tbody>
             </table>
-    </div>
+
         {% else %}
         <div class="col-md-5 form-container">            
             <div class="card mt-5">
@@ -141,11 +137,11 @@
                     <h6 class="text-center">Clique no botão abaixo para cadastrar</h6>
                     <form action="{% url 'assets:create' %}" method="POST" class="">
                         {% csrf_token %}
-                        <a class="btn btn-success col-md-10 offset-1 mt-2" href="{% url 'assets:create' %}">Adicionar Conta</a>                                                          
+                        <a class="btn btn-success col-md-10 offset-1 mt-2" href="{% url 'assets:create' %}">Adicionar Ativo</a>                                                          
                 </div>
             </div>
         </div>          
-    {% endif %}
+        {% endif %}
 </div>
 {% endblock %}
 

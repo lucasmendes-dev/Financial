@@ -10,34 +10,56 @@ import requests
 
 def asset_index(request):
     
-    stocks = Asset.objects.all().filter(user=request.user, asset_type="stocks")        
+    stocks = Asset.objects.all().filter(user=request.user, asset_type="stocks")  
+    reit = Asset.objects.all().filter(user=request.user, asset_type="reit")       
     
-    if stocks:
-        
-        tickers = getAssetTicker(stocks) 
-               
-        api_url =  f'https://brapi.dev/api/quote/{tickers}?range=1d&interval=1d&fundamental=false'
-        data = requests.get(api_url).json()        
-
-        current_price = getCurrentPrice(data)
-        daily_percent_variation = getDailyPercentVariation(data)
-        daily_value_variation = getDailyValueVariation(data, stocks)
-         
-        total_percent_variation = getTotalPercentVariation(stocks, current_price)
-        total_value_variation = getTotalValueVariation(stocks, current_price)        
-        asset_amount = getFullAssetAmount(stocks, current_price)                     
-                    
-        #zip de todas as informações para enviar pro template    
-        table_list = zip(stocks, current_price, daily_percent_variation, daily_value_variation, total_percent_variation, total_value_variation, asset_amount)
- 
-        context = {
-            'table_list': table_list,            
-        }                              
-                
-        return render(request, 'asset.html', context)
-    
-    else:
+    if not stocks and not reit:
         return render(request, 'asset.html')
+    
+    if stocks:        
+        stocks_tickers = getAssetTicker(stocks)        
+               
+        stocks_api_url =  f'https://brapi.dev/api/quote/{stocks_tickers}?range=1d&interval=1d&fundamental=false'                
+        stocks_data = requests.get(stocks_api_url).json()       
+        
+        stocks_current_price = getCurrentPrice(stocks_data)                
+        stocks_daily_percent_variation = getDailyPercentVariation(stocks_data)                
+        stocks_daily_value_variation = getDailyValueVariation(stocks_data, stocks)
+                         
+        stocks_total_percent_variation = getTotalPercentVariation(stocks, stocks_current_price)
+        stocks_total_value_variation = getTotalValueVariation(stocks, stocks_current_price)    
+        stocks_amount = getFullAssetAmount(stocks, stocks_current_price)            
+          
+        stocks_list = zip(stocks, stocks_current_price, stocks_daily_percent_variation, stocks_daily_value_variation, stocks_total_percent_variation, stocks_total_value_variation, stocks_amount)
+    else:
+        stocks_list = ""
+        
+        
+    if reit:        
+        reit_tickers = getAssetTicker(reit) 
+        
+        reit_api_url =  f'https://brapi.dev/api/quote/{reit_tickers}?range=1d&interval=1d&fundamental=false'
+        reit_data = requests.get(reit_api_url).json() 
+          
+        reit_current_price = getCurrentPrice(reit_data)
+        reit_daily_percent_variation = getDailyPercentVariation(reit_data)
+        reit_daily_value_variation = getDailyValueVariation(reit_data, stocks)
+        
+        reit_total_percent_variation = getTotalPercentVariation(reit, reit_current_price)
+        reit_total_value_variation = getTotalValueVariation(reit, reit_current_price)
+        reit_amount = getFullAssetAmount(reit, reit_current_price) 
+        
+        reit_list = zip(reit, reit_current_price, reit_daily_percent_variation, reit_daily_value_variation, reit_total_percent_variation, reit_total_value_variation, reit_amount) 
+    else:
+        reit_list = ""
+        
+    context = {
+        'stocks_list': stocks_list,   
+        'reit_list': reit_list      
+    }                              
+            
+    return render(request, 'asset.html', context)
+        
 
 
 def asset_create(request):
