@@ -10,6 +10,8 @@ urlpatterns = [
     path('', include('homepage.urls', namespace='homepage')),
     path('assets/', include('asset.urls', namespace='assets')),
     path('accounts/', include('account.urls', namespace='accounts')),
+    path('earnings/', include('earning.urls', namespace='earnings')),
+    path('statements/', include('statement.urls', namespace='statements')),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
