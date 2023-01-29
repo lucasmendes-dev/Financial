@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'homepage',
     'asset',
     'account',
+    'earning',
+    'statement',
 ]
 
 MIDDLEWARE = [
