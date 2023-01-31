@@ -73,7 +73,7 @@ WSGI_APPLICATION = 'financial.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'financial',
+        'NAME': 'finance',
         'USER': 'root',
         'PASSWORD': 'Easy976020-1',
         'HOST': 'localhost',

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django import forms
-from .models import Asset, AssetTransaction
+from .models import Asset, AssetTransaction, AssetType
 from .forms import AssetForm
 from account.models import Account
 from account.forms import AccountForm
@@ -10,8 +10,8 @@ import requests
 
 def asset_index(request):
     
-    stocks = Asset.objects.all().filter(user=request.user, asset_type="stocks")  
-    reit = Asset.objects.all().filter(user=request.user, asset_type="reit")       
+    stocks = Asset.objects.all().filter(user=request.user, asset_type=1)  
+    reit = Asset.objects.all().filter(user=request.user, asset_type=2)       
     
     if not stocks and not reit:
         return render(request, 'asset.html')
@@ -68,9 +68,11 @@ def asset_create(request):
     accounts = Account.objects.all().filter(user=request.user)
 
     if request.method == "POST":
+
+        asset_type_id = AssetType.objects.get(id=request.POST['asset_type'])
         
         asset = Asset(
-            asset_type = request.POST['asset_type'],
+            asset_type = asset_type_id.id,
             asset_name = request.POST['asset_name'],
             asset_code = request.POST['asset_code'],
             asset_qty = request.POST['asset_qty'],
@@ -81,6 +83,19 @@ def asset_create(request):
         )
         
         asset.save()
+        
+        #adding value from asset in Account registred
+        account = get_object_or_404(Account, id=request.POST['account_id'])
+                
+        asset_api = f"https://brapi.dev/api/quote/{request.POST['asset_code']}?range=1d&interval=1d&fundamental=false"
+        asset_today = requests.get(asset_api).json()     
+        
+        new_qty = int(request.POST['asset_qty'])
+        new_balance = float(getCurrentPrice(asset_today))
+        
+        account.account_balance = new_qty * new_balance
+        account.save()
+        
         return redirect('assets:index')
         
     else:             
