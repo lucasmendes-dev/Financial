@@ -49,7 +49,7 @@
             </div>
             <div class="col-md-2"></div>
             <div class="col-md-6 chart">
-                <canvas id="myChart" width="300px"></canvas>                               
+                <canvas id="accountChart" width="300px"></canvas>                               
             </div>
         </div>   
     {% else %}
@@ -116,7 +116,7 @@
     const data = accountsData.map(account => account.balance);
   
     // Criar o gráfico
-    const ctx = document.getElementById('myChart').getContext('2d');
+    const ctx = document.getElementById('accountChart').getContext('2d');
     const chart = new Chart(ctx, {
       type: 'doughnut',
       data: {
