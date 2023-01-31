@@ -74,7 +74,7 @@ body {
     align-items: center;
 }
 
-/* Accounts */ /* Accounts */ /* Accounts */ /* Accounts */ 
+/* Assets */ /* Assets */ /* Assets */ /* Assets */ 
 
 .positive {
     color: green;
@@ -84,7 +84,16 @@ body {
     color: red;
 }
 
+.plus-button {
+    width: 100px;
+}
 
 
-/* Earnings */ /* Earnings */ /* Earnings */ /* Earnings */ 
+/* Footer */ /* Footer */ /* Footer */ /* Footer */ 
 
+.footer {
+    background-color: #252525;
+    color: #FFF;
+    text-align: center;
+    max-width: 100%;
+}

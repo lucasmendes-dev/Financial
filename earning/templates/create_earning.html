@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'title'%}
+    Proventos
+{% endblock %}
+
+{% block 'content'%}
+
+<div class="form-container">    
+    <div class="card">        
+        <div class="card-body mb-2">            
+            <h1 class="title">Adicionar Provento</h1>    
+            
+            <form action="{% url 'earnings:create'%}" method="POST">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="bold" for="asset_code">Código do Ativo:</label>
+                        {{ form.asset }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="bold" for="earning_date">Data:</label>
+                        {{ form.earning_date  }}
+                    </div>
+                </div> 
+                
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="bold" for="asset_qty">Quantidade de cotas:</label>
+                        {{ form.asset_qty}}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="bold" for="earning_value">Provento por cota</label>
+                        {{ form.earning_value }}
+                    </div>
+                </div> 
+            
+                <input class="btn btn-success col-md-12 mt-4 mb-1" type="submit" value="Cadastrar">
+                <a href="{% url 'assets:index' %}" class="btn btn-danger mb-3 col-md-10 offset-1">Voltar</a>
+            </form>  
+        </div>
+    </div>  
+</div>
+
+
+{% endblock %}

@@ -10,8 +10,8 @@ import requests
 
 def asset_index(request):
     
-    stocks = Asset.objects.all().filter(user=request.user, asset_type=1)  
-    reit = Asset.objects.all().filter(user=request.user, asset_type=2)       
+    stocks = Asset.objects.all().filter(user=request.user, status=1, asset_type=1)  
+    reit = Asset.objects.all().filter(user=request.user, status=1, asset_type=2)       
     
     if not stocks and not reit:
         return render(request, 'asset.html')
@@ -68,11 +68,11 @@ def asset_create(request):
     accounts = Account.objects.all().filter(user=request.user)
 
     if request.method == "POST":
-
+        
         asset_type_id = AssetType.objects.get(id=request.POST['asset_type'])
         
         asset = Asset(
-            asset_type = asset_type_id.id,
+            asset_type = asset_type_id,
             asset_name = request.POST['asset_name'],
             asset_code = request.POST['asset_code'],
             asset_qty = request.POST['asset_qty'],
@@ -91,9 +91,9 @@ def asset_create(request):
         asset_today = requests.get(asset_api).json()     
         
         new_qty = int(request.POST['asset_qty'])
-        new_balance = float(getCurrentPrice(asset_today))
+        new_balance = getCurrentPrice(asset_today)[0]
         
-        account.account_balance = new_qty * new_balance
+        account.account_balance += float(f'{new_qty * new_balance:.2f}')
         account.save()
         
         return redirect('assets:index')

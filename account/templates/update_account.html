@@ -9,7 +9,7 @@
 {% block 'content'%}
 
 <div class="form-container">
-    <a href="{% url 'accounts:index' %}" class="btn btn-danger mb-3">Voltar</a>
+    
     <div class="card">        
         <div class="card-body">            
             <h1 class="title">Editar {{ account }}</h1>    
@@ -33,6 +33,7 @@
                     </div>
                 </div>    
                 <input class="btn btn-success col-md-12 mt-4 mb-3" type="submit" value="Alterar">
+                <a href="{% url 'accounts:index' %}" class="btn btn-danger mb-3 col-md-10 offset-1">Voltar</a>
             </form>  
         </div>
     </div>  
