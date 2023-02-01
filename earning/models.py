@@ -8,6 +8,7 @@ class Earning(models.Model):
     asset = models.ForeignKey('asset.Asset', on_delete=models.CASCADE)
     asset_qty = models.IntegerField(default=0)
     earning_value = models.FloatField(default=0.0)
+    total_value = models.FloatField(default=0.0)
     earning_date = models.DateTimeField()
     
 

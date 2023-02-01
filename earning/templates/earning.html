@@ -33,28 +33,18 @@
     const chart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho"],
+        labels: ["mai/20", "jun/20", "jul/20", "ago/20", "set/20", "out/20", "nov/20", "dez/20"],
         datasets: [{
           label: '',
-          data: [65, 59, 80, 81, 56, 55, 40],
+          data: [0.94, 4.15, 7.63, 27.12, 10.55, 15.17, 37.20, 25.40],
           backgroundColor: [
-            'rgba(255, 99, 132)',
-            'rgba(255, 159, 64)',
-            'rgba(255, 205, 86)',
-            'rgba(75, 192, 192)',
             'rgba(54, 162, 235)',
-            'rgba(153, 102, 255)',
-            'rgba(201, 203, 207)'
           ],
           borderWidth: 1
         }]
       },
       options: {
-        scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
+        
       },
     });
 
