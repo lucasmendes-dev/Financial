@@ -7,5 +7,136 @@
 {% endblock %}
 
 {% block 'content'%}
+    <div class="container">
+
+        <div class="row">
+            <h1 class="title mb-4">Extrato</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 dash-block">
+                <p class="block-title">Entradas</p>
+                <p class="block-value">R$1000,00</p>
+            </div>
+
+            <div class="col-md-3 dash-block">
+                <p class="block-title">Saídas</p>
+                <p class="block-value">R$710,00</p>
+            </div>
+
+            <div class="col-md-3 dash-block">
+                <p class="block-title">Resultado</p>
+                <p class="block-value">R$290,00</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row mt-5">            
+            <div class="statement-table col-md-6">
+                <h3 class="text-center">Transações</h3>
+                <table class="table table-bordered table-hover">    
+                    <thead class="bg-dark">                        
+                        <th scope="col" class="column-name">Descrição</th>
+                        <th scope="col" class="column-name">Valor</th>
+                        <th scope="col" class="column-name">Data</th>
+                        <th scope="col" class="column-name">-</th>
+                    </thead>
+                    <tbody>
+                        {% for statement in statements %}
+                        <tr class="table-success">                            
+                            <td class="text-center">{{ statement.statement_description }}</td>
+                            {% if statement.statement_value > 0 %}
+                                <td class="text-center positive">R${{ statement.statement_value }}</td>
+                            {% else %}
+                                <td class="text-center negative">R${{ statement.statement_value }}</td>
+                            {% endif %}
+                                                    
+                            <td class="text-center">{{ statement.statement_date|date:"d/m/Y"}}</td>
+                            <td class="text-center"> 
+                                <a class="update-icon" href="#"><ion-icon name="create-outline"></ion-icon></a>                                    
+                                <a class="delete-icon" data-id="{{ statement.id }}"><ion-icon name="trash-outline"></ion-icon></a>
+                            </td>        
+                        </tr>
+                        {% endfor %}                        
+                    </tbody>
+                </table>
+                <a class="btn btn-success col-md-12" href="{% url 'statements:create' %}">Nova Transação</a>              
+            </div>
+
+            <div class="col-md-1"></div>
+
+            <div class="col-md-5">
+                <h3 class="text-center">Gastos por Categoria</h3>
+                <canvas id="statementCategoryChart"></canvas>
+            </div>
+
+        </div>
+
+
+    </div>
+{% endblock %}
+
+
+{% block 'scripts'%}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+
+    // Statement Chart
+    const ctx = document.getElementById('statementCategoryChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: "",
+        datasets: [{
+          label: 'Saldo',
+          data: [10, 20, 30, 40, 50, 60],
+          backgroundColor: [
+            'rgba(87, 35, 100, 1)',
+            'rgba(153, 221, 255, 1)',
+            'rgba(0, 128, 0, 1)',
+            'rgba(0, 153, 204, 1)',
+            'rgba(25, 25, 25)',
+            'rgba(153, 153, 153, 1)',
+          ],        
+          borderWidth: 1
+        }]
+      },
+      options: {}
+    });
+
+
+    //Sweet Alert
+    var deleteButton = document.querySelectorAll('.delete-icon');
+
+    deleteButton.forEach(function(button) {
+        button.addEventListener('click', function () {
+            Swal.fire({
+                title: 'Você tem certeza?',
+                text: "Você não poderá reverter isso!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, deletar!',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log(button.dataset.id)
+                    window.location.replace('delete/' + button.dataset.id);
+                    Swal.fire(
+                        'Excluído!',
+                        'Sua conta foi deletada',
+                        'success'
+                    )
+                } else {
+                    
+                }
+            })
+        });
+    });
+
+</script>    
 
 {% endblock %}
+

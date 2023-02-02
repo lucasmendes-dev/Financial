@@ -24,8 +24,7 @@ class Statement(models.Model):
     statement_value = models.FloatField(default=0.0)
     statement_date = models.DateTimeField()
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
-    user = models.ForeignKey(get_user_model() , on_delete=models.CASCADE)    
-    fowarded = models.CharField(max_length=100)
+    user = models.ForeignKey(get_user_model() , on_delete=models.CASCADE)        
 
     def __str__(self):
         return self.statement_description
