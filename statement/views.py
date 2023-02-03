@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from .forms import StatementForm
 from .models import Statement, StatementCategory, StatementType
 from account.models import Account
@@ -10,7 +11,14 @@ import json
 def statement_index(request):
     
     statements = Statement.objects.all().filter(user=request.user)
-            
+
+    for statement in statements:
+        
+        if statement.statement_type_id == 1:
+            pass
+        else:
+            pass
+
     return render(request, 'statement.html', {'statements': statements})
 
 

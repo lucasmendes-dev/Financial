@@ -46,10 +46,10 @@
                         {% for statement in statements %}
                         <tr class="table-success">                            
                             <td class="text-center">{{ statement.statement_description }}</td>
-                            {% if statement.statement_value > 0 %}
+                            {% if statement.statement_type_id == 1 %}
                                 <td class="text-center positive">R${{ statement.statement_value }}</td>
                             {% else %}
-                                <td class="text-center negative">R${{ statement.statement_value }}</td>
+                                <td class="text-center negative">-R${{ statement.statement_value }}</td>
                             {% endif %}
                                                     
                             <td class="text-center">{{ statement.statement_date|date:"d/m/Y"}}</td>
