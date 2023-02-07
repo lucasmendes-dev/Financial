@@ -5,30 +5,29 @@ from .models import Statement, StatementCategory, StatementType
 from account.models import Account
 from django.contrib.auth.decorators import login_required
 import json
+from django.db.models import Sum
 
 
 @login_required
 def statement_index(request):
     
     statements = Statement.objects.all().filter(user=request.user)
+    entrance = statements.filter(statement_type=1).aggregate(Sum('statement_value'))['statement_value__sum']
+    exit = statements.filter(statement_type=2).aggregate(Sum('statement_value'))['statement_value__sum']
+    result = entrance - exit
 
-    for statement in statements:
-        
-        if statement.statement_type_id == 1:
-            pass
-        else:
-            pass
 
-    return render(request, 'statement.html', {'statements': statements})
+    return render(request, 'statement.html', {'statements': statements, 'entrance': entrance, 'exit': exit, 'result': result})
 
 
 @login_required
 def statement_create(request):
     
     form = StatementForm
+    account_form = Account.objects.all().filter(user=request.user)
     
     if request.method == "POST":
-        
+
         #foreinKey treatment
         statement_type_id = StatementType.objects.get(id=request.POST['statement_type'])
         statement_category_id = StatementCategory.objects.get(id=request.POST['statement_category'])
@@ -45,10 +44,24 @@ def statement_create(request):
         )
         
         statement.save()
+        
+        #To change the value from Account        
+        account = get_object_or_404(Account, id=request.POST['account'], user=request.user)
+
+        if request.POST["statement_type"] == "1":   #entrance
+            account.account_balance += float(request.POST['statement_value'])
+        elif request.POST["statement_type"] == "2":  #exit
+            account.account_balance -= float(request.POST['statement_value'])
+        else:  #transfer
+            pass
+        
+        account.save()
+                
+        
         return redirect('statements:index')
         
     else:
-        return render(request, 'create_statement.html', {'form': form})   
+        return render(request, 'create_statement.html', {'form': form, 'account_form': account_form})   
 
 
 @login_required
@@ -60,6 +73,11 @@ def statement_update(request):
 def statement_delete(request, id):
     statement = get_object_or_404(Statement, id=id)
     statement.delete()
+    
+    account = get_object_or_404(Account, id=statement.account_id, user=request.user)
+    account.account_balance -= float(statement.statement_value)
+    
+    account.save()
     
     return redirect('statements:index')
 
