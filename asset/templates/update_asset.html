@@ -51,12 +51,7 @@
                 <div class="row">
                     <div class="form-group col-md-12">
                         <label class="bold" for="account_id" >Pertence à Conta:</label>
-                        <select class="form-control" name="account_id" id="account_id" required>  
-                            <option value="">Selecione</option>
-                            {% for account in accounts %}
-                                <option value="{{ account.id }}">{{ account.account_name }}</option>
-                            {% endfor %}
-                        </select>
+                        {{ form.account}}
                     </div>
                 </div>
 

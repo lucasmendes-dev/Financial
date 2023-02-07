@@ -47,9 +47,11 @@
                         {% for statement in statements %}
                         <tr class="table-success">                            
                             <td class="text-center">{{ statement.statement_description }}</td>
-                            {% if statement.statement_type_id == 1 %}
+                            {% if statement.statement_type_id == 1 %} <!-- entrance -->
                                 <td class="text-center positive">R${{ statement.statement_value }}</td>
-                            {% else %}
+                            {% elif statement.statement_type_id == 3 %}  <!-- transfer -->                          
+                                <td class="text-center">R${{ statement.statement_value }}</td>
+                            {% else %}  <!-- exit -->
                                 <td class="text-center negative">-R${{ statement.statement_value }}</td>
                             {% endif %}
                                                     

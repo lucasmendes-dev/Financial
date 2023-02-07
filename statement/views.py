@@ -12,17 +12,10 @@ from django.db.models import Sum
 def statement_index(request):
     
     statements = Statement.objects.all().filter(user=request.user)
-    entrance = statements.filter(statement_type=1).aggregate(Sum('statement_value'))['statement_value__sum'] if statements else ""
-    exit = statements.filter(statement_type=2).aggregate(Sum('statement_value'))['statement_value__sum'] if statements else ""
+    entrance = statements.filter(statement_type=1).aggregate(Sum('statement_value'))['statement_value__sum'] if statements else int(0)
+    exit = statements.filter(statement_type=2).aggregate(Sum('statement_value'))['statement_value__sum'] if statements else int(0)
     
-    if entrance and not exit:
-        result = entrance
-        exit = 0
-    elif exit and not entrance:
-        result = exit
-        entrance = 0
-    else:
-        result = entrance - exit
+    result = entrance - exit
 
     return render(request, 'statement.html', {'statements': statements, 'entrance': entrance, 'exit': exit, 'result': result})
 
@@ -38,10 +31,7 @@ def statement_create(request):
         #foreinKey treatment
         statement_type_id = StatementType.objects.get(id=request.POST['statement_type'])        
         account_id = Account.objects.get(id=request.POST['account'])
-        if request.POST['statement_category'] == "3":
-            statement_category_id = StatementCategory.objects.get(id=4)
-        else:
-            statement_category_id = StatementCategory.objects.get(id=request.POST['statement_category'])
+        statement_category_id = StatementCategory.objects.get(id=request.POST['statement_category']) if request.POST['statement_category'] else ""
         
         statement = Statement(
             statement_type = statement_type_id,
@@ -49,7 +39,8 @@ def statement_create(request):
             statement_value = request.POST['statement_value'],
             statement_date = request.POST['statement_date'],
             statement_category = statement_category_id,
-            account = account_id,          
+            account = account_id,     
+            destiny_account = request.POST['destiny_account'] if request.POST['destiny_account'] else None,     
             user = request.user   
         )
         
@@ -71,8 +62,10 @@ def statement_create(request):
             account.account_balance -= float(request.POST['statement_value'])
             destiny_account.account_balance += float(request.POST['statement_value'])
             
+            destiny_account.save()   
+            
         account.save()
-                
+                     
         
         return redirect('statements:index')
         
@@ -102,13 +95,21 @@ def statement_update(request, id):
 
 @login_required
 def statement_delete(request, id):
+    
     statement = get_object_or_404(Statement, id=id)
-    statement.delete()
-    
     account = get_object_or_404(Account, id=statement.account_id, user=request.user)
-    account.account_balance -= float(statement.statement_value)
+    destiny_account = get_object_or_404(Account, id=statement.destiny_account, user=request.user) if statement.destiny_account else None
     
-    account.save()
+    if statement.statement_type == "3":  #transfer
+        account.account_balance += float(statement.statement_value)
+        destiny_account.account_balance -= float(statement.statement_value)
+        destiny_account.save()
+        
+    else:
+        account.account_balance -= float(statement.statement_value)
+    
+    account.save()    
+    statement.delete()
     
     return redirect('statements:index')
 

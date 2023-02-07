@@ -6,7 +6,7 @@ class AssetForm(forms.ModelForm):
     
     class Meta:
         model = Asset
-        fields = ('asset_type', 'asset_name', 'asset_code', 'asset_qty', 'average_price', 'status')
+        fields = ('asset_type', 'asset_name', 'asset_code', 'asset_qty', 'average_price', 'status', 'account')
         
         widgets = {
             'asset_type': forms.Select(attrs={'class': 'form-control col-md-6'}),     
@@ -14,5 +14,6 @@ class AssetForm(forms.ModelForm):
             'asset_code': forms.TextInput(attrs={'class': 'form-control col-md-6', 'placeholder':"Ex: PETR4"}),    
             'asset_qty': forms.NumberInput(attrs={'class': 'form-control col-md-4'}),    
             'average_price': forms.NumberInput(attrs={'class': 'form-control col-md-4'}),    
-            'status': forms.TextInput(attrs={'class': 'form-control col-md-4'}),                                    
+            'status': forms.TextInput(attrs={'class': 'form-control col-md-4'}),  
+            'account': forms.Select(attrs={'class': 'form-control col-md-6'}),                                      
         }
