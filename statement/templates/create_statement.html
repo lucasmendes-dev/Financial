@@ -37,18 +37,27 @@
                 </div> 
                 
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6" id="statement_category">
                         <label class="bold" for="statement_category">Categoria:</label>
                         {{ form.statement_category }}
                     </div>
                     <div class="form-group col-md-6">
                         <label class="bold" for="account">Conta:</label>
-                        <select class="form-control" name="account" id="account" required>  
+                        <select class="form-control" name="account" id="account">  
                             <option value="">Selecione</option>
                                 {% for account in account_form %}
                                     <option value="{{ account.id }}">{{ account.account_name }}</option>
                                 {% endfor %}
-                            </select>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6" id="destiny_account">
+                        <label class="bold" for="destiny_account">Conta Destino:</label>
+                        <select class="form-control" name="destiny_account">  
+                            <option value="">Selecione</option>
+                                {% for account in account_form %}
+                                    <option value="{{ account.id }}">{{ account.account_name }}</option>
+                                {% endfor %}
+                        </select>
                     </div>
                 </div> 
 
@@ -59,6 +68,34 @@
         </div>
     </div>  
 </div>
+
+
+{% endblock %}
+
+
+{% block 'scripts' %}
+
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+
+        $('#destiny_account').hide();
+
+        $("#statement_type").change(function(){
+
+          if($("#statement_type").val() == 3) {  //3 = transfer (StatementType.id)
+            $('#statement_category').hide();
+            $('#destiny_account').show();
+
+          } else {
+            $('#destiny_account').hide();
+            $('#statement_category').show();
+          }
+
+        });
+      });
+
+</script>
 
 
 {% endblock %}

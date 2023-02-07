@@ -43,6 +43,7 @@
                         <th scope="col" class="column-name">-</th>
                     </thead>
                     <tbody>
+                        {% if statements %}
                         {% for statement in statements %}
                         <tr class="table-success">                            
                             <td class="text-center">{{ statement.statement_description }}</td>
@@ -54,11 +55,12 @@
                                                     
                             <td class="text-center">{{ statement.statement_date|date:"d/m/Y"}}</td>
                             <td class="text-center"> 
-                                <a class="update-icon" href="#"><ion-icon name="create-outline"></ion-icon></a>                                    
+                                <a class="update-icon" href="{% url 'statements:update' statement.id %}"><ion-icon name="create-outline"></ion-icon></a>                                    
                                 <a class="delete-icon" data-id="{{ statement.id }}"><ion-icon name="trash-outline"></ion-icon></a>
                             </td>        
                         </tr>
-                        {% endfor %}                        
+                        {% endfor %} 
+                        {% endif %}                            
                     </tbody>
                 </table>
                 <a class="btn btn-success col-md-12" href="{% url 'statements:create' %}">Nova Transação</a>              

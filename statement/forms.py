@@ -13,8 +13,8 @@ class StatementForm(forms.ModelForm):
         widgets = {
             'statement_description': forms.TextInput(attrs={'class': 'form-control col-md-6'}),     
             'statement_value': forms.NumberInput(attrs={'class': 'form-control col-md-12'}),             
-            'statement_date': forms.TextInput(attrs={'class': 'form-control col-md-6'}),    
+            'statement_date': forms.DateInput(attrs={'class': 'form-control col-md-6'}),    
             'account': forms.Select(attrs={'class': 'form-control col-md-4'}),    
             'statement_category': forms.Select(attrs={'class': 'form-control col-md-4'}),    
-            'statement_type': forms.Select(attrs={'class': 'form-control col-md-4'}),                                    
+            'statement_type': forms.Select(attrs={'class': 'form-control col-md-4', 'id': 'statement_type'}),                                    
         }        
