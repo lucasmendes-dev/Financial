@@ -17,13 +17,14 @@ def statement_index(request):
     
     result = entrance - exit 
         
-    spending_by_category = statements.exclude(statement_category=10).values('statement_category').annotate(total_value=Sum('statement_value'))                    
+    spending_by_category = statements.exclude(statement_category=3).values('statement_category').annotate(total_value=Sum('statement_value'))                    
     
     for spending in spending_by_category:
         category_name = StatementCategory.objects.filter(id=spending["statement_category"]).values('statement_category')
         spending["statement_category"] = category_name[0]["statement_category"]
-     
-    return render(request, 'statement.html', {'statements': statements, 'entrance': entrance, 'exit': exit, 'result': result, 'spending_by_category': spending_by_category})
+    
+    
+    return render(request, 'statement.html', {'statements': statements, 'entrance': entrance, 'exit': exit, 'result': result, 'spending_by_category': json.dumps(list(spending_by_category))})
 
 
 @login_required
