@@ -86,11 +86,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript">
 
-    const spending_by_category = JSON.parse('{{ spending_by_category_json | safe }}');
-
+    const spending_by_category = JSON.parse('{{ spending_by_category|safe }}');
+    console.log(spending_by_category)
     // Obter os dados da tabela
-    const labels = spending_by_category.map(spending => spending.statement_category);
-    const data = spending_by_category.map(spending => spending.total_value);
+    const labels = spending_by_category.map(spending => spending["statement_category"]);
+    const data = spending_by_category.map(spending => spending["total_value"]);
+
 
     // Statement Chart
     const ctx = document.getElementById('statementCategoryChart').getContext('2d');
