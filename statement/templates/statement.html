@@ -86,28 +86,35 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript">
 
+    const spending_by_category = JSON.parse('{{ spending_by_category_json | safe }}');
+
+    // Obter os dados da tabela
+    const labels = spending_by_category.map(spending => spending.statement_category);
+    const data = spending_by_category.map(spending => spending.total_value);
+
     // Statement Chart
     const ctx = document.getElementById('statementCategoryChart').getContext('2d');
     const chart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: "",
+    type: 'doughnut',
+    data: {
+        labels: labels,
         datasets: [{
-          label: 'Saldo',
-          data: [10, 20, 30, 40, 50, 60],
-          backgroundColor: [
+        label: '',
+        data: data,
+        backgroundColor: [
             'rgba(87, 35, 100, 1)',
             'rgba(153, 221, 255, 1)',
             'rgba(0, 128, 0, 1)',
             'rgba(0, 153, 204, 1)',
             'rgba(25, 25, 25)',
             'rgba(153, 153, 153, 1)',
-          ],        
-          borderWidth: 1
+        ],        
+        borderWidth: 1
         }]
-      },
-      options: {}
+    },
+    options: {}
     });
+
 
 
     //Sweet Alert

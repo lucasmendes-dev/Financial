@@ -23,7 +23,7 @@ def account_index(request):
         accounts_data.append({'name': account.account_name, 'balance': account.account_balance})
         
     accounts_data_json = json.dumps(accounts_data)
-
+    
     return render(request, 'account.html', {'accounts': accounts, 'total_balance': total_balance, 'accounts_data_json': accounts_data_json})
 
 
