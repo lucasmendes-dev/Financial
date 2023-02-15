@@ -15,9 +15,9 @@ def statement_index(request):
     entrance = statements.filter(statement_type=1).aggregate(Sum('statement_value'))['statement_value__sum'] or 0
     exit = statements.filter(statement_type=2).aggregate(Sum('statement_value'))['statement_value__sum'] or 0              
     
-    result = entrance - exit 
+    result = f'{entrance - exit :.2f}'
         
-    spending_by_category = statements.exclude(statement_category=3).values('statement_category').annotate(total_value=Sum('statement_value'))                    
+    spending_by_category = statements.exclude(statement_category=10).values('statement_category').annotate(total_value=Sum('statement_value'))                    
     
     for spending in spending_by_category:
         category_name = StatementCategory.objects.filter(id=spending["statement_category"]).values('statement_category')
