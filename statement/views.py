@@ -11,19 +11,19 @@ from django.db.models import Sum
 @login_required
 def statement_index(request):
     
-    statements = Statement.objects.all().filter(user=request.user)
-    entrance = float(f"{statements.filter(statement_type=1).aggregate(Sum('statement_value'))['statement_value__sum']:.2f}") or 0
-    exit = float(f"{statements.filter(statement_type=2).aggregate(Sum('statement_value'))['statement_value__sum']:.2f}") or 0              
-     
+    statements = Statement.objects.all().filter(user=request.user)      
+    entrance = statements.filter(statement_type=1).aggregate(Sum('statement_value'))['statement_value__sum'] or 0
+    exit = statements.filter(statement_type=2).aggregate(Sum('statement_value'))['statement_value__sum'] or 0              
+    
     result = f'{entrance - exit :.2f}'
-        
-    spending_by_category = statements.exclude(statement_category=10).values('statement_category').annotate(total_value=Sum('statement_value'))                    
+    
+    spending_by_category = statements.exclude(statement_category=10).values('statement_category').annotate(total_value=Sum('statement_value'))           
     
     for spending in spending_by_category:
         category_name = StatementCategory.objects.filter(id=spending["statement_category"]).values('statement_category')
         spending["statement_category"] = category_name[0]["statement_category"]
     
-    
+ 
     return render(request, 'statement.html', {'statements': statements, 'entrance': entrance, 'exit': exit, 'result': result, 'spending_by_category': json.dumps(list(spending_by_category))})
 
 
