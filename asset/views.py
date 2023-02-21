@@ -40,7 +40,7 @@ def asset_index(request):
         
         reit_api_url =  f'https://brapi.dev/api/quote/{reit_tickers}?range=1d&interval=1d&fundamental=false'
         reit_data = requests.get(reit_api_url).json() 
-          
+        
         reit_current_price = getCurrentPrice(reit_data)
         reit_daily_percent_variation = getDailyPercentVariation(reit_data)
         reit_daily_value_variation = getDailyValueVariation(reit_data, stocks)
@@ -57,7 +57,7 @@ def asset_index(request):
         'stocks_list': stocks_list,   
         'reit_list': reit_list      
     }                              
-            
+         
     return render(request, 'asset.html', context)
         
 
