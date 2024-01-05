@@ -15,53 +15,37 @@ class AssetController extends Controller
     public function index()
     {
         $this->service = new APIService(Auth::user());
-        $values = $this->service->fetchData();
-        return view('assets.index', ['values' => $values]);
+        $api = $this->service->fetchData();
+        $assets = Asset::all();
+        
+        return view('assets.index', ['api' => $api, 'assets' => $assets]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Asset $asset)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Asset $asset)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Asset $asset)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Asset $asset)
     {
         //
