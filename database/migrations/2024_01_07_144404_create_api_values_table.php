@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('code');
             $table->double('last_saved_price');
+            $table->double('last_percent_variation');
+            $table->double('last_money_variation');
             $table->timestamps();
         });
     }

@@ -20,7 +20,7 @@ class AssetController extends Controller
     }
     public function index()
     {
-        $this->service = new APIService();
+        $this->service = new APIService(Auth::user());
         $processedData = $this->service->processedData();
         
         return view('assets.index', ['processedData' => $processedData, 'assets' => $this->assets]);
@@ -58,7 +58,7 @@ class AssetController extends Controller
 
     public function reloadData()
     {
-        $this->service = new ApiService();
+        $this->service = new ApiService(Auth::user());
         $this->service->saveValuesOnDB(Auth::user());
         $processedData = $this->service->processedData();
 

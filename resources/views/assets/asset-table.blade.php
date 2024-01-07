@@ -6,7 +6,7 @@
                 <th scope="col" class="px-6 py-3">
                     Ativo
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-3 py-3">
                     Qtde.
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -27,7 +27,7 @@
                 <th scope="col" class="px-6 py-3">
                     Variação Total $
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-8 py-3">
                     Saldo
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -41,31 +41,53 @@
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $asset->code }}
                     </th>
-                    <td class="px-6 py-4">
+                    <td class="px-3 py-4">
                         {{ $asset->quantity }}
                     </td>
                     <td class="px-6 py-4">
                         R$ {{ $asset->average_price }}
                     </td>
                     <td class="px-6 py-4">
-                        
+                        R$ {{ $processedData[$key]['current_price'] }}
                     </td>
-                    <td class="px-6 py-4 text-green-500">
-                        0
+
+                    @if ($processedData[$key]['daily_variation'] > 0)
+                        <td class="px-6 py-4 text-green-500">
+                    @else
+                        <td class="px-6 py-4 text-red-500">
+                    @endif
+                        {{ $processedData[$key]['daily_variation'] }} %
                     </td>
-                    <td class="px-6 py-4 text-green-500">
-                        0
+
+                    @if ($processedData[$key]['daily_money_variation'] > 0)
+                        <td class="px-6 py-4 text-green-500">
+                    @else
+                        <td class="px-6 py-4 text-red-500">
+                    @endif
+                        R$ {{ $processedData[$key]['daily_money_variation'] }}
                     </td>
-                    <td class="px-6 py-4 text-green-500">
-                        0
+
+                    @if ($processedData[$key]['total_percent_variation'] > 0)
+                        <td class="px-6 py-4 text-green-500">
+                    @else
+                        <td class="px-6 py-4 text-red-500">
+                    @endif
+                        {{ $processedData[$key]['total_percent_variation'] }} %
                     </td>
-                    <td class="px-6 py-4 text-green-500">
-                        0
+
+                    @if ($processedData[$key]['total_money_variation'] > 0)
+                        <td class="px-6 py-4 text-green-500">
+                    @else
+                        <td class="px-6 py-4 text-red-500">
+                    @endif
+                        R$ {{ $processedData[$key]['total_money_variation'] }}
                     </td>
+
+                    <td class="px-2 py-4">
+                        R$ {{ $processedData[$key]['patrimony'] }}
+                    </td>
+                    
                     <td class="px-4 py-4">
-                        0
-                    </td>
-                    <td class="px-6 py-4">
                         <a href="#"class="font-medium text-blue-600 dark:text-purple-500">See</a>
                         <a href="#" class="font-medium text-blue-600 dark:text-blue-500">Edit</a>
                     </td>

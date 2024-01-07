@@ -39,8 +39,7 @@ class GenerateApiService
 
     private function fetchApiData($asset)
     {
-        $endpoint = ($asset->type === 'reit') ? 'fiis' : 'acoes';
-        return Http::get("$this->apiLink/$endpoint/{$asset->code}");
+        return Http::get("$this->apiLink/{$asset->code}.SA");
     }
 
     private function processApiResponse($asset, $response): array
@@ -49,15 +48,17 @@ class GenerateApiService
         $document = new DOMDocument();
         $document->loadHTML($response);
         $xPath = new DOMXPath($document);
-        $values = $xPath->query(env('PRICE_XPATH'));
 
-        foreach ($values as $value) {
-            $formattedString = preg_replace('/[^0-9,]/', '', $value->textContent);
-            $parseToFloat = floatval(str_replace(',', '.', $formattedString));
+        $prices = $xPath->query(env('PRICE_XPATH'));
+        $percentVariation = $xPath->query(env('PERCENT_XPATH'));
+        $moneyVariation = $xPath->query(env('MONEY_XPATH'));
 
+        foreach ($prices as $index => $price) {
             $assetValues[] = [
-                'code' => $asset->code,
-                'price' => $parseToFloat,
+                'asset_code' => $asset->code,
+                'current_price' => $price->textContent,
+                'daily_percent_variation' => preg_match('/\((.*?)%\)/', $percentVariation[$index]->textContent, $matches) ? $matches[1] : '',
+                'daily_money_variation' => $moneyVariation[$index]->textContent,
             ];
         }
 

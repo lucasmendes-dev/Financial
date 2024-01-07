@@ -4,11 +4,14 @@
             {{ __('Assets') }}
         </h2>
     </x-slot>
-    <a href="{{ route('assets.reloadData') }}">
-        <button class="bg-purple-700 hover:bg-purple-500 text-white font-bold py-2 px-10 rounded">Recarregar dados</button>
-    </a>
+
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">            
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">           
+            <a href="{{ route('assets.reloadData') }}">
+                <button class="bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-10 rounded">O</button>
+            </a>
+
+            <br> <br> 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <form action="#" method="POST">
@@ -19,7 +22,7 @@
             </div>
             <br>
                 <a href="{{ route('assets.create') }}">
-                    <button class="bg-purple-700 hover:bg-purple-500 text-white font-bold py-2 px-10 rounded">New Asset</button>
+                    <button class="bg-purple-700 hover:bg-purple-500 text-white font-bold py-2 px-10 rounded">Cadastrar Ativo</button>
                 </a>
         </div>
     </div>
