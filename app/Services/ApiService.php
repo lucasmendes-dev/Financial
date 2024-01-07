@@ -2,64 +2,99 @@
 
 namespace App\Services;
 
-libxml_use_internal_errors(true);
-
-use App\Models\Asset;
+use App\Models\ApiValues;
 use App\Models\User;
-use DOMDocument;
-use DOMXPath;
-use Illuminate\Support\Facades\Http;
+
 
 class ApiService
 {
-    private $apiLink;
+    private $allData;
     private $assets;
-
-    public function __construct(User $user)
+    private $apiValues;
+    
+    public function __construct()
     {
-        $this->assets = Asset::where('user_id', $user->id)->get();
-        $this->apiLink = env('API_MAIN_LINK');
+        $this->apiValues = ApiValues::all();
     }
 
-    public function fetchData(): array
+    public function processedData()
     {
-        $assetValues = [];
-
-        foreach ($this->assets as $asset) {
-            $response = $this->fetchApiData($asset);
-
-            if ($response->successful()) {
-                $assetValues = array_merge($assetValues, $this->processApiResponse($asset, $response));
-            }
-        }
-
-        return $assetValues;
+        //return $this->buildArrayWithAllValues();
     }
 
-    private function fetchApiData($asset)
+    public function saveValuesOnDB(User $user)
     {
-        $endpoint = ($asset->type === 'reit') ? 'fiis' : 'acoes';
-        return Http::get("$this->apiLink/$endpoint/{$asset->code}");
-    }
-
-    private function processApiResponse($asset, $response): array
-    {
-        $assetValues = [];
-        $document = new DOMDocument();
-        $document->loadHTML($response);
-        $xPath = new DOMXPath($document);
-        $values = $xPath->query(env('PRICE_XPATH'));
+        $generator = new GenerateApiService($user);
+        $values = $generator->fetchData();
 
         foreach ($values as $value) {
-            $formattedString = preg_replace('/[^0-9,]/', '', $value->textContent);
-            $parseToFloat = floatval(str_replace(',', '.', $formattedString));
-
-            $assetValues[] = [
-                'code' => $asset->code,
-                'price' => $parseToFloat,
-            ];
+            ApiValues::updateOrInsert(
+                ['code' => $value['code']],
+                ['last_saved_price' => $value['price']]
+            );
         }
+    }
 
-        return $assetValues;
+
+    private function buildArrayWithAllValues(): array
+    {
+        $processedData = [];
+
+        $currentPrice = $this->getCurrentPrice();
+        $dailyVariation = $this->getDailyVariation();
+        $dailyMoneyVariation = $this->getDailyMoneyVariation();
+        $totalPercentVariation = $this->getTotalPercentVariation();
+        $totalMoneyVariation = $this->getTotalMoneyVariation();
+        $patrimony = $this->getPatrimony();
+        $totalValues = $this->getTotalValues($totalMoneyVariation, $patrimony);
+
+        $processedData = array_map(function ($current, $dailyVar, $dailyMoneyVar, $totalPercentVar, $totalMoneyVar, $patrimony, $total) {
+            return [
+                'current_price' => $current,
+                'daily_variation' => $dailyVar,
+                'daily_money_variation' => $dailyMoneyVar,
+                'total_percent_variation' => $totalPercentVar,
+                'total_money_variation' => $totalMoneyVar,
+                'patrimony' => $patrimony,
+                'total_values' => $total,
+            ];
+        }, $currentPrice, $dailyVariation, $dailyMoneyVariation, $totalPercentVariation, $totalMoneyVariation, $patrimony, $totalValues);
+
+        return $processedData;
+    }
+
+    private function getCurrentPrice(): array
+    {
+        return $this->apiValues->pluck('last_saved_price')->all();
+    }
+
+    private function getDailyVariation()
+    {
+        
+    }
+
+    private function getDailyMoneyVariation()
+    {
+        
+    }
+
+    private function getTotalPercentVariation()
+    {
+        
+    }
+    
+    private function getTotalMoneyVariation()
+    {
+        
+    }
+
+    private function getPatrimony()
+    {
+        
+    }
+
+    private function getTotalValues($totalMoneyVariation, $patrimony)
+    {
+        
     }
 }

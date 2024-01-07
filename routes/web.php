@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiValuesController;
 use App\Http\Controllers\Assets\AssetController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 //Asset routes
-
 Route::delete('/assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
 Route::get('/assets/edit/{id}', [AssetController::class, 'edit'])->name('assets.edit');
 Route::put('/assets/{id}', [AssetController::class, 'update'])->name('assets.update');
@@ -30,3 +30,5 @@ Route::post('/assets/store', [AssetController::class, 'store'])->name('assets.st
 Route::get('/assets/create', [AssetController::class, 'create'])->name('assets.create');
 Route::get('/assets/show/{id}', [AssetController::class, 'show'])->name('assets.show');
 Route::get('/assets', [AssetController::class, 'index'])->name('assets.index');
+
+Route::get('/assets/reloaded', [AssetController::class, 'reloadData'])->name('assets.reloadData');

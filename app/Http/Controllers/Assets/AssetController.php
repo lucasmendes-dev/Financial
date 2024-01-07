@@ -11,14 +11,19 @@ use Illuminate\Support\Facades\Auth;
 class AssetController extends Controller
 {
     protected $service;
+    protected $assets;
+    protected $user;
 
+    public function __construct()
+    {
+        $this->assets = Asset::all();
+    }
     public function index()
     {
-        $this->service = new APIService(Auth::user());
-        $api = $this->service->fetchData();
-        $assets = Asset::all();
+        $this->service = new APIService();
+        $processedData = $this->service->processedData();
         
-        return view('assets.index', ['api' => $api, 'assets' => $assets]);
+        return view('assets.index', ['processedData' => $processedData, 'assets' => $this->assets]);
     }
 
     public function create()
@@ -49,5 +54,14 @@ class AssetController extends Controller
     public function destroy(Asset $asset)
     {
         //
+    }
+
+    public function reloadData()
+    {
+        $this->service = new ApiService();
+        $this->service->saveValuesOnDB(Auth::user());
+        $processedData = $this->service->processedData();
+
+        return view('assets.index', ['processedData' => $processedData, 'assets' => $this->assets]);
     }
 }

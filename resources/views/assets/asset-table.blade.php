@@ -4,34 +4,34 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">
-                    Asset
+                    Ativo
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Qty.
+                    Qtde.
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Average Price
+                    Preço Médio
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Current Price
+                    Preço Atual
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Daily Variation %
+                    Variação diária %
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Daily Variation $
+                    Variação diária $
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Total variation %
+                    Variação Total %
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Total variation $
+                    Variação Total $
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Total Amount
+                    Saldo
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Actions
+                    Ações
                 </th>
             </tr>
         </thead>
@@ -42,13 +42,13 @@
                         {{ $asset->code }}
                     </th>
                     <td class="px-6 py-4">
+                        {{ $asset->quantity }}
+                    </td>
+                    <td class="px-6 py-4">
+                        R$ {{ $asset->average_price }}
+                    </td>
+                    <td class="px-6 py-4">
                         
-                    </td>
-                    <td class="px-6 py-4">
-                        0
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ $api[$key]['price'] }}
                     </td>
                     <td class="px-6 py-4 text-green-500">
                         0
