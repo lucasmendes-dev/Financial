@@ -9,18 +9,20 @@ use App\Models\User;
 
 class ApiService
 {
-    private $allData;
     private $assets;
     private $apiValues;
     
     public function __construct(User $user)
     {
-        $this->apiValues = ApiValues::all();
+        $this->apiValues = ApiValues::where('user_id', $user->id)->get();
         $this->assets = Asset::where('user_id', $user->id)->get();
     }
 
     public function processedData()
     {
+        if ($this->assets->count() == 0) {
+            return null;
+        }
         return $this->buildArrayWithAllValues();
     }
 
@@ -31,11 +33,12 @@ class ApiService
 
         foreach ($values as $value) {
             ApiValues::updateOrInsert(
-                ['code' => $value['asset_code']],
+                ['code' => $value['asset_code'], 'user_id' => $user->id],
                 [
                     'last_saved_price' => $value['current_price'],
                     'last_percent_variation' => $value['daily_percent_variation'],
                     'last_money_variation' => $value['daily_money_variation'],
+                    'user_id' => $user->id
                 ]
             );
         }

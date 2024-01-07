@@ -17,7 +17,13 @@ return new class extends Migration
             $table->double('last_saved_price');
             $table->double('last_percent_variation');
             $table->double('last_money_variation');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Assets') }}
+            {{ __('Ativos') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">           
             <a href="{{ route('assets.reloadData') }}">
-                <button class="bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-10 rounded">O</button>
+                <button class="fixed bottom-4 right-4 bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-10 rounded">O</button>
             </a>
 
             <br> <br> 
