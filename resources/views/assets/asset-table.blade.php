@@ -83,7 +83,7 @@
                         R$ {{ $processedData[$key]['total_money_variation'] }}
                     </td>
 
-                    <td class="px-2 py-4">
+                    <td class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         R$ {{ $processedData[$key]['patrimony'] }}
                     </td>
                     
@@ -93,6 +93,41 @@
                     </td>
                 </tr>
             @endforeach
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Total 
+                </th>
+                <td class="px-3 py-4">-</td>
+                <td class="px-6 py-4">-</td>
+                <td class="px-6 py-4">-</td>
+                <td class="px-6 py-4">-</td>
+
+                @if ($processedData[0]['total_values'] > 0)
+                    <td class="px-6 py-4 text-green-500">
+                @else
+                    <td class="px-6 py-4 text-red-500">
+                @endif
+                    R$ {{ $processedData[0]['total_values'] }}
+                </td>
+
+                <td class="px-6 py-4">-</td>
+
+                @if ($processedData[1]['total_values'] > 0)
+                    <td class="px-6 py-4 text-green-500">
+                @else
+                    <td class="px-6 py-4 text-red-500">
+                @endif
+                    R$ {{ $processedData[1]['total_values'] }}
+                </td>
+
+                @if ($processedData[2]['total_values'] > 0)
+                    <td class="px-2 py-4 text-green-500">
+                @else
+                    <td class="px-2 py-4 text-red-500">
+                @endif
+                    R$ {{ $processedData[2]['total_values'] }}
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>

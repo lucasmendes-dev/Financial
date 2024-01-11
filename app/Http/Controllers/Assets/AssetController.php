@@ -30,7 +30,7 @@ class AssetController extends Controller
         if (empty($processedData)) {
             return view('assets.empty-assets');
         }
-        
+
         return view('assets.index', ['processedData' => $processedData, 'assets' => $this->assets]);
     }
 
@@ -49,9 +49,8 @@ class AssetController extends Controller
 
         $this->service = new ApiService(Auth::user());
         $this->service->saveValuesOnDB(Auth::user());
-        $processedData = $this->service->processedData();
 
-        return view('assets.index', ['processedData' => $processedData, 'assets' => $this->assets]);
+        return redirect(route('assets.index'));
     }
 
     public function show(Asset $asset)
@@ -79,7 +78,7 @@ class AssetController extends Controller
         $this->service = new ApiService(Auth::user());
         $this->service->saveValuesOnDB(Auth::user());
         $processedData = $this->service->processedData();
-
-        return view('assets.reloaded-assets');
+        return redirect(route('assets.index'));
+        //return view('assets.reloaded-assets');
     }
 }

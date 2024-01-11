@@ -55,17 +55,17 @@ class ApiService
         $totalPercentVariation = $this->getTotalPercentVariation();
         $totalMoneyVariation = $this->getTotalMoneyVariation();
         $patrimony = $this->getPatrimony();
-        $totalValues = $this->getTotalValues($totalMoneyVariation, $patrimony);
+        $totalValues = $this->getTotalValues($dailyMoneyVariation, $totalMoneyVariation, $patrimony);
 
         $processedData = array_map(function ($current, $dailyVar, $dailyMoneyVar, $totalPercentVar, $totalMoneyVar, $patrimony, $total) {
             return [
                 'current_price' => $current,
                 'daily_variation' => $dailyVar,
                 'daily_money_variation' => $dailyMoneyVar,
-                'total_percent_variation' => $totalPercentVar,
-                'total_money_variation' => $totalMoneyVar,
+                'total_percent_variation' => $this->formatNumber($totalPercentVar),
+                'total_money_variation' => $this->formatNumber($totalMoneyVar),
                 'patrimony' => $patrimony,
-                'total_values' => $total,
+                'total_values' => $this->formatNumber($total),
             ];
         }, $currentPrice, $dailyVariation, $dailyMoneyVariation, $totalPercentVariation, $totalMoneyVariation, $patrimony, $totalValues);
 
@@ -89,7 +89,7 @@ class ApiService
 
         $dailyMoneyVariation = [];
         foreach ($lastMoneyVariation as $key => $variation) {
-            $dailyMoneyVariation[] = $this->formatNumber($variation * $quantity[$key]);
+            $dailyMoneyVariation[] = $variation * $quantity[$key];
         }
 
         return $dailyMoneyVariation;
@@ -101,7 +101,7 @@ class ApiService
         $currentPrice = $this->apiValues->pluck('last_saved_price')->all();
 
         $result = array_map(function ($a, $b) {
-            return $this->formatNumber((($b - $a) / $a) * 100);
+            return (($b - $a) / $a) * 100;
         }, $averagePrice, $currentPrice);
 
         return $result;
@@ -114,7 +114,7 @@ class ApiService
         $initialValue = $this->assets->pluck('average_price')->all();
 
         $result = array_map(function ($current, $qty, $initial) {
-            return $this->formatNumber(($current - $initial) * $qty);
+            return ($current - $initial) * $qty;
         }, $currentPrice, $assetQuantity, $initialValue);
 
         return $result;
@@ -126,18 +126,27 @@ class ApiService
         $assetQuantity = $this->assets->pluck('quantity')->all();
 
         $result = array_map(function ($a, $b) {
-            return $this->formatNumber($a * $b);
+            return $a * $b;
         }, $currentPrice, $assetQuantity);
 
         return $result;
     }
 
-    private function getTotalValues($totalMoneyVariation, $patrimony): array
+    private function getTotalValues($dailyMoneyVariation, $totalMoneyVariation, $patrimony): array
     {
-        $totalMoney = $this->formatNumber(array_sum($totalMoneyVariation));
-        $patrim = $this->formatNumber(array_sum($patrimony));
+        $convertToFloat = function ($value) {
+            return floatval(str_replace(',', '.', $value));
+        };
 
-        return [$totalMoney, $patrim];
+        $dailyMoneyVariation = array_map($convertToFloat, $dailyMoneyVariation);
+        $totalMoneyVariation = array_map($convertToFloat, $totalMoneyVariation);
+        $patrimony = array_map($convertToFloat, $patrimony);
+
+        $dailyMoney = array_sum($dailyMoneyVariation);
+        $totalMoney = array_sum($totalMoneyVariation);
+        $patrim = array_sum($patrimony);
+
+        return [$dailyMoney, $totalMoney,$patrim];
     }
 
     private function formatNumber($number): string
