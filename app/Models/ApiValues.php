@@ -11,6 +11,9 @@ class ApiValues extends Model
 
     private $protected = [
         'code',
-        'last_saved_price'
+        'last_saved_price',
+        'last_percent_variation',
+        'last_money_variation',
+        'user_id'
     ];
 }

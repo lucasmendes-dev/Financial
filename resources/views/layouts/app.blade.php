@@ -32,5 +32,16 @@
                 {{ $slot }}
             </main>
         </div>
+
+        {{-- coloque o código neste footer --}}
+        {{-- <footer class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 mt-5">
+            <div class="flex items-center justify-center text-gray-400">
+                Asset Map &copy; 2023
+            </div>
+        </footer> --}}
+        
+
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     </body>
 </html>
