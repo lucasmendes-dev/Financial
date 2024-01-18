@@ -14,7 +14,7 @@
                     <div class="w-full grid grid-cols-3 gap-4">
                         <!-- Caixa 1 (à esquerda) -->
                         <div class="bg-gray-700 rounded-lg p-4">
-                            <h2 class="text-lg font-medium text-gray-900 dark:text-white">Variação de Hoje</h2>
+                            <h2 class="text-lg font-medium text-gray-900 dark:text-white">Variação Diária Total</h2>
                             @if ($processedData[0]['total_values'] > 0)
                                 <p class="text-xl font-semibold text-green-500">
                             @else

@@ -17,7 +17,7 @@ class AssetController extends Controller
     protected $assets;
     protected $user;
 
-    public function __construct(User $user)
+    public function __construct()
     {
     }
     public function index()
@@ -25,8 +25,8 @@ class AssetController extends Controller
         $user = Auth::user();
         $this->assets = Asset::where('user_id', $user->id)->get();
 
-        $stocks = Asset::where('user_id', Auth::user()->id)->where('type', 'stocks')->get(); 
-        $reit = Asset::where('user_id', Auth::user()->id)->where('type', 'reit')->get();
+        $stocks = Asset::where('user_id', $user->id)->where('type', 'stocks')->get(); 
+        $reit = Asset::where('user_id', $user->id)->where('type', 'reit')->get();
 
         $this->service = new APIService($user);
         $processedData = $this->service->processedData();

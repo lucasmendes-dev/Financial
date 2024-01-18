@@ -33,7 +33,7 @@ class ApiService
 
         foreach ($values as $value) {
             ApiValues::updateOrInsert(
-                ['code' => $value['asset_code'], 'user_id' => $user->id],
+                ['code' => $value['code'], 'user_id' => $user->id],
                 [
                     'last_saved_price' => $value['last_saved_price'],
                     'last_percent_variation' => $value['last_percent_variation'],
@@ -64,7 +64,7 @@ class ApiService
                 'daily_money_variation' => $this->formatNumber($dailyMoneyVar),
                 'total_percent_variation' => $this->formatNumber($totalPercentVar, false),
                 'total_money_variation' => $this->formatNumber($totalMoneyVar),
-                'patrimony' => $patrimony,
+                'patrimony' => $this->formatNumber($patrimony),
                 'total_values' => $this->formatNumber($total),
             ];
         }, $currentPrice, $dailyVariation, $dailyMoneyVariation, $totalPercentVariation, $totalMoneyVariation, $patrimony, $totalValues);
