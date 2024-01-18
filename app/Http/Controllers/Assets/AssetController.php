@@ -45,21 +45,27 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
-        $assetCodes = Asset::where('user_id', Auth::user()->id)->pluck('code')->all();;
+        $user = Auth::user();
+        $assetCodes = Asset::where('user_id', $user->id)->pluck('code')->all();;
         $data = $request->all();
 
         if(in_array($data['code'], $assetCodes)) {
-            return redirect(route('assets.index'));  //precisa ainda configurar a mensagem de retorno
+            return redirect(route('assets.index'))->with('error', 'Você já tem este ativo cadastrado!');  //precisa ainda configurar a mensagem de retorno
         }
 
         $data['name'] = 'teste';
-        $data['user_id'] = Auth::user()->id;
+        $data['user_id'] = $user->id;
         $data['status'] = 1;
         $data['average_price'] = preg_replace('/,(\d+)/', '.$1', $data['average_price']);
-        Asset::create($data);
+        
 
-        $this->service = new ApiService(Auth::user());
-        $this->service->saveValuesOnDB(Auth::user());
+        $generator = new GenerateApiService($user);
+        $response = $generator->fetchOneAssetData($data['code']);
+        $values = $generator->processApiResponse($request, $response);
+        $values[0]['user_id'] = $user->id;
+
+        ApiValues::create($values[0]);
+        Asset::create($data);
 
         return redirect(route('assets.index'));
     }

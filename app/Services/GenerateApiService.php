@@ -42,7 +42,12 @@ class GenerateApiService
         return Http::get("$this->apiLink/{$asset->code}.SA");
     }
 
-    private function processApiResponse($asset, $response): array
+    public function fetchOneAssetData($assetCode)
+    {
+        return Http::get("$this->apiLink/{$assetCode}.SA");
+    }
+
+    public function processApiResponse($asset, $response): array
     {
         $assetValues = [];
         $document = new DOMDocument();
@@ -55,10 +60,10 @@ class GenerateApiService
 
         foreach ($prices as $index => $price) {
             $assetValues[] = [
-                'asset_code' => $asset->code,
-                'current_price' => $price->textContent,
-                'daily_percent_variation' => preg_match('/\((.*?)%\)/', $percentVariation[$index]->textContent, $matches) ? $matches[1] : '',
-                'daily_money_variation' => $moneyVariation[$index]->textContent,
+                'code' => $asset->code,
+                'last_saved_price' => $price->textContent,
+                'last_percent_variation' => preg_match('/\((.*?)%\)/', $percentVariation[$index]->textContent, $matches) ? $matches[1] : '',
+                'last_money_variation' => $moneyVariation[$index]->textContent,
             ];
         }
 

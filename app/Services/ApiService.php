@@ -35,9 +35,9 @@ class ApiService
             ApiValues::updateOrInsert(
                 ['code' => $value['asset_code'], 'user_id' => $user->id],
                 [
-                    'last_saved_price' => $value['current_price'],
-                    'last_percent_variation' => $value['daily_percent_variation'],
-                    'last_money_variation' => $value['daily_money_variation'],
+                    'last_saved_price' => $value['last_saved_price'],
+                    'last_percent_variation' => $value['last_percent_variation'],
+                    'last_money_variation' => $value['last_money_variation'],
                     'user_id' => $user->id
                 ]
             );
@@ -61,8 +61,8 @@ class ApiService
             return [
                 'current_price' => $current,
                 'daily_variation' => $dailyVar,
-                'daily_money_variation' => $dailyMoneyVar,
-                'total_percent_variation' => $this->formatNumber($totalPercentVar),
+                'daily_money_variation' => $this->formatNumber($dailyMoneyVar),
+                'total_percent_variation' => $this->formatNumber($totalPercentVar, false),
                 'total_money_variation' => $this->formatNumber($totalMoneyVar),
                 'patrimony' => $patrimony,
                 'total_values' => $this->formatNumber($total),
@@ -149,8 +149,11 @@ class ApiService
         return [$dailyMoney, $totalMoney,$patrim];
     }
 
-    private function formatNumber($number): string
+    private function formatNumber($number, $withoutComma = true): string
     {
+        if (!$withoutComma) {
+            return number_format($number, 2);
+        }
         return number_format($number, 2, ',', '.');
     }
 }

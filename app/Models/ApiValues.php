@@ -9,7 +9,7 @@ class ApiValues extends Model
 {
     use HasFactory;
 
-    private $protected = [
+    protected $fillable = [
         'code',
         'last_saved_price',
         'last_percent_variation',
