@@ -59,12 +59,12 @@ class ApiService
 
         $processedData = array_map(function ($current, $dailyVar, $dailyMoneyVar, $totalPercentVar, $totalMoneyVar, $patrimony, $total) {
             return [
-                'current_price' => $current,
+                'current_price' => $this->formatNumber($current),
                 'daily_variation' => $dailyVar,
                 'daily_money_variation' => $this->formatNumber($dailyMoneyVar),
                 'total_percent_variation' => $this->formatNumber($totalPercentVar, false),
                 'total_money_variation' => $this->formatNumber($totalMoneyVar),
-                'patrimony' => $this->formatNumber($patrimony),
+                'patrimony' => $patrimony,
                 'total_values' => $this->formatNumber($total),
             ];
         }, $currentPrice, $dailyVariation, $dailyMoneyVariation, $totalPercentVariation, $totalMoneyVariation, $patrimony, $totalValues);
@@ -155,5 +155,21 @@ class ApiService
             return number_format($number, 2);
         }
         return number_format($number, 2, ',', '.');
+    }
+
+    public function stocksAndReitSum(array $processed)
+    {
+        $stocksSum = $reitSum = 0;
+        foreach($this->assets as $key => $asset) {
+            if($asset->type == 'stocks') {
+                $stocksSum += $processed[$key]['patrimony'];
+            } else {
+                $reitSum += $processed[$key]['patrimony'];
+            }
+        }
+        return [
+            'stocksSum' => $stocksSum,
+            'reitSum' => $reitSum
+        ];
     }
 }

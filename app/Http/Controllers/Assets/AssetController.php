@@ -35,7 +35,9 @@ class AssetController extends Controller
             return view('assets.empty-assets');
         }
 
-        return view('assets.index', ['processedData' => $processedData, 'assets' => $this->assets, 'stocks' => $stocks, 'reit' => $reit]);
+        $stocksAndReitSum = $this->service->stocksAndReitSum($processedData);
+
+        return view('assets.index', ['processedData' => $processedData, 'assets' => $this->assets, 'stocks' => $stocks, 'reit' => $reit, 'sum' => $stocksAndReitSum]);
     }
 
     public function create()
@@ -53,7 +55,7 @@ class AssetController extends Controller
             return redirect(route('assets.index'))->with('error', 'Você já tem este ativo cadastrado!');  //precisa ainda configurar a mensagem de retorno
         }
 
-        $data['name'] = 'teste';
+        $data['name'] = $data['code'];
         $data['user_id'] = $user->id;
         $data['status'] = 1;
         $data['average_price'] = preg_replace('/,(\d+)/', '.$1', $data['average_price']);
