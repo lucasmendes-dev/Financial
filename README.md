@@ -28,14 +28,19 @@ DB_USERNAME=sail
 DB_PASSWORD=password
 ```
 
+Installing Composer Dependencies with 'Sail'
+```sh
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php83-composer:latest \
+    composer install --ignore-platform-reqs
+```
+
 Suba os containers do projeto
 ```sh
 vendor/bin/sail up -d
-```
-
-Instalar as dependências do projeto
-```sh
-vendor/bin/sail composer install
 ```
 
 Instalar as dependências NPM
