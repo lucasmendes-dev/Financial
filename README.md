@@ -26,6 +26,13 @@ DB_PORT=3306
 DB_DATABASE=my_project
 DB_USERNAME=sail
 DB_PASSWORD=password
+
+#Adicione também essas variáveis xPath
+
+API_MAIN_LINK=https://finance.yahoo.com/quote
+PRICE_XPATH=//*[@id="quote-header-info"]/div[3]/div[1]/div/fin-streamer[1]
+PERCENT_XPATH=//*[@id="quote-header-info"]/div[3]/div[1]/div/fin-streamer[3]/span
+MONEY_XPATH=//*[@id="quote-header-info"]/div[3]/div[1]/div/fin-streamer[2]/span
 ```
 
 Installing Composer Dependencies with 'Sail'
