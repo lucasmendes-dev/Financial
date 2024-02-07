@@ -61,7 +61,7 @@ vendor/bin/sail php artisan key:generate
 
 Rodar o NPM
 ```sh
-vendor/bin/sail npm run dev
+npm run dev
 ```
 
 
