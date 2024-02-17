@@ -1,7 +1,21 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <div class="flex justify-between mb-2">
         <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Fundo Imobiliário</h1>
-        <p class="font-semibold text-gray-800 dark:text-gray-200 leading-tight ml-4">Total: R$ {{ number_format($sum['reitSum'], 2, ',', '.') }}</p>
+        <div>
+            <p class="font-semibold text-gray-800 dark:text-gray-200 leading-tight ml-4">
+                Lucro:
+                @if ($sum['reitProfit'] >= 0)
+                    <span class="text-green-500">
+                @else
+                    <span class="text-red-500">
+                @endif
+                    R$ {{ number_format($sum['reitProfit'], 2, ',', '.') }} 
+                </span> 
+            </p>
+
+            <p class="font-semibold text-gray-800 dark:text-gray-200 leading-tight ml-4">Total: R$ {{ number_format($sum['reitSum'], 2, ',', '.') }}</p>
+        </div>
+        
     </div>
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -105,11 +119,11 @@
                     @else
                         <td class="px-4 py-4 text-red-500">
                     @endif
-                        R$ {{ $processedData[$key]['total_money_variation'] }}
+                        R$ {{ number_format($processedData[$key]['total_money_variation'], 2, ',', '.') }}
                     </td>
 
                     <td class="px-4 py-4">
-                        R$ {{ $processedData[$key]['patrimony'] }}
+                        R$ {{ number_format($processedData[$key]['patrimony'], 2, ',', '.') }}
                     </td>
                     <td class="px-4 py-4 text-right">
 

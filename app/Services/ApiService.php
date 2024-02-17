@@ -63,7 +63,7 @@ class ApiService
                 'daily_variation' => $dailyVar,
                 'daily_money_variation' => $this->formatNumber($dailyMoneyVar),
                 'total_percent_variation' => $this->formatNumber($totalPercentVar, false),
-                'total_money_variation' => $this->formatNumber($totalMoneyVar),
+                'total_money_variation' => $totalMoneyVar,
                 'patrimony' => $patrimony,
                 'total_values' => $this->formatNumber($total),
             ];
@@ -159,17 +159,21 @@ class ApiService
 
     public function stocksAndReitSum(array $processed)
     {
-        $stocksSum = $reitSum = 0;
+        $stocksSum = $reitSum = $stocksProfit = $reitProfit =  0;
         foreach($this->assets as $key => $asset) {
             if($asset->type == 'stocks') {
                 $stocksSum += $processed[$key]['patrimony'];
+                $stocksProfit += $processed[$key]['total_money_variation'];
             } else {
                 $reitSum += $processed[$key]['patrimony'];
+                $reitProfit += $processed[$key]['total_money_variation'];
             }
         }
         return [
             'stocksSum' => $stocksSum,
-            'reitSum' => $reitSum
+            'reitSum' => $reitSum,
+            'stocksProfit' => $stocksProfit,
+            'reitProfit' => $reitProfit
         ];
     }
 }
