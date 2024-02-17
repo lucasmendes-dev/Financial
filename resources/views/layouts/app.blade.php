@@ -33,12 +33,15 @@
             </main>
         </div>
 
-        {{-- coloque o código neste footer --}}
-        {{-- <footer class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 mt-5">
+        <div class="bg-white dark:bg-gray-900 shadow py-5">
+
+        </div>
+        {{-- coloque o código neste footer --}} 
+        <footer class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 py-5">
             <div class="flex items-center justify-center text-gray-400">
-                Asset Map &copy; 2023
+                Financial &copy; {{ now()->year }}
             </div>
-        </footer> --}}
+        </footer>
         
 
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

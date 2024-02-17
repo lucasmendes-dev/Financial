@@ -5,9 +5,9 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    {{-- <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"/>
-                    </a> --}}
+                     <a href="{{ route('dashboard') }}">
+                        <img src="img/logo.png" alt="logo" width="58px">
+                    </a>
                 </div>
 
                 <!-- Navigation Links -->
@@ -21,8 +21,8 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
 
-                <a href="{{ route('assets.reloadData') }}">
-                    <button class="bottom-4 right-4 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-10 rounded">
+                <a>
+                    <button class="bottom-4 right-4 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-10 rounded reload-button">
                         <ion-icon name="reload-outline"></ion-icon>
                     </button>
                 </a>
@@ -105,3 +105,37 @@
         </div>
     </div>
 </nav>
+
+{{-- @include('assets.reload-modal')
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const reloadButton = document.querySelectorAll('.reload-button');
+        const reloadConfirmationModal = document.getElementById('reload-confirmation-modal');
+        const reloadConfirmButton = document.getElementById('reload-confirm-button');
+        const reloadCancelButton = document.getElementById('reload-cancel-button');
+
+        function showReloadConfirmationModal() {
+            reloadConfirmationModal.classList.remove('hidden');
+        }
+
+        reloadButton.forEach((button) => {
+            button.addEventListener('click', function () {
+                showReloadConfirmationModal();
+            });
+        });
+
+        reloadConfirmButton.addEventListener('click', function () {
+            fetch(`/assets/reloaded`, {
+                method: 'GET',
+            })
+            .then(response => {
+                window.location.reload();
+            });
+        });
+
+        reloadCancelButton.addEventListener('click', function () {
+            reloadConfirmationModal.classList.add('hidden');
+        });
+    });
+</script> --}}
