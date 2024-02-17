@@ -33,10 +33,8 @@
             </main>
         </div>
 
-        <div class="bg-white dark:bg-gray-900 shadow py-5">
+        <div class="bg-white dark:bg-gray-900 shadow py-5"></div>
 
-        </div>
-        {{-- coloque o código neste footer --}} 
         <footer class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 py-5">
             <div class="flex items-center justify-center text-gray-400">
                 Financial &copy; {{ now()->year }}

@@ -14,11 +14,9 @@ return new class extends Migration
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['stocks', 'reit', 'crypto']);
-            $table->string('name', 100);
             $table->string('code', 20);
             $table->integer('quantity');
             $table->double('average_price');
-            $table->tinyInteger('status');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 

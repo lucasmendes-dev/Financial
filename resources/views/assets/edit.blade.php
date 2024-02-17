@@ -33,13 +33,15 @@
                                         <select name="asset_type" id="asset_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" value="{{ $asset->type }}">
                                             <option value="stocks" @if($asset->type == 'stocks') selected @endif>Ação</option>
                                             <option value="reit" @if($asset->type == 'reit') selected @endif>Fundo Imobiliário</option>
-                                            <option value="crypto" @if($asset->type == 'crypto') selected @endif>Criptomoeda</option>
                                         </select>
                                     </div>
                                 </div>
                         
                                 <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Alterar</button>
+                        
                             </form>
+                            <br>
+                            <button data-modal-target="contribuition-modal" data-modal-toggle="contribuition-modal" class="w-full text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">Novo aporte</button>
                         </div>
                     </div>
 
@@ -48,3 +50,23 @@
         </div>
     </div>
 </x-app-layout>
+
+@include('assets.contribuition-modal')
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const modalButton = document.querySelector('[data-modal-toggle="contribuition-modal"]');
+        const modal = document.getElementById('contribuition-modal');
+
+        modalButton.addEventListener("click", function () {
+            modal.classList.toggle('hidden');
+        });
+
+        const closeButton = document.querySelector('[data-modal-hide="contribuition-modal"]');
+        closeButton.addEventListener("click", function () {
+            modal.classList.toggle('hidden');
+        });
+    });
+
+</script>
