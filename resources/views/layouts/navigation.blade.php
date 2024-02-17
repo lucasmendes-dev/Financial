@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                      <a href="{{ route('dashboard') }}">
-                        <img src="img/logo.png" alt="logo" width="58px">
+                        <img src="/img/logo.png" alt="logo" width="58px">
                     </a>
                 </div>
 
@@ -21,11 +21,11 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
 
-                <a href="{{ route('assets.reloadData') }}">
+             {{-- <a href="{{ route('assets.reloadData') }}"> --}}
                     <button class="bottom-4 right-4 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-10 rounded reload-button">
-                        <ion-icon name="reload-outline"></ion-icon>
+                        Atualizar{{-- <ion-icon name="reload-outline"></ion-icon> --}}
                     </button>
-                </a>
+
 
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -106,7 +106,7 @@
     </div>
 </nav>
 
-{{-- @include('assets.reload-modal')
+@include('assets.reload-modal')
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -129,13 +129,13 @@
             fetch(`/assets/reloaded`, {
                 method: 'GET',
             })
-            .then(response => {
-                window.location.reload();
-            });
+
+            window.location.reload();
+            reloadConfirmationModal.classList.remove('hidden');
         });
 
         reloadCancelButton.addEventListener('click', function () {
             reloadConfirmationModal.classList.add('hidden');
         });
     });
-</script> --}}
+</script>

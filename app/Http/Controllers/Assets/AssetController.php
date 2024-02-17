@@ -52,12 +52,11 @@ class AssetController extends Controller
         $data = $request->all();
 
         if(in_array($data['code'], $assetCodes)) {
-            return redirect(route('assets.index'))->with('error', 'Você já tem este ativo cadastrado!');  //precisa ainda configurar a mensagem de retorno
+            return redirect(route('assets.index'))->with('error', 'Você já tem este ativo cadastrado!');
         }
 
-        $data['name'] = $data['code'];
+        $data['code'] = strtoupper($data['code']);
         $data['user_id'] = $user->id;
-        $data['status'] = 1;
         $data['average_price'] = preg_replace('/,(\d+)/', '.$1', $data['average_price']);
         
 
@@ -105,6 +104,22 @@ class AssetController extends Controller
     {
         $this->service = new ApiService(Auth::user());
         $this->service->saveValuesOnDB(Auth::user());
+
+        return redirect(route('assets.index'));
+    }
+
+    public function newContribuition(Request $request, string $id)
+    {
+        $asset = Asset::findOrFail($id);
+
+        $oldValue = $asset->quantity * $asset->average_price;
+        $newContribuitionValue = $request['quantity'] * $request['average_price'];
+        
+        $asset->quantity += $request['quantity'];
+        $updatedAveragePrice = ($oldValue + $newContribuitionValue) / $asset->quantity;
+
+        $asset->average_price = $updatedAveragePrice;
+        $asset->update();
 
         return redirect(route('assets.index'));
     }
