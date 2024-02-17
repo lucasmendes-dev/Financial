@@ -21,7 +21,7 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
 
-                <a>
+                <a href="{{ route('assets.reloadData') }}">
                     <button class="bottom-4 right-4 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-10 rounded reload-button">
                         <ion-icon name="reload-outline"></ion-icon>
                     </button>
