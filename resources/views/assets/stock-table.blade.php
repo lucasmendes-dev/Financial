@@ -92,6 +92,8 @@
 
                     @if ($processedData[$key]['daily_variation'] > 0)
                         <td class="px-4 py-4 text-green-500">
+                    @elseif ($processedData[$key]['daily_variation'] == 0)
+                        <td class="px-4 py-4 text-gray-400">
                     @else
                         <td class="px-4 py-4 text-red-500">
                     @endif
@@ -100,10 +102,12 @@
 
                     @if ($processedData[$key]['daily_money_variation'] > 0)
                         <td class="px-4 py-4 text-green-500">
+                    @elseif ($processedData[$key]['daily_money_variation'] == 0)
+                        <td class="px-4 py-4 text-gray-400">
                     @else
                         <td class="px-4 py-4 text-red-500">
                     @endif
-                        R$ {{ $processedData[$key]['daily_money_variation'] }}
+                        R$ {{ number_format($processedData[$key]['daily_money_variation'], 2, ',', '.') }}
                     </td>
 
                     @if ($processedData[$key]['total_percent_variation'] > 0)
@@ -111,7 +115,7 @@
                     @else
                         <td class="px-4 py-4 text-red-500">
                     @endif
-                        {{ $processedData[$key]['total_percent_variation'] }}%
+                    {{ number_format($processedData[$key]['total_percent_variation'], 2, '.', '.') }}%
                     </td>
 
                     @if ($processedData[$key]['total_money_variation'] > 0)

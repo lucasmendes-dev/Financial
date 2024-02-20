@@ -61,8 +61,8 @@ class ApiService
             return [
                 'current_price' => $this->formatNumber($current),
                 'daily_variation' => $dailyVar,
-                'daily_money_variation' => $this->formatNumber($dailyMoneyVar),
-                'total_percent_variation' => $this->formatNumber($totalPercentVar, false),
+                'daily_money_variation' => $dailyMoneyVar,
+                'total_percent_variation' => $totalPercentVar, false,
                 'total_money_variation' => $totalMoneyVar,
                 'patrimony' => $patrimony,
                 'total_values' => $this->formatNumber($total),
