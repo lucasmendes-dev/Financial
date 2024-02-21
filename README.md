@@ -13,6 +13,10 @@ Clone Repository
 git clone https://github.com/lucasmendes-dev/Financial.git
 ```
 
+```sh
+cd Financial/
+```
+
 Create the .env File
 ```sh
 cp .env.example .env
