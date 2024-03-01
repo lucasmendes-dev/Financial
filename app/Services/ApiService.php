@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\ApiValues;
 use App\Models\Asset;
+use App\Models\SavedApiValues;
 use App\Models\User;
 
 
@@ -14,7 +14,7 @@ class ApiService
     
     public function __construct(User $user)
     {
-        $this->apiValues = ApiValues::where('user_id', $user->id)->get();
+        $this->apiValues = SavedApiValues::where('user_id', $user->id)->get();
         $this->assets = Asset::where('user_id', $user->id)->get();
     }
 
@@ -28,17 +28,17 @@ class ApiService
 
     public function saveValuesOnDB(User $user)
     {
-        $generator = new GenerateApiService($user);
-        $values = $generator->fetchData();
+        $brApi = new BrApiService($user);
+        $values = $brApi->fetchData();
 
         foreach ($values as $value) {
-            ApiValues::updateOrInsert(
-                ['code' => $value['code'], 'user_id' => $user->id],
+            SavedApiValues::updateOrInsert(
+                ['symbol' => $value['symbol'], 'user_id' => $user->id],
                 [
-                    'last_saved_price' => $value['last_saved_price'],
-                    'last_percent_variation' => $value['last_percent_variation'],
-                    'last_money_variation' => $value['last_money_variation'],
-                    'user_id' => $user->id
+                    'regular_market_price' => $value['regular_market_price'],
+                    'regular_market_change_percent' => $value['regular_market_change_percent'],
+                    'regular_market_change' => $value['regular_market_change'],
+                    'logo_url' => $value['logo_url'],
                 ]
             );
         }
@@ -74,18 +74,18 @@ class ApiService
 
     private function getCurrentPrice(): array
     {
-        return $this->apiValues->pluck('last_saved_price')->all();
+        return $this->apiValues->pluck('regular_market_price')->all();
     }
 
     private function getDailyVariation()
     {
-        return $this->apiValues->pluck('last_percent_variation')->all();
+        return $this->apiValues->pluck('regular_market_change_percent')->all();
     }
 
     private function getDailyMoneyVariation()
     {
         $quantity = $this->assets->pluck('quantity');
-        $lastMoneyVariation = $this->apiValues->pluck('last_money_variation');
+        $lastMoneyVariation = $this->apiValues->pluck('regular_market_change');
 
         $dailyMoneyVariation = [];
         foreach ($lastMoneyVariation as $key => $variation) {
@@ -98,7 +98,7 @@ class ApiService
     private function getTotalPercentVariation()
     {
         $averagePrice = $this->assets->pluck('average_price')->all();
-        $currentPrice = $this->apiValues->pluck('last_saved_price')->all();
+        $currentPrice = $this->apiValues->pluck('regular_market_price')->all();
 
         $result = array_map(function ($a, $b) {
             return (($b - $a) / $a) * 100;
@@ -109,7 +109,7 @@ class ApiService
 
     private function getTotalMoneyVariation()
     {
-        $currentPrice = $this->apiValues->pluck('last_saved_price')->all();
+        $currentPrice = $this->apiValues->pluck('regular_market_price')->all();
         $assetQuantity = $this->assets->pluck('quantity')->all();
         $initialValue = $this->assets->pluck('average_price')->all();
 
@@ -122,7 +122,7 @@ class ApiService
 
     private function getPatrimony()
     {
-        $currentPrice = $this->apiValues->pluck('last_saved_price')->all();
+        $currentPrice = $this->apiValues->pluck('regular_market_price')->all();
         $assetQuantity = $this->assets->pluck('quantity')->all();
 
         $result = array_map(function ($a, $b) {

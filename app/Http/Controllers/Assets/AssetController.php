@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Assets;
 
 use App\Http\Controllers\Controller;
-use App\Models\ApiValues;
 use App\Models\Asset;
+use App\Models\SavedApiValues;
 use App\Models\User;
 use App\Services\ApiService;
-use App\Services\GenerateApiService;
+use App\Services\BrApiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -60,12 +60,12 @@ class AssetController extends Controller
         $data['average_price'] = preg_replace('/,(\d+)/', '.$1', $data['average_price']);
         
 
-        $generator = new GenerateApiService($user);
-        $response = $generator->fetchOneAssetData($data['code']);
-        $values = $generator->processApiResponse($request, $response);
+        $brApi = new BrApiService($user);
+        $response = $brApi->fetchApiData($data['code']);
+        $values = $brApi->processApiResponse( $response);
         $values[0]['user_id'] = $user->id;
 
-        ApiValues::create($values[0]);
+        SavedApiValues::create($values[0]);
         Asset::create($data);
 
         return redirect(route('assets.index'));
@@ -89,7 +89,7 @@ class AssetController extends Controller
     public function destroy(string $id)
     {
         $asset = Asset::findOrFail($id);
-        $apiValue = ApiValues::where('code', $asset->code)
+        $apiValue = SavedApiValues::where('code', $asset->code)
             ->where('user_id', $asset->user_id)
             ->get();
         $apiValue = $apiValue[0];

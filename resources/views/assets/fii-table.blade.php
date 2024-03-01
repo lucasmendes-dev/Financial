@@ -97,7 +97,7 @@
                     @else
                         <td class="px-4 py-4 text-red-500">
                     @endif
-                        {{ $processedData[$key]['daily_variation'] }} %
+                        {{ number_format($processedData[$key]['daily_variation'], 2, '.', '.') }}%
                     </td>
 
                     @if ($processedData[$key]['daily_money_variation'] > 0)
