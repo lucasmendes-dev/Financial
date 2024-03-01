@@ -37,13 +37,11 @@ DB_DATABASE=my_project
 DB_USERNAME=sail
 DB_PASSWORD=password
 
-#Also, add these xPath variables
+#Also, add these API links (acces https://brapi.dev/dashboard , create an account and generate your token, then put you token on BRAPI_TOKEN below)
 
-API_MAIN_LINK=https://finance.yahoo.com/quote
+BRAPI_LINK =https://brapi.dev/api/quote/
+BRAPI_TOKEN =yourTokenHere
 
-PRICE_XPATH=//*[@id="quote-header-info"]/div[3]/div[1]/div/fin-streamer[1]
-PERCENT_XPATH=//*[@id="quote-header-info"]/div[3]/div[1]/div/fin-streamer[3]/span
-MONEY_XPATH=//*[@id="quote-header-info"]/div[3]/div[1]/div/fin-streamer[2]/span
 ```
 
 Installing Composer Dependencies with 'Sail'
