@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ApiValuesController;
 use App\Http\Controllers\Assets\AssetController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;

@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ApiValues extends Model
+class SavedApiValues extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'code',
-        'last_saved_price',
-        'last_percent_variation',
-        'last_money_variation',
+        'symbol',
+        'regular_market_price',
+        'regular_market_change_percent',
+        'regular_market_change',
+        'logo_url',
         'user_id'
     ];
 }
