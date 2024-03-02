@@ -39,8 +39,8 @@ DB_PASSWORD=password
 
 #Also, add these API links (acces https://brapi.dev/dashboard , create an account and generate your token, then put you token on BRAPI_TOKEN below)
 
-BRAPI_LINK =https://brapi.dev/api/quote/
-BRAPI_TOKEN =yourTokenHere
+BRAPI_LINK=https://brapi.dev/api/quote/
+BRAPI_TOKEN=yourTokenHere
 
 ```
 
