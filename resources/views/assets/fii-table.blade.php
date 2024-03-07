@@ -3,10 +3,11 @@
         <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Fundo Imobiliário</h1>
         <div>
             <p class="font-semibold text-gray-800 dark:text-gray-200 leading-tight ml-4">
-                Lucro:
                 @if ($sum['reitProfit'] >= 0)
+                Lucro:
                     <span class="text-green-500">
                 @else
+                Prejuízo:
                     <span class="text-red-500">
                 @endif
                     R$ {{ number_format($sum['reitProfit'], 2, ',', '.') }} 
@@ -20,6 +21,11 @@
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
+                <th scope="col" class="px-5 py-3">
+                    <div class="flex items-center">
+                        -
+                    </div>
+                </th>
                 <th scope="col" class="px-5 py-3">
                     <div class="flex items-center">
                         Código
@@ -65,7 +71,7 @@
                         Valor Total
                     </div>
                 </th>
-                <th scope="col" class="px-5 py-3">Ações</th>
+                <th scope="col" class="px-6 py-3">Ações</th>
             </tr>
         </thead>
 
@@ -73,6 +79,10 @@
             @foreach ($assets as $key => $asset)
                 @if ($asset->type == 'reit')
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+
+                    <td class="px-4 py-4">
+                        <img src="{{ $processedData[$key]['logo_url'] }}" alt="logo"  width=40px">
+                    </td>
 
                     <th scope="row" class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $asset->code }}

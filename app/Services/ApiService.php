@@ -56,8 +56,9 @@ class ApiService
         $totalMoneyVariation = $this->getTotalMoneyVariation();
         $patrimony = $this->getPatrimony();
         $totalValues = $this->getTotalValues($dailyMoneyVariation, $totalMoneyVariation, $patrimony);
+        $logoUrl = $this->getLogoUrl();
 
-        $processedData = array_map(function ($current, $dailyVar, $dailyMoneyVar, $totalPercentVar, $totalMoneyVar, $patrimony, $total) {
+        $processedData = array_map(function ($current, $dailyVar, $dailyMoneyVar, $totalPercentVar, $totalMoneyVar, $patrimony, $total, $logo) {
             return [
                 'current_price' => $this->formatNumber($current),
                 'daily_variation' => $dailyVar,
@@ -66,8 +67,9 @@ class ApiService
                 'total_money_variation' => $totalMoneyVar,
                 'patrimony' => $patrimony,
                 'total_values' => $this->formatNumber($total),
+                'logo_url' => $logo
             ];
-        }, $currentPrice, $dailyVariation, $dailyMoneyVariation, $totalPercentVariation, $totalMoneyVariation, $patrimony, $totalValues);
+        }, $currentPrice, $dailyVariation, $dailyMoneyVariation, $totalPercentVariation, $totalMoneyVariation, $patrimony, $totalValues, $logoUrl);
 
         return $processedData;
     }
@@ -175,5 +177,10 @@ class ApiService
             'stocksProfit' => $stocksProfit,
             'reitProfit' => $reitProfit
         ];
+    }
+
+    public function getLogoUrl(): array
+    {
+        return $this->apiValues->pluck('logo_url')->all();
     }
 }
