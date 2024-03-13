@@ -89,7 +89,7 @@ class AssetController extends Controller
     public function destroy(string $id)
     {
         $asset = Asset::findOrFail($id);
-        $apiValue = SavedApiValues::where('code', $asset->code)
+        $apiValue = SavedApiValues::where('symbol', $asset->code)
             ->where('user_id', $asset->user_id)
             ->get();
         $apiValue = $apiValue[0];
