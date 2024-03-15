@@ -23,7 +23,7 @@ class BrApiService
         ];
     }
 
-    public function fetchData()
+    public function fetchData(): array
     {
         $assets = Asset::where('user_id', $this->user->id)->get();
         $assetValues = [];
@@ -38,7 +38,7 @@ class BrApiService
         return $assetValues;
     }
 
-    public function fetchApiData($assetCode)
+    public function fetchApiData($assetCode): array
     {
         $query = http_build_query($this->params);
         $fullUrl = $this->apiLink . "$assetCode" . "?" . $query;

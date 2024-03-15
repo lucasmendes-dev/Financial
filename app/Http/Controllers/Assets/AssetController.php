@@ -15,7 +15,6 @@ class AssetController extends Controller
 {
     protected $service;
     protected $assets;
-    protected $user;
 
     public function __construct()
     {
@@ -37,7 +36,7 @@ class AssetController extends Controller
 
         $stocksAndReitSum = $this->service->stocksAndReitSum($processedData);
 
-        return view('assets.index', ['processedData' => $processedData, 'assets' => $this->assets, 'stocks' => $stocks, 'reit' => $reit, 'sum' => $stocksAndReitSum]);
+        return view('assets.index', ['assets' => $this->assets, 'stocks' => $stocks, 'reit' => $reit, 'processedData' => $processedData, 'sum' => $stocksAndReitSum]);
     }
 
     public function create()
@@ -62,7 +61,7 @@ class AssetController extends Controller
 
         $brApi = new BrApiService($user);
         $response = $brApi->fetchApiData($data['code']);
-        $values = $brApi->processApiResponse( $response);
+        $values = $brApi->processApiResponse($response);
         $values[0]['user_id'] = $user->id;
 
         SavedApiValues::create($values[0]);
@@ -102,8 +101,9 @@ class AssetController extends Controller
 
     public function reloadData()
     {
-        $this->service = new ApiService(Auth::user());
-        $this->service->saveValuesOnDB(Auth::user());
+        $user = Auth::user();
+        $this->service = new ApiService($user);
+        $this->service->saveValuesOnDB($user);
 
         return redirect(route('assets.index'));
     }
