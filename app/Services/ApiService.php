@@ -84,7 +84,7 @@ class ApiService
         return $this->apiValues->pluck('regular_market_change_percent')->all();
     }
 
-    private function getDailyMoneyVariation()
+    private function getDailyMoneyVariation(): array
     {
         $quantity = $this->assets->pluck('quantity');
         $lastMoneyVariation = $this->apiValues->pluck('regular_market_change');
@@ -97,7 +97,7 @@ class ApiService
         return $dailyMoneyVariation;
     }
 
-    private function getTotalPercentVariation()
+    private function getTotalPercentVariation(): array
     {
         $averagePrice = $this->assets->pluck('average_price')->all();
         $currentPrice = $this->apiValues->pluck('regular_market_price')->all();
@@ -109,7 +109,7 @@ class ApiService
         return $result;
     }
 
-    private function getTotalMoneyVariation()
+    private function getTotalMoneyVariation(): array
     {
         $currentPrice = $this->apiValues->pluck('regular_market_price')->all();
         $assetQuantity = $this->assets->pluck('quantity')->all();
@@ -122,7 +122,7 @@ class ApiService
         return $result;
     }
 
-    private function getPatrimony()
+    private function getPatrimony(): array
     {
         $currentPrice = $this->apiValues->pluck('regular_market_price')->all();
         $assetQuantity = $this->assets->pluck('quantity')->all();
@@ -134,7 +134,7 @@ class ApiService
         return $result;
     }
 
-    private function getTotalValues($dailyMoneyVariation, $totalMoneyVariation, $patrimony): array
+    private function getTotalValues(array $dailyMoneyVariation, array $totalMoneyVariation, array $patrimony): array
     {
         $convertToFloat = function ($value) {
             return floatval(str_replace(',', '.', $value));
@@ -151,7 +151,7 @@ class ApiService
         return [$dailyMoney, $totalMoney,$patrim];
     }
 
-    private function formatNumber($number, $withoutComma = true): string
+    private function formatNumber($number, bool $withoutComma = true): string
     {
         if (!$withoutComma) {
             return number_format($number, 2);
@@ -159,7 +159,7 @@ class ApiService
         return number_format($number, 2, ',', '.');
     }
 
-    public function stocksAndReitSum(array $processed)
+    public function stocksAndReitSum(array $processed): array
     {
         $stocksSum = $reitSum = $stocksProfit = $reitProfit =  0;
         foreach($this->assets as $key => $asset) {
