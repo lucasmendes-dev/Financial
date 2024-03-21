@@ -47,7 +47,7 @@ class AssetController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $assetCodes = Asset::where('user_id', $user->id)->pluck('code')->all();;
+        $assetCodes = Asset::where('user_id', $user->id)->pluck('code')->all();
         $data = $request->all();
 
         if(in_array($data['code'], $assetCodes)) {
