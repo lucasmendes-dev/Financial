@@ -23,7 +23,7 @@
             <tr>
                 <th scope="col" class="px-5 py-3">
                     <div class="flex items-center">
-                        -
+                        
                     </div>
                 </th>
                 <th scope="col" class="px-5 py-3">

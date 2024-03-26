@@ -118,7 +118,7 @@ class AssetController extends Controller
         $asset->quantity += $request['quantity'];
         $updatedAveragePrice = ($oldValue + $newContribuitionValue) / $asset->quantity;
 
-        $asset->average_price = $updatedAveragePrice;
+        $asset->average_price = round($updatedAveragePrice, 2);
         $asset->update();
 
         return redirect(route('assets.index'));
