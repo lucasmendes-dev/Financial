@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Accounts\AccountController;
 use App\Http\Controllers\Assets\AssetController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -21,8 +22,8 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-//Asset routes
 Route::middleware('auth')->group(function () {
+    //Asset routes
     Route::delete('/assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
     Route::get('/assets/edit/{id}', [AssetController::class, 'edit'])->name('assets.edit');
     Route::put('/assets/{id}', [AssetController::class, 'update'])->name('assets.update');
@@ -33,4 +34,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/assets', [AssetController::class, 'index'])->name('assets.index');
 
     Route::get('/assets/reloaded', [AssetController::class, 'reloadData'])->name('assets.reloadData');
+
+    //Account routes
+    Route::delete('/accounts/{id}', [AssetController::class, 'destroy'])->name('accounts.destroy');
+    Route::get('/accounts/edit/{id}', [AssetController::class, 'edit'])->name('accounts.edit');
+    Route::put('/accounts/{id}', [AssetController::class, 'update'])->name('accounts.update');
+    Route::post('/accounts/store', [AssetController::class, 'store'])->name('accounts.store');
+    Route::get('/accounts/create', [AssetController::class, 'create'])->name('accounts.create');
+    Route::get('/accounts/show/{id}', [AssetController::class, 'show'])->name('accounts.show');
+    Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
+    
 });
