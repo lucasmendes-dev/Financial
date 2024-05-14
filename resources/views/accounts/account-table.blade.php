@@ -46,7 +46,7 @@
 
                     <td class="px-4 py-4 text-center">
 
-                        <a href="#" class="dark:text-blue-500 hover:underline mx-2">
+                        <a href="{{ route('accounts.edit', $account->id) }}" class="dark:text-blue-500 hover:underline mx-2">
                             <ion-icon name="create-outline" class="w-4 h-4"></ion-icon>
                         </a>
 

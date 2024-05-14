@@ -16,3 +16,24 @@
     </div>    
 
 </x-app-layout>
+
+@include('accounts.form-modal')
+
+<script>
+
+    //Create
+    document.addEventListener("DOMContentLoaded", function () {
+        const modalButton = document.querySelector('[data-modal-toggle="add-account-modal"]');
+        const modal = document.getElementById('add-account-modal');
+
+        modalButton.addEventListener("click", function () {
+            modal.classList.toggle('hidden');
+        });
+
+        const closeButton = document.querySelector('[data-modal-hide="add-account-modal"]');
+        closeButton.addEventListener("click", function () {
+            modal.classList.toggle('hidden');
+        });
+    });
+
+</script>

@@ -8,7 +8,10 @@
 
                     <div class=" inset-0 flex items-center justify-center z-50">
                         <div class="px-6 py-6 lg:px-8">
-                            <h3 class="mb-6 text-xl font-medium text-gray-900 dark:text-white">Editar - {{ $asset->code }}</h3>
+                            <div class="flex items-center justify-between">
+                                <h3 class="mb-6 text-xl font-medium text-gray-900 dark:text-white">Editar - {{ $asset->code }}</h3>
+                                {{-- <img src="{{ $processedData[$key]['logo_url'] }}" alt="logo" width=40px"> --}}
+                            </div>
                             <form class="space-y-6" action="{{ route('assets.update', $asset->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
