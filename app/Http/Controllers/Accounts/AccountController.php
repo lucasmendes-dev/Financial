@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Accounts;
 
 use App\Http\Controllers\Controller;
 use App\Models\Account;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,13 @@ class AccountController extends Controller
     {
         $user = Auth::user();
         $this->accounts = Account::where('user_id', $user->id)->get();
-        return view('accounts.index', ['accounts' => $this->accounts]);
+        $acconts_sum = $this->getAccountSum($this->accounts);
+
+        if ($this->accounts->isEmpty()) {
+            return view('accounts.empty-accounts');
+        }
+
+        return view('accounts.index', ['accounts' => $this->accounts, 'acconts_sum' => $acconts_sum]);
     }
 
     public function create()
@@ -50,8 +57,17 @@ class AccountController extends Controller
         return redirect(route('accounts.index'));
     }
 
-    public function destroy(Account $account)
+    public function destroy(string $id)
     {
-        //
+        $account = Account::findOrFail($id);
+        $account->delete();
+
+        return(redirect(route('accounts.index')));
+    }
+
+    public function getAccountSum(Collection $accounts)
+    {
+        $allBalance = $this->accounts->pluck('balance')->all();
+        return array_sum($allBalance);
     }
 }

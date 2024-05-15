@@ -15,3 +15,9 @@
     background-color: #ffcbcb;
     border-color: #d6e9c6;
 }
+
+#accountChart {
+    max-width: 300px;
+    max-height: 300px;
+    align-items: center;
+}

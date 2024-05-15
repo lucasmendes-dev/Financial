@@ -2,7 +2,7 @@
 
     <div class="flex justify-between mb-2">
         <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mb-3">Contas</h1>
-        <p class="font-semibold text-gray-800 dark:text-gray-200 leading-tight ml-4">Total: R$ 0</p>
+        <p class="font-semibold text-gray-800 dark:text-gray-200 leading-tight ml-4">Total: R$  {{ number_format($acconts_sum, 2, ',', '.') }}</p>
     </div>
 
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -50,7 +50,7 @@
                             <ion-icon name="create-outline" class="w-4 h-4"></ion-icon>
                         </a>
 
-                        <button data-record-id="#" class="dark:text-red-500 hover:underline delete-button" type="button">
+                        <button data-record-id="{{ $account->id }}" class="dark:text-red-500 hover:underline delete-button" type="button">
                             <ion-icon name="trash-outline" class="w-4 h-4"></ion-icon>
                         </button>
                         
