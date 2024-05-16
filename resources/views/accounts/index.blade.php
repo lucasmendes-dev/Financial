@@ -1,24 +1,15 @@
 <x-app-layout>
-
-    <div class="max-w-2xl mt-10 sm:px-6 lg:px-8">
-        <div class="flex">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    @include('accounts.account-table')
-                </div>
+    <div class="max-w-6xl mt-10 sm:px-6 lg:px-8 flex flex-row gap-4">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg order-1"> 
+            <div class="p-6 text-gray-900 dark:text-gray-100">
+                @include('accounts.account-table')
             </div>
-
-            <div width="50" height="25">
-                <canvas id="accountChart" ></canvas>
-            </div>
-        </div>  
-        <div class="max-w-7xl mx-auto flex items-center justify-end">
             <button data-modal-target="add-account-modal" data-modal-toggle="add-account-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-5" type="button">
                 Cadastrar Conta
             </button>
         </div>
-    </div>    
-
+        <canvas id="accountChart" class="order-2"></canvas> 
+    </div>
 </x-app-layout>
 
 @include('accounts.form-modal')
@@ -86,20 +77,33 @@
     });
 
     //Chart
-    const ctx = document.getElementById('accountChart');
+    const ctx = document.getElementById('accountChart').getContext('2d');
+
+    //data from laravel controller
+    const accountNames = @json($account_names);
+    const accountBalances = @json($account_balances);
 
     new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: accountNames,
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                borderWidth: 1
+                label: 'Account Balances',
+                data: accountBalances,
+                borderWidth: 1,
+                backgroundColor: [
+                    'rgba(87, 35, 100, 1)',
+                    'rgb(255, 0, 170)',
+                    'rgba(0, 153, 204, 1)',
+                    'rgba(0, 128, 0, 1)',
+                    'rgba(153, 153, 153, 1)',
+                    'rgba(25, 25, 25)',
+                ],
+
             }]
         },
         options: {
-        
+            // Adicione opções aqui se precisar
         }
     });
 

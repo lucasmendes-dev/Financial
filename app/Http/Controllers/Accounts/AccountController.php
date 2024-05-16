@@ -16,13 +16,21 @@ class AccountController extends Controller
     {
         $user = Auth::user();
         $this->accounts = Account::where('user_id', $user->id)->get();
-        $acconts_sum = $this->getAccountSum($this->accounts);
+        $accounts_sum = $this->getAccountSum($this->accounts);
 
         if ($this->accounts->isEmpty()) {
             return view('accounts.empty-accounts');
         }
 
-        return view('accounts.index', ['accounts' => $this->accounts, 'acconts_sum' => $acconts_sum]);
+        $account_names = $this->accounts->pluck('name');
+        $account_balances = $this->accounts->pluck('balance');
+
+        return view('accounts.index', [
+            'accounts' => $this->accounts, 
+            'accounts_sum' => $accounts_sum,
+            'account_names' => $account_names,
+            'account_balances' => $account_balances
+        ]);
     }
 
     public function create()

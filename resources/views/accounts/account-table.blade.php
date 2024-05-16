@@ -2,7 +2,7 @@
 
     <div class="flex justify-between mb-2">
         <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mb-3">Contas</h1>
-        <p class="font-semibold text-gray-800 dark:text-gray-200 leading-tight ml-4">Total: R$  {{ number_format($acconts_sum, 2, ',', '.') }}</p>
+        <p class="font-semibold text-gray-800 dark:text-gray-200 leading-tight ml-4">Total: R$  {{ number_format($accounts_sum, 2, ',', '.') }}</p>
     </div>
 
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
