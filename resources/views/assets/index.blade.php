@@ -77,8 +77,13 @@
         @endif
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 flex items-center justify-end">
-            <button data-modal-target="form-modal" data-modal-toggle="form-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-5" type="button">
+            
+            <button data-modal-target="form-modal" data-modal-toggle="form-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-5 mr-4" type="button">
                 Cadastrar Ativo
+            </button>
+
+            <button class="block text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800 mt-5 reload-button">
+                Atualizar{{-- <ion-icon name="reload-outline"></ion-icon> --}}
             </button>
         </div>
 
@@ -145,6 +150,37 @@
 
         deleteCancelButton.addEventListener('click', function () {
             deleteConfirmationModal.classList.add('hidden');
+        });
+    });
+
+    //reload data
+    document.addEventListener("DOMContentLoaded", function () {
+        const reloadButton = document.querySelectorAll('.reload-button');
+        const reloadConfirmationModal = document.getElementById('reload-confirmation-modal');
+        const reloadConfirmButton = document.getElementById('reload-confirm-button');
+        const reloadCancelButton = document.getElementById('reload-cancel-button');
+
+        function showReloadConfirmationModal() {
+            reloadConfirmationModal.classList.remove('hidden');
+        }
+
+        reloadButton.forEach((button) => {
+            button.addEventListener('click', function () {
+                showReloadConfirmationModal();
+            });
+        });
+
+        reloadConfirmButton.addEventListener('click', function () {
+            fetch(`/assets/reloaded`, {
+                method: 'GET',
+            })
+
+            window.location.reload();
+            reloadConfirmationModal.classList.remove('hidden');
+        });
+
+        reloadCancelButton.addEventListener('click', function () {
+            reloadConfirmationModal.classList.add('hidden');
         });
     });
     

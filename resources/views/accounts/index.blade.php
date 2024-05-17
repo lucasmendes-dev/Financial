@@ -1,15 +1,37 @@
 <x-app-layout>
-    <div class="max-w-6xl mt-10 sm:px-6 lg:px-8 flex flex-row gap-4">
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg order-1"> 
+
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900 dark:text-gray-100">
-                @include('accounts.account-table')
+                <div class="max-w-7xl mt-10 sm:px-6 lg:px-8 flex justify-between">
+
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg accountTable"> 
+                        <div class="p-6 text-gray-900 dark:text-gray-100">
+                            @include('accounts.account-table')
+                            <div class="flex items-center justify-end">
+                                <button data-modal-target="add-account-modal" data-modal-toggle="add-account-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-5" type="button">
+                                    Cadastrar Conta
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <canvas id="accountChart"></canvas>
             </div>
-            <button data-modal-target="add-account-modal" data-modal-toggle="add-account-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-5" type="button">
-                Cadastrar Conta
-            </button>
         </div>
-        <canvas id="accountChart" class="order-2"></canvas> 
     </div>
+
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 text-gray-900 dark:text-gray-100">
+                <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mb-5">Patrimônio ao longo do tempo</h1>
+                <canvas id="balanceChart"></canvas>            
+            </div>
+        </div>
+    </div>
+        
+    
+
 </x-app-layout>
 
 @include('accounts.form-modal')
@@ -76,7 +98,7 @@
         });
     });
 
-    //Chart
+    //Account Chart
     const ctx = document.getElementById('accountChart').getContext('2d');
 
     //data from laravel controller
@@ -88,7 +110,7 @@
         data: {
             labels: accountNames,
             datasets: [{
-                label: 'Account Balances',
+                label: 'Saldo',
                 data: accountBalances,
                 borderWidth: 1,
                 backgroundColor: [
@@ -99,12 +121,26 @@
                     'rgba(153, 153, 153, 1)',
                     'rgba(25, 25, 25)',
                 ],
-
             }]
         },
-        options: {
-            // Adicione opções aqui se precisar
-        }
+        options: {}
+    });
+
+    //Balance Chart
+    const balanceCtx = document.getElementById('balanceChart');
+    new Chart(balanceCtx, {
+        type: 'line',
+        data: {
+            labels: ['jan', 'fev', 'mar', 'apr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dec', 'jan', 'fev', 'mar', 'apr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dec'],
+            datasets: [{
+                label: 'Valor patrimonial (R$)',
+                data: [65, 59, 80, 81, 56, 55, 40],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {}
     });
 
 </script>

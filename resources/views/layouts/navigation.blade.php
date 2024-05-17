@@ -28,12 +28,6 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
 
-             {{-- <a href="{{ route('assets.reloadData') }}"> --}}
-                    <button class="bottom-4 right-4 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-10 rounded reload-button">
-                        Atualizar{{-- <ion-icon name="reload-outline"></ion-icon> --}}
-                    </button>
-
-
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
@@ -114,35 +108,3 @@
 </nav>
 
 @include('assets.reload-modal')
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const reloadButton = document.querySelectorAll('.reload-button');
-        const reloadConfirmationModal = document.getElementById('reload-confirmation-modal');
-        const reloadConfirmButton = document.getElementById('reload-confirm-button');
-        const reloadCancelButton = document.getElementById('reload-cancel-button');
-
-        function showReloadConfirmationModal() {
-            reloadConfirmationModal.classList.remove('hidden');
-        }
-
-        reloadButton.forEach((button) => {
-            button.addEventListener('click', function () {
-                showReloadConfirmationModal();
-            });
-        });
-
-        reloadConfirmButton.addEventListener('click', function () {
-            fetch(`/assets/reloaded`, {
-                method: 'GET',
-            })
-
-            window.location.reload();
-            reloadConfirmationModal.classList.remove('hidden');
-        });
-
-        reloadCancelButton.addEventListener('click', function () {
-            reloadConfirmationModal.classList.add('hidden');
-        });
-    });
-</script>

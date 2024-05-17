@@ -2,11 +2,16 @@
 
     <div class="flex justify-between mb-2">
         <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mb-3">Contas</h1>
-        <p class="font-semibold text-gray-800 dark:text-gray-200 leading-tight ml-4">Total: R$  {{ number_format($accounts_sum, 2, ',', '.') }}</p>
+        <p class="font-semibold text-gray-800 dark:text-gray-200 leading-tight ml-4">
+            Total:
+            <span class="text-green-500">
+                R$ {{ number_format($accounts_sum, 2, ',', '.') }}
+            </span>
+        </p>
     </div>
 
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-5 py-3">
                     <div class="flex items-center">
@@ -24,13 +29,13 @@
                     </div>
                 </th>
 
-                <th scope="col" class="px-6 py-3 text-center">-</th>
+                <th scope="col" class="px-6 py-3 text-center">Ações</th>
             </tr>
         </thead>
 
         <tbody>
             @foreach ($accounts as $key => $account)
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
 
                     <td class="px-4 py-4">
                        <img src="/account/{{ $account->name }}.png" width="35px" alt="">
