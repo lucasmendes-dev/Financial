@@ -128,13 +128,16 @@
 
     //Balance Chart
     const balanceCtx = document.getElementById('balanceChart');
+
+    const balances = @json($balances); console.log(balances);
+
     new Chart(balanceCtx, {
         type: 'line',
         data: {
-            labels: ['jan', 'fev', 'mar', 'apr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dec', 'jan', 'fev', 'mar', 'apr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dec'],
+            labels: '',
             datasets: [{
                 label: 'Valor patrimonial (R$)',
-                data: [65, 59, 80, 81, 56, 55, 40],
+                data: balances,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
