@@ -121,6 +121,7 @@
                     'rgba(153, 153, 153, 1)',
                     'rgba(25, 25, 25)',
                 ],
+                hoverOffset: 10
             }]
         },
         options: {}
@@ -129,7 +130,7 @@
     //Balance Chart
     const balanceCtx = document.getElementById('balanceChart');
 
-    const balances = @json($balances); console.log(balances);
+    const balances = @json($balancesPerMonth);
 
     new Chart(balanceCtx, {
         type: 'line',

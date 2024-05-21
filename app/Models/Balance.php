@@ -9,8 +9,11 @@ class Balance extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'balance',
-        'user_id'
+        'user_id',
+        'date'
     ];
 }

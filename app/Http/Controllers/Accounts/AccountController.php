@@ -5,20 +5,27 @@ namespace App\Http\Controllers\Accounts;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Balance;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
     protected $accounts;
+    protected $user;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+            return $next($request);
+        });
+    }
 
     public function index()
     {
-        $user = Auth::user();
-        $this->accounts = Account::where('user_id', $user->id)->get();
+        $this->accounts = Account::where('user_id', $this->user->id)->get();
 
         if ($this->accounts->isEmpty()) {
             return view('accounts.empty-accounts');
@@ -28,33 +35,31 @@ class AccountController extends Controller
         $account_names = $this->accounts->pluck('name');
         $account_balances = $this->accounts->pluck('balance');
 
-        $balances = $this->getBalancePerMonth();
+        $balancesPerMonth = $this->getBalancePerMonth();
 
         return view('accounts.index', [
             'accounts' => $this->accounts, 
             'accounts_sum' => $accounts_sum,
             'account_names' => $account_names,
             'account_balances' => $account_balances,
-            'balances' => $balances
+            'balancesPerMonth' => $balancesPerMonth
         ]);
     }
 
     public function store(Request $request)
     {
-        $user = Auth::user();
         $data = $request->all();
 
         $data['balance'] = preg_replace('/,(\d+)/', '.$1', $data['balance']);
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $this->user->id;
 
         Account::create($data);
 
-        if (Balance::where('user_id', $user->id)->get()->isEmpty()) {
+        if (Balance::where('user_id', $this->user->id)->get()->isEmpty()) {
             $balanceData = [
                 'balance' => 0,
-                'user_id' => $user->id,
-                'created_at' => now()->subMonth(),
-                'updated_at' => now()->subMonth()
+                'user_id' => $this->user->id,
+                'date' => now()->subMonth()
             ];
             Balance::create($balanceData);
         }
@@ -83,21 +88,26 @@ class AccountController extends Controller
     {
         $account = Account::findOrFail($id);
         $account->delete();
+        $this->updateBalanceData();
+
+        $accounts = Account::where('user_id', $this->user->id)->get();
+        if ($accounts->isEmpty()) {
+            Balance::where('user_id', $this->user->id)->delete();
+        }
 
         return(redirect(route('accounts.index')));
     }
 
     public function getBalancePerMonth()
     {
-
-        $balances = Balance::orderBy('updated_at')->get();
+        $balances = Balance::where('user_id', $this->user->id)->orderBy('date')->get();
 
         $grouped = $balances->groupBy(function($item) {
-            return Carbon::parse($item->updated_at)->format('M-y');
+            return Carbon::parse($item->date)->format('M-y');
         });
 
         $monthlyBalances = $grouped->map(function ($group) {
-            return $group->sortByDesc('updated_at')->last();
+            return $group->sortByDesc('date')->first();
         });
 
         $result = $monthlyBalances->map(function ($item) {
@@ -109,15 +119,13 @@ class AccountController extends Controller
 
     public function updateBalanceData(): void
     {
-        $user = Auth::user();
-        $accounts = Account::where('user_id', $user->id)->get();
+        $accounts = Account::where('user_id', $this->user->id)->get();
         $accounts_sum = array_sum($accounts->pluck('balance')->all());
 
         $balanceData = [
             'balance' => $accounts_sum,
-            'user_id' => $user->id,
-            'created_at' => now(),
-            'updated_at' => now()
+            'user_id' => $this->user->id,
+            'date' => now()
         ];
 
         Balance::create($balanceData);

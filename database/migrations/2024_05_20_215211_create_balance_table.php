@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->double('balance');
             $table->unsignedBigInteger('user_id');
-            $table->timestamps();
+            $table->dateTime('date');
 
             $table->foreign('user_id')
                 ->references('id')
