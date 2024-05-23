@@ -8,14 +8,17 @@
 
                     <div class=" inset-0 flex items-center justify-center z-50">
                         <div class="px-6 py-6 lg:px-8">
-                            <h3 class="mb-6 text-xl font-medium text-gray-900 dark:text-white">Editar - {{ $asset->code }}</h3>
+                            <div class="flex items-center justify-between">
+                                <h3 class="mb-6 text-xl font-medium text-gray-900 dark:text-white">Editar - {{ $asset->code }}</h3>
+                                {{-- <img src="{{ $processedData[$key]['logo_url'] }}" alt="logo" width=40px"> --}}
+                            </div>
                             <form class="space-y-6" action="{{ route('assets.update', $asset->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="flex space-x-4">
                                     <div class="w-1/2">
                                         <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Código do Ativo</label>
-                                        <input type="text" name="code" id="code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="PETR4" required" value="{{ $asset->code }}">
+                                        <input type="text" name="code" id="code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="PETR4" readonly value="{{ $asset->code }}">
                                     </div>
                                     <div class="w-1/2">
                                         <label for="average_price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preço Médio</label>

@@ -18,7 +18,7 @@ class ApiService
         $this->assets = Asset::where('user_id', $user->id)->get();
     }
 
-    public function processedData()
+    public function processData()
     {
         if ($this->assets->count() == 0) {
             return null;

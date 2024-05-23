@@ -15,20 +15,25 @@ class AssetController extends Controller
 {
     protected $service;
     protected $assets;
+    protected $user;
 
     public function __construct()
     {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+            return $next($request);
+        });
     }
     public function index()
     {
-        $user = Auth::user();
-        $this->assets = Asset::where('user_id', $user->id)->get();
+        $this->assets = Asset::where('user_id', $this->user->id)->get();
 
-        $stocks = Asset::where('user_id', $user->id)->where('type', 'stocks')->get(); 
-        $reit = Asset::where('user_id', $user->id)->where('type', 'reit')->get();
+        $stocks = Asset::where('user_id', $this->user->id)->where('type', 'stocks')->get(); 
+        $reit = Asset::where('user_id', $this->user->id)->where('type', 'reit')->get();
 
-        $this->service = new APIService($user);
-        $processedData = $this->service->processedData();
+        $this->service = new APIService($this->user);
+        $processedData = $this->service->processData();
 
         if (empty($processedData)) {
             return view('assets.empty-assets');
@@ -46,8 +51,7 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
-        $user = Auth::user();
-        $assetCodes = Asset::where('user_id', $user->id)->pluck('code')->all();
+        $assetCodes = Asset::where('user_id', $this->user->id)->pluck('code')->all();
         $data = $request->all();
 
         if(in_array($data['code'], $assetCodes)) {
@@ -55,14 +59,14 @@ class AssetController extends Controller
         }
 
         $data['code'] = strtoupper($data['code']);
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $this->user->id;
         $data['average_price'] = preg_replace('/,(\d+)/', '.$1', $data['average_price']);
         
 
-        $brApi = new BrApiService($user);
+        $brApi = new BrApiService($this->user);
         $response = $brApi->fetchApiData($data['code']);
         $values = $brApi->processApiResponse($response);
-        $values[0]['user_id'] = $user->id;
+        $values[0]['user_id'] = $this->user->id;
 
         SavedApiValues::create($values[0]);
         Asset::create($data);
@@ -101,9 +105,8 @@ class AssetController extends Controller
 
     public function reloadData()
     {
-        $user = Auth::user();
-        $this->service = new ApiService($user);
-        $this->service->saveValuesOnDB($user);
+        $this->service = new ApiService($this->user);
+        $this->service->saveValuesOnDB($this->user);
 
         return redirect(route('assets.index'));
     }

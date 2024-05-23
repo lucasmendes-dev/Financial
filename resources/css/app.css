@@ -15,3 +15,8 @@
     background-color: #ffcbcb;
     border-color: #d6e9c6;
 }
+
+#accountChart {
+    max-width: 450px;
+    max-height: 450px;
+}
