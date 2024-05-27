@@ -1,9 +1,15 @@
 
 # Financial
 
-Personal project aimed at monitoring assets (stocks & reits) developed in Laravel with Blade Templates. The goal is to have an overview of your asset portfolio in one place, with total balances per category, variations, etc. Only the code, quantity, and average price of each asset need to be registered to view the tables and values.
+This personal finance project is designed to monitor assets (stocks and REITs) and personal accounts. The goal is to provide an overview of your asset portfolio in one place.
 
-![Financial_print](https://github.com/lucasmendes-dev/Financial/assets/106750716/cb0dd165-7689-4e21-9af5-5bdeaeeb30cf)
+- An API (https://brapi.dev) is used to fetch current asset values, allowing you to check the profitability of each asset based on their average price. Additionally, you can track the total value variation of your portfolio based on the performance of each asset.
+
+![index_financial](https://github.com/lucasmendes-dev/Financial/assets/106750716/3b3331bd-8310-4c8b-9a42-187070f3d785)
+
+- You can also add your personal accounts to monitor balances and gain a comprehensive view of your financial distribution.
+
+![contas_financial](https://github.com/lucasmendes-dev/Financial/assets/106750716/07999b83-911c-4816-bce2-d0dd11b20e6f)
 
 Below is a step-by-step guide to run the project on your machine (Docker required).
 
