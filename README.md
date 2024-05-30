@@ -32,16 +32,24 @@ cp .env.example .env
 Update the environment variables in the .env file
 ```dosini
 APP_NAME="Financial"
-APP_PORT=8000
+APP_DEBUG=true
+APP_PORT=8989
 APP_URL=http://localhost:"${APP_PORT}"
 
-FORWARD_DB_PORT=3308
 DB_CONNECTION=mysql
-DB_HOST=mysql
+DB_HOST=db
 DB_PORT=3306
-DB_DATABASE=my_project
-DB_USERNAME=sail
-DB_PASSWORD=password
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=root
+
+CACHE_DRIVER=redis
+QUEUE_CONNECTION=redis
+SESSION_DRIVER=redis
+
+REDIS_HOST=redis
+REDIS_PASSWORD=null
+REDIS_PORT=6379
 
 #Also, add these API links (acces https://brapi.dev/dashboard , create an account and generate your token, then put you token on BRAPI_TOKEN below)
 
@@ -50,42 +58,40 @@ BRAPI_TOKEN=yourTokenHere
 
 ```
 
-Installing Composer Dependencies with 'Sail'
-```sh
-docker run --rm \
-    -u "$(id -u):$(id -g)" \
-    -v "$(pwd):/var/www/html" \
-    -w /var/www/html \
-    laravelsail/php83-composer:latest \
-    composer install --ignore-platform-reqs
-```
-
 Start the project containers
 ```sh
-vendor/bin/sail up -d
+docker compose up -d 
 ```
 
-Install NPM dependencies
+Access the container app
 ```sh
-vendor/bin/sail npm install
+docker compose exec app bash
+```
+
+Inside the container, install the dependencies
+```sh
+composer install
+```
+
+Generate the Laravel project key
+```sh
+php artisan key:generate
 ```
 
 Run migrations
 ```sh
-vendor/bin/sail php artisan migrate
+php artisan migrate
 ```
 
-
-Generate the Laravel project key
+Then OUTSIDE the container run NPM
 ```sh
-vendor/bin/sail php artisan key:generate
+npm install
 ```
 
-Run NPM
 ```sh
 npm run dev
 ```
 
 
 Access the project at:
-[http://localhost:8000](http://localhost:8000)
+[http://localhost:8989](http://localhost:8989)
