@@ -33,6 +33,7 @@ Update the environment variables in the .env file
 ```dosini
 APP_NAME="Financial"
 APP_DEBUG=true
+APP_KEY=
 APP_PORT=8989
 APP_URL=http://localhost:"${APP_PORT}"
 
@@ -82,16 +83,6 @@ Run migrations
 ```sh
 php artisan migrate
 ```
-
-Then OUTSIDE the container run NPM
-```sh
-npm install
-```
-
-```sh
-npm run dev
-```
-
 
 Access the project at:
 [http://localhost:8989](http://localhost:8989)

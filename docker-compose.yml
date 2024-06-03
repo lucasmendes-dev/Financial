@@ -12,6 +12,7 @@ services:
             - ./:/var/www
         depends_on:
             - redis
+            - node
         networks:
             - laravel
 
@@ -59,6 +60,16 @@ services:
     # redis
     redis:
         image: redis:latest
+        networks:
+            - laravel
+
+    # node
+    node:
+        image: node:18-alpine
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        command: ["sh", "-c", "npm install && npm run build"]
         networks:
             - laravel
 
