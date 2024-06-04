@@ -38,15 +38,23 @@ jobs:
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
 
-    # Wait for MySQL to be ready
-    - name: Wait for MySQL
+    # Aguarde o MySQL estar pronto
+    - name: Wait for MySQL to be ready
       run: |
         echo "Waiting for MySQL to be ready..."
-        while ! mysqladmin ping -h"127.0.0.1" --silent; do
-          echo "Waiting for MySQL to be ready..."
-          sleep 5
+        for i in {1..30}; do
+          if mysqladmin ping -h127.0.0.1 -uroot -proot --silent; then
+            echo "MySQL is ready!"
+            break
+          fi
+          echo "Waiting for MySQL..."
+          sleep 10
         done
-        echo "MySQL is ready!"
+
+    # Debugging the MySQL connection
+    - name: Debug MySQL connection
+      run: |
+        mysql -h 127.0.0.1 -uroot -proot -e 'SHOW DATABASES;'
 
     - name: Run database migrations
       env:
