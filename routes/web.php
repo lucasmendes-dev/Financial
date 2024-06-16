@@ -43,5 +43,4 @@ Route::middleware('auth')->group(function () {
     Route::get('/accounts/create', [AccountController::class, 'create'])->name('accounts.create');
     Route::get('/accounts/show/{id}', [AccountController::class, 'show'])->name('accounts.show');
     Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
-    
 });
