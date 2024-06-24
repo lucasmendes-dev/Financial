@@ -82,8 +82,12 @@
                 Cadastrar Ativo
             </button>
 
-            <button class="block text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800 mt-5 reload-button">
-                Atualizar{{-- <ion-icon name="reload-outline"></ion-icon> --}}
+            <div id="loader" class="hidden fixed inset-0 bg-gray-400 bg-opacity-75 flex items-center justify-center">
+                <div class="loader"></div>
+            </div>
+
+            <button id="reloadButton" class="block text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800 mt-5">
+                Atualizar
             </button>
         </div>
 
@@ -154,33 +158,25 @@
     });
 
     //reload data
-    document.addEventListener("DOMContentLoaded", function () {
-        const reloadButton = document.querySelectorAll('.reload-button');
-        const reloadConfirmationModal = document.getElementById('reload-confirmation-modal');
-        const reloadConfirmButton = document.getElementById('reload-confirm-button');
-        const reloadCancelButton = document.getElementById('reload-cancel-button');
+    document.getElementById('reloadButton').addEventListener('click', function() {
 
-        function showReloadConfirmationModal() {
-            reloadConfirmationModal.classList.remove('hidden');
-        }
+        document.getElementById('loader').classList.remove('hidden');
 
-        reloadButton.forEach((button) => {
-            button.addEventListener('click', function () {
-                showReloadConfirmationModal();
-            });
-        });
-
-        reloadConfirmButton.addEventListener('click', function () {
-            fetch(`/assets/reloaded`, {
-                method: 'GET',
-            })
-
-            window.location.reload();
-            reloadConfirmationModal.classList.remove('hidden');
-        });
-
-        reloadCancelButton.addEventListener('click', function () {
-            reloadConfirmationModal.classList.add('hidden');
+        fetch('/assets/reloadData', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow' //allow redirect
+        }).then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                document.getElementById('loader').classList.add('hidden');
+            }
+        }).catch(error => {
+            document.getElementById('loader').classList.add('hidden');
+            console.error('Erro:', error);
         });
     });
     

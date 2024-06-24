@@ -49,6 +49,7 @@ class BrApiService
             $data = json_decode($response, true);
             return $data;
         }
+        return [];
     }
 
     public function processApiResponse(array $response): array

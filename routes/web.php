@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/assets/show/{id}', [AssetController::class, 'show'])->name('assets.show');
     Route::get('/assets', [AssetController::class, 'index'])->name('assets.index');
 
-    Route::get('/assets/reloaded', [AssetController::class, 'reloadData'])->name('assets.reloadData');
+    Route::get('/assets/reloadData', [AssetController::class, 'reloadData'])->name('assets.reloadData');
 
     //Account routes
     Route::delete('/accounts/{id}', [AccountController::class, 'destroy'])->name('accounts.destroy');

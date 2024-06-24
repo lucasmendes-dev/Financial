@@ -18,7 +18,7 @@ class ApiService
         $this->assets = Asset::where('user_id', $user->id)->get();
     }
 
-    public function processData()
+    public function processData(): array
     {
         if ($this->assets->count() == 0) {
             return null;
@@ -26,7 +26,7 @@ class ApiService
         return $this->buildArrayWithAllValues();
     }
 
-    public function saveValuesOnDB(User $user)
+    public function saveValuesOnDB(User $user): void
     {
         $brApi = new BrApiService($user);
         $values = $brApi->fetchData();

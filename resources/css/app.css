@@ -20,3 +20,18 @@
     max-width: 450px;
     max-height: 450px;
 }
+
+.loader {
+    border: 4px solid rgba(179, 52, 164, 0.705);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border-left-color: #09f;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
