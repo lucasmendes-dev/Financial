@@ -55,14 +55,34 @@ class BrApiService
     public function processApiResponse(array $response): array
     {
         $assetValues = [];
-        $assetValues[] = [
-            'symbol' => $response['results'][0]['symbol'],
-            'regular_market_price' => $response['results'][0]['regularMarketPrice'],
-            'regular_market_change_percent' => $response['results'][0]['regularMarketChangePercent'],
-            'regular_market_change' => $response['results'][0]['regularMarketChange'],
-            'logo_url' => $response['results'][0]['logourl']
-        ];
+        if ($this->hasRequiredKeys($response['results'][0])) {
+            $assetValues[] = [
+                'symbol' => $response['results'][0]['symbol'],
+                'regular_market_price' => $response['results'][0]['regularMarketPrice'],
+                'regular_market_change_percent' => $response['results'][0]['regularMarketChangePercent'],
+                'regular_market_change' => $response['results'][0]['regularMarketChange'],
+                'logo_url' => $response['results'][0]['logourl']
+            ];
+        }
 
         return $assetValues;
+    }
+
+    private function hasRequiredKeys(array $array): bool
+    {
+        $requiredKeys = [
+            'symbol',
+            'regularMarketPrice',
+            'regularMarketChangePercent',
+            'regularMarketChange',
+            'logourl'
+        ];
+
+        foreach ($requiredKeys as $key) {
+            if (!array_key_exists($key, $array)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
