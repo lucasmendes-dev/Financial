@@ -14,9 +14,12 @@
             <form class="space-y-6" action="{{ route('accounts.store') }}" method="POST">
                 @csrf
                 <div>
-                    <div >
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome da Conta</label>
-                        <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Ex: Bradesco" required">
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecione a Conta</label>
+                        <div class="relative">
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pl-12 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Digite o nome da conta" required oninput="filterAccounts()">
+                        </div>
+                        <ul id="account-list" class="mt-2 bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto dark:bg-gray-700 dark:border-gray-600 hidden"></ul>
                     </div>
                 </div>
 
@@ -55,4 +58,56 @@
             }
         });
     });
+
+    const accounts = [
+        { name: "Alelo", logo: "/img/account/Alelo.png" },
+        { name: "Banco do Brasil", logo: "/img/account/Banco do Brasil.png" },
+        { name: "Bradesco", logo: "/img/account/Bradesco.png" },
+        { name: "BTG", logo: "/img/account/BTG.png" },
+        { name: "C6 Bank", logo: "/img/account/C6 Bank.png" },
+        { name: "Caixa", logo: "/img/account/Caixa.png" },
+        { name: "Clear", logo: "/img/account/Clear.png" },
+        { name: "Flash", logo: "/img/account/Flash.png" },
+        { name: "Inter", logo: "/img/account/Inter.png" },
+        { name: "Itaú", logo: "/img/account/Itaú.png" },
+        { name: "Nubank - Saldo Separado", logo: "/img/account/Nubank - Saldo Separado.png" },
+        { name: "Nubank", logo: "/img/account/Nubank.png" },
+        { name: "PicPay", logo: "/img/account/PicPay.png" },
+        { name: "Rico", logo: "/img/account/Rico.png" },
+        { name: "Santander", logo: "/img/account/Santander.png" },
+        { name: "Sicoob", logo: "/img/account/Sicoob.png" },
+        { name: "Sodexo", logo: "/img/account/Sodexo.png" },
+        { name: "XP Investimentos", logo: "/img/account/XP Investimentos.png" },
+    ];
+
+    function filterAccounts() {
+        const input = document.getElementById('name').value.toLowerCase();
+        const list = document.getElementById('account-list');
+        list.innerHTML = '';
+
+        if (input.length < 1) {
+            list.classList.add('hidden');
+            return;
+        }
+
+        const filteredAccounts = accounts.filter(account => account.name.toLowerCase().includes(input));
+
+        if (filteredAccounts.length === 0) {
+            list.classList.add('hidden');
+            return;
+        }
+
+        filteredAccounts.forEach(account => {
+            const listItem = document.createElement('li');
+            listItem.className = 'flex items-center p-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600';
+            listItem.innerHTML = `<img src="${account.logo}" alt="${account.name}" class="w-6 h-6 mr-2"><span>${account.name}</span>`;
+            listItem.onclick = () => {
+                document.getElementById('name').value = account.name;
+                list.classList.add('hidden');
+            };
+            list.appendChild(listItem);
+        });
+
+        list.classList.remove('hidden');
+    }
 </script>

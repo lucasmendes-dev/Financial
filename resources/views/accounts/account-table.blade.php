@@ -38,7 +38,7 @@
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
 
                     <td class="px-4 py-4">
-                       <img src="/account/{{ $account->name }}.png" width="35px" alt="">
+                       <img src="/img/account/{{ $account->name }}.png" width="35px" alt="">
                     </td>
 
                     <th scope="row" class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
