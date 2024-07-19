@@ -10,7 +10,7 @@
                         <div class="px-6 py-6 lg:px-8">
                             <div class="flex items-center justify-between">
                                 <h3 class="mb-6 text-xl font-medium text-gray-900 dark:text-white">Editar - {{ $account->name }}</h3>
-                                <img src="/account/{{ $account->name }}.png" width="15%" alt="logo">
+                                <img src="/img/account/{{ $account->name }}.png" width="15%" alt="logo">
                             </div>
                             <form class="space-y-6" action="{{ route('accounts.update', $account->id) }}" method="POST">
                                 @csrf

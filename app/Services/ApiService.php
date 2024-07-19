@@ -21,7 +21,7 @@ class ApiService
     public function processData(): array
     {
         if ($this->assets->count() == 0) {
-            return null;
+            return [];
         }
         return $this->buildArrayWithAllValues();
     }
