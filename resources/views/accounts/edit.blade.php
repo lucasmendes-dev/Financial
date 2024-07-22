@@ -18,8 +18,9 @@
                                 <div>
                                     <div>
                                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome da Conta</label>
-                                        <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="PETR4" required" value="{{ $account->name }}">
+                                        <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required" value="{{ $account->name }}" oninput="filterAccounts()">
                                     </div>
+                                    <ul id="account-list" class="mt-2 bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto dark:bg-gray-700 dark:border-gray-600 hidden"></ul>
                                 </div>
                 
                                 <div class="flex space-x-4">
@@ -50,3 +51,5 @@
         </div>
     </div>
 </x-app-layout>
+
+@include('accounts.form-modal')
