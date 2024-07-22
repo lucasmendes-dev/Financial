@@ -58,7 +58,7 @@ class AssetController extends Controller
             return redirect(route('assets.index'))->with('error', 'Você já tem este ativo cadastrado!');
         }
 
-        $data['code'] = strtoupper($data['code']);
+        $data['code'] = trim(strtoupper($data['code']));
         $data['user_id'] = $this->user->id;
         $data['average_price'] = preg_replace('/,(\d+)/', '.$1', $data['average_price']);
         

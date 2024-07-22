@@ -16,14 +16,14 @@
                 <div class="flex space-x-4">
                     <div class="w-1/2">
                         <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Código do Ativo</label>
-                        <input type="text" name="code" id="code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="PETR4" required>
+                        <input type="text" name="code" id="code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="PETR4" required onchange="checkAssetTicker()">
+                        <span id="invalidFormat" hidden>Fomato inválido</span>
                     </div>
                     <div class="w-1/2">
                         <label for="average_price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preço Médio</label>
                         <input type="number" step="0.01" min="1" name="average_price" id="average_price" placeholder="R$ 00,00" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
                     </div>
                 </div>
-
                 <div class="flex space-x-4">
                     <div class="w-1/2">
                         <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantidade</label>
@@ -56,4 +56,17 @@
             }
         });
     });
+
+    function checkAssetTicker() {
+        const pattern = '^[A-Z]{4}(3|4|6|11)$';
+        const regex = new RegExp(pattern);
+        let ticker = document.getElementById('code').value;
+        invalidFormat = document.getElementById('invalidFormat');
+        if (!regex.test(ticker.toUpperCase())) {
+            invalidFormat.style.display = 'block';
+            invalidFormat.style.color = 'rgb(239 68 68)';
+        } else {
+            invalidFormat.style.display = 'none';
+        }
+    }
 </script>
