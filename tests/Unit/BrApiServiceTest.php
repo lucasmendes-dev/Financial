@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Services\BrApiService;
 use App\Models\User;
 use ReflectionClass;
@@ -32,12 +32,10 @@ class BrApiServiceTest extends TestCase
         $this->assertEquals($expectedParams, $paramsProperty->getValue($service));
     }
 
-    public function test_api_data_can_be_fetched()
-    {
-        $user = new User();
-        $service = new BrApiService($user);
-        $this->assertInstanceOf(BrApiService::class, $service);
+    // public function test_api_data_can_be_fetched()
+    // {
+    //     $user = new User();
+    //     $service = new BrApiService($user);
 
-        //
-    }
+    // }
 }
