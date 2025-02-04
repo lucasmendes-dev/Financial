@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     
-                    <canvas id="accountChart"></canvas>
+                    <canvas id="accountChart" class="chart"></canvas>
             </div>
         </div>
     </div>

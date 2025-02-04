@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/assets/create', [AssetController::class, 'create'])->name('assets.create');
     Route::get('/assets/show/{id}', [AssetController::class, 'show'])->name('assets.show');
     Route::get('/assets', [AssetController::class, 'index'])->name('assets.index');
+    Route::get('/assets/detailedView', [AssetController::class, 'detailedView'])->name('assets.detailedView');
 
     Route::get('/assets/reloadData', [AssetController::class, 'reloadData'])->name('assets.reloadData');
 

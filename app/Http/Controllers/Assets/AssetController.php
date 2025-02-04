@@ -39,9 +39,18 @@ class AssetController extends Controller
             return view('assets.empty-assets');
         }
 
-        $stocksAndReitSum = $this->service->stocksAndReitSum($processedData);
+        $stockBalances = $this->getAssetBalances('stocks', $processedData);
+        $reitBalances = $this->getAssetBalances('reits', $processedData);
 
-        return view('assets.index', ['assets' => $this->assets, 'stocks' => $stocks, 'reit' => $reit, 'processedData' => $processedData, 'sum' => $stocksAndReitSum]);
+        return view('assets.index', [
+            'assets' => $this->assets,
+            'stocks' => $stocks,
+            'reit' => $reit,
+            'processedData' => $processedData,
+            'stockNames' => $stocks->pluck('code'),
+            'stockBalances' => $stockBalances,
+            'reitBalances' => $reitBalances
+        ]);
     }
 
     public function create()
@@ -125,5 +134,43 @@ class AssetController extends Controller
         $asset->update();
 
         return redirect(route('assets.index'));
+    }
+
+    public function detailedView()
+    {
+        $this->assets = Asset::where('user_id', $this->user->id)->get();
+
+        $stocks = Asset::where('user_id', $this->user->id)->where('type', 'stocks')->get(); 
+        $reit = Asset::where('user_id', $this->user->id)->where('type', 'reit')->get();
+
+        $this->service = new APIService($this->user);
+        $processedData = $this->service->processData();
+
+        if (empty($processedData)) {
+            return view('assets.empty-assets');
+        }
+
+        $stocksAndReitSum = $this->service->stocksAndReitSum($processedData);
+
+        return view('assets.detailed-view', [
+            'assets' => $this->assets,
+            'stocks' => $stocks,
+            'reit' => $reit,
+            'processedData' => $processedData,
+            'sum' => $stocksAndReitSum
+        ]);
+    }
+
+    public function getAssetBalances(string $assetType, array $processed): array
+    {
+        $assetBalances = [];
+        foreach($this->assets as $key => $asset) {
+            if ($asset->type == 'stocks' && $assetType == 'stocks') {
+                $assetBalances[] = $processed[$key]['patrimony'];
+            } else if ($asset->type == 'reit' && $assetType == 'reit') {
+                $assetBalances[] = $processed[$key]['patrimony'];
+            }
+        }
+        return $assetBalances;
     }
 }
