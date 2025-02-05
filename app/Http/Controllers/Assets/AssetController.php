@@ -40,7 +40,10 @@ class AssetController extends Controller
         }
 
         $stockBalances = $this->getAssetBalances('stocks', $processedData);
-        $reitBalances = $this->getAssetBalances('reits', $processedData);
+        $reitBalances = $this->getAssetBalances('reit', $processedData);
+
+        $stockPercentages = $this->getPercentages($stockBalances);
+        $reitPercentages = $this->getPercentages($reitBalances);
 
         return view('assets.index', [
             'assets' => $this->assets,
@@ -49,7 +52,10 @@ class AssetController extends Controller
             'processedData' => $processedData,
             'stockNames' => $stocks->pluck('code'),
             'stockBalances' => $stockBalances,
-            'reitBalances' => $reitBalances
+            'stockPercentages' => $stockPercentages,
+            'reitNames' => $reit->pluck('code'),
+            'reitBalances' => $reitBalances,
+            'reitPercentages' => $reitPercentages,
         ]);
     }
 
@@ -172,5 +178,17 @@ class AssetController extends Controller
             }
         }
         return $assetBalances;
+    }
+
+    public function getPercentages(array $balances): array
+    {
+        $percentages = [];
+        $sum = array_sum($balances);
+        if ($sum > 0) {
+            foreach ($balances as $balance) {
+                $percentages[] = number_format(($balance / $sum) * 100, 2);
+            }
+        }
+        return $percentages;
     }
 }
