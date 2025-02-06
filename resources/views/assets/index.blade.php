@@ -31,7 +31,7 @@
 
     <br>
 
-    @if (!empty($stocks->all()))
+    @if (!empty($reit->all()))
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -57,65 +57,103 @@
 
 </x-app-layout>
 
+@include('assets.delete-modal')
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    
+
     // Stock Chart
-    const stock_ctx = document.getElementById('stockChart').getContext('2d');
+    const stock_ctx = document.getElementById('stockChart');
+    if (stock_ctx) {
+        stock_ctx.getContext('2d');
 
-    //data from laravel controller
-    const stockNames = @json($stockNames);
-    const stockPercentages = @json($stockPercentages);
+        //data from laravel controller
+        const stockNames = @json($stockNames);
+        const stockPercentages = @json($stockPercentages);
 
-    new Chart(stock_ctx, {
-        type: 'doughnut',
-        data: {
-            labels: stockNames,
-            datasets: [{
-                label: 'Porcentagem',
-                data: stockPercentages,
-                borderWidth: 1,
-                // backgroundColor: [
-                //     'rgb(255, 238, 0)',
-                //     'rgb(255, 0, 170)',
-                //     'rgba(0, 153, 204, 1)',
-                //     'rgba(0, 128, 0, 1)',
-                //     'rgba(153, 153, 153, 1)',
-                //     'rgba(25, 25, 25)',
-                // ],
-                hoverOffset: 10
-            }]
-        },
-        options: {}
-    });
+        new Chart(stock_ctx, {
+            type: 'doughnut',
+            data: {
+                labels: stockNames,
+                datasets: [{
+                    data: stockPercentages,
+                    borderWidth: 2,
+                    borderColor: '#1f2937',
+                    backgroundColor: [
+                        'rgb(255, 238, 45)',
+                        'rgb(0, 74, 143)',
+                        'rgb(240, 243, 250)',
+                        'rgb(0, 242, 58)',
+                        'rgb(0, 147, 154)',
+                        'rgb(245, 108, 0)',
+                        'rgb(255, 238, 45)',
+                        'rgb(64, 164, 113)',
+                        'rgb(37, 128, 74)',
+                        'rgb(206, 32, 61)',
+                    ],
+                    hoverOffset: 20
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.parsed;
+                                return `${value.toFixed(2)}%`; // displays number with '.' and % at the end
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
 
     // Reit Chart
-    const reit_ctx = document.getElementById('reitChart').getContext('2d');
+    const reit_ctx = document.getElementById('reitChart');
+    if (reit_ctx) {
+        reit_ctx.getContext('2d');
+    
+        //data from laravel controller
+        const reitNames = @json($reitNames);
+        const reitPercentages = @json($reitPercentages);
 
-    //data from laravel controller
-    const reitNames = @json($reitNames);
-    const reitPercentages = @json($reitPercentages);
-
-    new Chart(reit_ctx, {
-        type: 'doughnut',
-        data: {
-            labels: reitNames,
-            datasets: [{
-                label: 'Porcentagem',
-                data: reitPercentages,
-                borderWidth: 1,
-                // backgroundColor: [
-                //     'rgb(255, 238, 0)',
-                //     'rgb(255, 0, 170)',
-                //     'rgba(0, 153, 204, 1)',
-                //     'rgba(0, 128, 0, 1)',
-                //     'rgba(153, 153, 153, 1)',
-                //     'rgba(25, 25, 25)',
-                // ],
-                hoverOffset: 10
-            }]
-        },
-        options: {}
-    });
+        new Chart(reit_ctx, {
+            type: 'doughnut',
+            data: {
+                labels: reitNames,
+                datasets: [{
+                    data: reitPercentages,
+                    borderWidth: 2,
+                    borderColor: '#1f2937',
+                    backgroundColor: [
+                        'rgb(255, 238, 45)',
+                        'rgb(0, 74, 143)',
+                        'rgb(240, 243, 250)',
+                        'rgb(0, 242, 58)',
+                        'rgb(0, 147, 154)',
+                        'rgb(245, 108, 0)',
+                        'rgb(255, 238, 45)',
+                        'rgb(64, 164, 113)',
+                        'rgb(37, 128, 74)',
+                        'rgb(206, 32, 61)',
+                    ],
+                    hoverOffset: 20
+                }]
+            },
+            options: {
+                // displays number with '.' and % at the end
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.parsed;
+                                return `${value.toFixed(2)}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
 </script>

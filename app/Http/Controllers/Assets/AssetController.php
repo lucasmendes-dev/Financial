@@ -70,7 +70,7 @@ class AssetController extends Controller
         $data = $request->all();
 
         if(in_array($data['code'], $assetCodes)) {
-            return redirect(route('assets.index'))->with('error', 'Você já tem este ativo cadastrado!');
+            return redirect(route('assets.detailedView'))->with('error', 'Você já tem este ativo cadastrado!');
         }
 
         $data['code'] = trim(strtoupper($data['code']));
@@ -86,7 +86,7 @@ class AssetController extends Controller
         SavedApiValues::create($values[0]);
         Asset::create($data);
 
-        return redirect(route('assets.index'));
+        return redirect()->back();
     }
 
     public function edit(string $id)
@@ -115,7 +115,7 @@ class AssetController extends Controller
         $apiValue->delete();
         $asset->delete();
 
-        return redirect(route('assets.index'));
+        return redirect()->back();
     }
 
     public function reloadData()
@@ -123,7 +123,7 @@ class AssetController extends Controller
         $this->service = new ApiService($this->user);
         $this->service->saveValuesOnDB($this->user);
 
-        return redirect(route('assets.index'));
+        return redirect(route('assets.detailedView'));
     }
 
     public function newContribuition(Request $request, string $id)

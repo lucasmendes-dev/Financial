@@ -19,7 +19,7 @@
                 </th>
                 <th scope="col" class="px-5 py-3">
                     <div class="flex items-center">
-                        Variação
+                        Variação Hoje
                     </div>
                 </th>
 
@@ -43,11 +43,11 @@
 
 
                     @if ($processedData[$key]['daily_variation'] > 0)
-                        <td class="px-4 py-4 text-green-500">
+                        <td class="px-4 py-4 text-green-500 text-center">
                     @elseif ($processedData[$key]['daily_variation'] == 0)
-                        <td class="px-4 py-4 text-gray-400">
+                        <td class="px-4 py-4 text-gray-400 text-center">
                     @else
-                        <td class="px-4 py-4 text-red-500">
+                        <td class="px-4 py-4 text-red-500 text-center">
                     @endif
                         {{ number_format($processedData[$key]['daily_variation'], 2, '.', '.') }}%
                     </td>
