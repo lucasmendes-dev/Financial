@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900 dark:text-gray-100">
-                <div class="max-w-7xl mt-10 sm:px-6 lg:px-8 flex justify-between">
+                <div class="max-w-7xl mt-10 sm:px-6 lg:px-8 flex justify-between items-center">
 
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg accountTable"> 
                         <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -16,7 +16,8 @@
                         </div>
                     </div>
                     
-                    <canvas id="accountChart"></canvas>
+                    <canvas id="accountChart" class="chart"></canvas>
+                </div>
             </div>
         </div>
     </div>
@@ -112,19 +113,31 @@
             datasets: [{
                 label: 'Saldo',
                 data: accountBalances,
-                borderWidth: 1,
+                borderWidth: 2,
+                borderColor: '#1f2937',
                 backgroundColor: [
-                    'rgba(87, 35, 100, 1)',
-                    'rgb(255, 0, 170)',
-                    'rgba(0, 153, 204, 1)',
-                    'rgba(0, 128, 0, 1)',
-                    'rgba(153, 153, 153, 1)',
-                    'rgba(25, 25, 25)',
+                    'rgba(130, 10, 209, 1)',
+                    'rgb(254, 68, 124)',
+                    'rgb(218, 183, 242)',
+                    'rgb(12, 191, 89)',
+                    'rgb(1, 0, 250)',
+                    'rgb(13, 14, 15)',
                 ],
-                hoverOffset: 10
+                hoverOffset: 20
             }]
         },
-        options: {}
+        options: {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const value = context.parsed;
+                            return `R$ ${value.toLocaleString('pt-BR')}`; // Adds R$
+                        }
+                    }
+                }
+            }
+        }
     });
 
     //Balance Chart

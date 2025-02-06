@@ -14,3 +14,45 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteButtons = document.querySelectorAll('.delete-button');
+        const deleteConfirmationModal = document.getElementById('delete-confirmation-modal');
+        const deleteConfirmButton = document.getElementById('delete-confirm-button');
+        const deleteCancelButton = document.getElementById('delete-cancel-button');
+
+        let deleteRecordId = null;
+
+        function showDeleteConfirmationModal(recordId) {
+            deleteRecordId = recordId;
+            deleteConfirmationModal.classList.remove('hidden');
+        }
+
+        deleteButtons.forEach((button) => {
+            button.addEventListener('click', function () {
+                const recordId = this.getAttribute('data-record-id');
+                showDeleteConfirmationModal(recordId);
+            });
+        });
+
+        deleteConfirmButton.addEventListener('click', function () {
+            if (deleteRecordId !== null) {
+                fetch(`/assets/${deleteRecordId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    window.location.reload();
+                });
+            }
+        });
+
+        deleteCancelButton.addEventListener('click', function () {
+            deleteConfirmationModal.classList.add('hidden');
+        });
+    });
+</script>

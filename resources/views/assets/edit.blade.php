@@ -4,7 +4,9 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-10 text-gray-900 dark:text-gray-100">
 
-                    <a href="{{ route('assets.index')}}" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">voltar</a>
+                    <a href="{{ url()->previous() }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                        <ion-icon name="arrow-undo-outline"></ion-icon> voltar
+                    </a>
 
                     <div class=" inset-0 flex items-center justify-center z-50">
                         <div class="px-6 py-6 lg:px-8">
